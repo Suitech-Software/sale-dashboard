@@ -1,0 +1,38 @@
+[
+  {
+    "Stage": "Stage 1",
+    "Date": "January 1 - January 28",
+    "Token Amount": "100,000CAP (Limited to 100,000 Tokens)",
+    "Token Price": "0.01$"
+  },
+  {
+    "Stage": "Stage 2",
+    "Date": "March 1 - March 30",
+    "Token Amount": "90,000CAP (Limited to 90,000 Tokens)",
+    "Token Price": "0.03$"
+  },
+  {
+    "Stage": "Stage 3",
+    "Date": "April 1 - April 30",
+    "Token Amount": "80,000CAP (Limited to 80,000 Tokens)",
+    "Token Price": "0.10$"
+  },
+  {
+    "Stage": "Stage 4",
+    "Date": "May 1 - May 30",
+    "Token Amount": "70,000CAP (Limited to 70,000 Tokens)",
+    "Token Price": "0.13$"
+  },
+  {
+    "Stage": "Stage 5",
+    "Date": "June 1 - June 30",
+    "Token Amount": "60,000CAP (Limited to 60,000 Tokens)",
+    "Token Price": "0.15$"
+  },
+  {
+    "Stage": "Stage 6",
+    "Date": "July 1 - July 30",
+    "Token Amount": "50,000CAP (Limited to 50,000 Tokens)",
+    "Token Price": "0.18$"
+  }
+]
