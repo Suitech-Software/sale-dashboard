@@ -11,8 +11,13 @@ export const sendToken = async (
   network: string
 ) => {
   const wallet = process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS;
-  const our_eth_contract = process.env.OUR_ETH_CONTRACT;
-  const our_bsc_contract = process.env.OUR_BSC_CONTRACT;
+
+  let our_contract = '';
+  if (network === 'bsc') {
+    our_contract = process.env.OUR_BSC_CONTRACT;
+  } else if (network === 'eth') {
+    our_contract = process.env.OUR_ETH_CONTRACT;
+  }
 
   if (get(window, 'ethereum')) {
     const ethereum = get(window, 'ethereum') as any;
@@ -42,7 +47,7 @@ export const sendToken = async (
         const data = contract.methods.transfer(wallet, amount).encodeABI();
 
         const tx = {
-          to: contractAddress,
+          to: our_contract,
           from: accounts[0],
           data: data,
         } as any;
