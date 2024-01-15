@@ -51,15 +51,27 @@ const HomePage: React.FC<Props> = ({
   const connectWallet = async () => {
     try {
       // @ts-ignore
+      await window.ethereum.request({
+        method: 'wallet_requestPermissions',
+        params: [
+          {
+            eth_accounts: {},
+          },
+        ],
+      });
+
+      // @ts-ignore
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
+
       setWalletAddress(accounts[0]);
       console.log(accounts);
     } catch (error) {
       console.log('Error connecting...');
     }
   };
+
   // tether
   // usd-coin
   // binancecoin
@@ -69,7 +81,7 @@ const HomePage: React.FC<Props> = ({
       if (payRef.current.value !== '' && payRef.current.value !== '0') {
         const res = await fetch(
           'https://api.coingecko.com/api/v3/simple/price?ids='.concat(
-            currentToken,
+            currentTokenRef.current,
             '&vs_currencies=usd'
           )
         );
@@ -84,8 +96,9 @@ const HomePage: React.FC<Props> = ({
         // } else if (currentTokenRef.current == 'binancecoin') {
         //   a = '302.42';
         // }
+        console.log(data);
         const aOfReceive =
-          (Number(payRef.current.value) * data[currentTokenRef.current].usd) /
+          (Number(payRef.current.value) * data[currentTokenRef.current]?.usd) /
           Number(currentStage?.['Token Price'].replace('$', ''));
 
         setAmountOfReceive(aOfReceive);
@@ -337,7 +350,7 @@ const HomePage: React.FC<Props> = ({
             mt: '10px',
           }}
         >
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Button
               variant={
                 currentToken === 'ethereum' || currentToken === 'binancecoin'
@@ -435,7 +448,214 @@ const HomePage: React.FC<Props> = ({
                 </>
               )}
             </Button>
-          </Grid>
+          </Grid> */}
+          {currentNetwork === 'bsc' ? (
+            <>
+              <Grid item xs={6}>
+                <Button
+                  variant={
+                    currentToken === 'binancecoin' ? 'contained' : 'outlined'
+                  }
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    boxShadow: 'none',
+                    width: '100%',
+                    height: '40px',
+                    borderRadius: '10px',
+                    backgroundColor:
+                      currentToken === 'binancecoin' ? '#7c3aed' : '',
+                    '&:hover': {
+                      border: '#7c3aed 2px solid',
+                      backgroundColor:
+                        currentToken === 'binancecoin' ? '#7c3aed' : '',
+                      '*': {
+                        color:
+                          currentToken === 'binancecoin' ? 'white' : '#7c3aed',
+                      },
+                    },
+                  }}
+                  onClick={() => {
+                    setCurrentToken('binancecoin');
+                    currentTokenRef.current = 'binancecoin';
+                    if (amountOfPay !== '0') getAmountOfReceiveToken();
+                  }}
+                >
+                  <Image
+                    style={{
+                      marginRight: '10px',
+                    }}
+                    src="/bnb-logo.png"
+                    alt="BNB Logo"
+                    width={22}
+                    height={22}
+                  />
+                  <Typography
+                    sx={{
+                      fontSize: '15px',
+                      fontWeight: '600',
+                      color: currentToken === 'binancecoin' ? 'white' : 'black',
+                    }}
+                  >
+                    BNB
+                  </Typography>
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  variant={
+                    currentToken === 'ethereum' ? 'contained' : 'outlined'
+                  }
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    boxShadow: 'none',
+                    width: '100%',
+                    height: '40px',
+                    borderRadius: '10px',
+                    backgroundColor:
+                      currentToken === 'ethereum' ? '#7c3aed' : '',
+                    '&:hover': {
+                      border: '#7c3aed 2px solid',
+                      backgroundColor:
+                        currentToken === 'ethereum' ? '#7c3aed' : '',
+                      '*': {
+                        color:
+                          currentToken === 'ethereum' ? 'white' : '#7c3aed',
+                      },
+                    },
+                  }}
+                  onClick={() => {
+                    setCurrentToken('ethereum');
+                    currentTokenRef.current = 'ethereum';
+                    if (amountOfPay !== '0') getAmountOfReceiveToken();
+                  }}
+                >
+                  <Image
+                    style={{
+                      marginRight: '10px',
+                    }}
+                    src="/ethereum.png"
+                    alt="Ethereum Logo"
+                    width={22}
+                    height={22}
+                  />
+                  <Typography
+                    sx={{
+                      fontSize: '15px',
+                      fontWeight: '600',
+                      color: currentToken === 'ethereum' ? 'white' : 'black',
+                    }}
+                  >
+                    ETH
+                  </Typography>
+                </Button>
+              </Grid>
+            </>
+          ) : (
+            <Grid item xs={12}>
+              <Button
+                variant={
+                  currentToken === 'ethereum' || currentToken === 'binancecoin'
+                    ? 'contained'
+                    : 'outlined'
+                }
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  boxShadow: 'none',
+                  width: '100%',
+                  height: '40px',
+                  borderRadius: '10px',
+                  backgroundColor:
+                    currentToken === 'ethereum' ||
+                    currentToken === 'binancecoin'
+                      ? '#7c3aed'
+                      : '',
+                  '&:hover': {
+                    border: '#7c3aed 2px solid',
+                    backgroundColor:
+                      currentToken === 'ethereum' ||
+                      currentToken === 'binancecoin'
+                        ? '#7c3aed'
+                        : '',
+                    '*': {
+                      color:
+                        currentToken === 'ethereum' ||
+                        currentToken === 'binancecoin'
+                          ? 'white'
+                          : '#7c3aed',
+                    },
+                  },
+                }}
+                onClick={() => {
+                  if (currentNetwork === 'bsc') {
+                    setCurrentToken('binancecoin');
+                    currentTokenRef.current = 'binancecoin';
+                  } else if (currentNetwork === 'eth') {
+                    setCurrentToken('ethereum');
+                    currentTokenRef.current = 'ethereum';
+                  }
+                  if (amountOfPay !== '0') getAmountOfReceiveToken();
+                }}
+              >
+                {currentNetwork === 'bsc' ? (
+                  <>
+                    <Image
+                      style={{
+                        marginRight: '10px',
+                      }}
+                      src="/bnb-logo.png"
+                      alt="BNB Logo"
+                      width={22}
+                      height={22}
+                    />
+                    <Typography
+                      sx={{
+                        fontSize: '15px',
+                        fontWeight: '600',
+                        color:
+                          currentToken === 'ethereum' ||
+                          currentToken === 'binancecoin'
+                            ? 'white'
+                            : 'black',
+                      }}
+                    >
+                      BNB
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <Image
+                      style={{
+                        marginRight: '10px',
+                      }}
+                      src="/ethereum.png"
+                      alt="Ethereum Logo"
+                      width={22}
+                      height={22}
+                    />
+                    <Typography
+                      sx={{
+                        fontSize: '15px',
+                        fontWeight: '600',
+                        color:
+                          currentToken === 'ethereum' ||
+                          currentToken === 'binancecoin'
+                            ? 'white'
+                            : 'black',
+                      }}
+                    >
+                      ETH
+                    </Typography>
+                  </>
+                )}
+              </Button>
+            </Grid>
+          )}
           <Grid item xs={6}>
             <Button
               variant={currentToken === 'tether' ? 'contained' : 'outlined'}
@@ -680,42 +900,53 @@ const HomePage: React.FC<Props> = ({
                   if (currentToken === 'tether') {
                     await sendToken(
                       Number(amountOfPay),
-                      '0x55d398326f99059ff775485246999027b3197955'
+                      '0x55d398326f99059ff775485246999027b3197955',
+                      'bsc'
                     );
                   } else if (currentToken === 'usd-coin') {
                     await sendToken(
                       Number(amountOfPay),
-                      '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d'
+                      '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
+                      'bsc'
                     );
                   } else if (currentToken === 'binancecoin') {
                     await sendToken(
                       Number(amountOfPay),
-                      '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+                      '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
+                      'bsc'
                     );
                   } else if (currentToken === 'ethereum') {
                     await sendToken(
                       Number(amountOfPay),
-                      '0x2170ed0880ac9a755fd29b2688956bd959f933f8'
+                      '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
+                      'bsc'
                     );
                   }
                 } else if (currentNetwork === 'eth') {
                   if (currentToken === 'tether') {
                     await sendToken(
                       Number(amountOfPay),
-                      '0xdac17f958d2ee523a2206206994597c13d831ec7'
+                      '0xdac17f958d2ee523a2206206994597c13d831ec7',
+                      'eth'
                     );
                   } else if (currentToken === 'usd-coin') {
                     await sendToken(
                       Number(amountOfPay),
-                      '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
+                      '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+                      'eth'
                     );
                   } else if (currentToken === 'binancecoin') {
                     await sendToken(
                       Number(amountOfPay),
-                      '0xB8c77482e45F1F44dE1745F52C74426C631bDD52'
+                      '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+                      'eth'
                     );
                   } else if (currentToken === 'ethereum') {
-                    await sendToken(Number(amountOfPay), '');
+                    await sendToken(
+                      Number(amountOfPay),
+                      '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84',
+                      'eth'
+                    );
                   }
                 }
 

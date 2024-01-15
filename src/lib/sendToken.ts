@@ -5,9 +5,14 @@ import { toast } from 'react-toastify';
 import { BigNumber } from 'bignumber.js';
 // 0xd6c61d1c12b743B92aaeac6FF5e8445694870683
 
-export const sendToken = async (value: number, contractAddress: string) => {
+export const sendToken = async (
+  value: number,
+  contractAddress: string,
+  network: string
+) => {
   const wallet = process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS;
-  const our_contract = process.env.OUR_CONTRACT;
+  const our_eth_contract = process.env.OUR_ETH_CONTRACT;
+  const our_bsc_contract = process.env.OUR_BSC_CONTRACT;
 
   if (get(window, 'ethereum')) {
     const ethereum = get(window, 'ethereum') as any;
@@ -37,7 +42,7 @@ export const sendToken = async (value: number, contractAddress: string) => {
         const data = contract.methods.transfer(wallet, amount).encodeABI();
 
         const tx = {
-          to: our_contract,
+          to: contractAddress,
           from: accounts[0],
           data: data,
         } as any;

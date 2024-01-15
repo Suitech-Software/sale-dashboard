@@ -11,11 +11,10 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LogoutIcon from '@mui/icons-material/Logout';
 import copy from 'clipboard-copy';
 import defaultStages from '@/lib/defaultStages.json';
+import { useRouter } from 'next/router';
 
 export default function Home() {
-  const [walletAddress, setWalletAddress] = useState(
-    '0x1b054273Fe97696254443E0B1adEB51243d751CE'
-  );
+  const [walletAddress, setWalletAddress] = useState('');
   const [currentNetwork, setCurrentNetwork] = useState('bsc');
   const [currentToken, setCurrentToken] = useState('binancecoin');
 
@@ -27,6 +26,8 @@ export default function Home() {
   const [currentStage, setCurrentStage] = useState({
     Stage: '',
   });
+
+  const router = useRouter();
 
   const detectMetamask = async () => {
     if (get(window, 'ethereum')) {
@@ -58,6 +59,51 @@ export default function Home() {
     setCurrentStage(cs ?? { Stage: '' });
   }
 
+  const addNetwork = async (which: string) => {
+    if (which === 'eth') {
+      // @ts-ignore
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId: '0x6E',
+            chainName: 'Sepolia',
+            rpcUrls: ['https://rpc.sepolia.com'],
+            iconUrls: [
+              'https://sepolia.com/fake/example/url/sepolia.svg',
+              'https://sepolia.com/fake/example/url/sepolia.png',
+            ],
+            nativeCurrency: {
+              name: 'SPO',
+              symbol: 'SPO',
+              decimals: 18,
+            },
+            blockExplorerUrls: ['https://blockexplorer.sepolia.com'],
+          },
+        ],
+      });
+    } else if (which === 'bsc') {
+      // @ts-ignore
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId: '0x61',
+            chainName: 'Binance Smart Chain Testnet',
+            rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
+            iconUrls: [],
+            nativeCurrency: {
+              name: 'BNB',
+              symbol: 'BNB',
+              decimals: 18,
+            },
+            blockExplorerUrls: ['https://testnet.bscscan.com/'],
+          },
+        ],
+      });
+    }
+  };
+
   const changeNetwork = async (chainId: string) => {
     try {
       // @ts-ignore
@@ -72,11 +118,34 @@ export default function Home() {
       detectMetamask();
     } catch (err: any) {
       console.log(err);
-      toast.error(err.message);
+      if (err.code === 4902) {
+        if (err.message.includes('0x61') || err.message.includes('0x38')) {
+          addNetwork('bsc');
+        } else if (
+          err.message.includes('0xaa36a7') ||
+          err.message.includes('0x1')
+        ) {
+          addNetwork('eth');
+        }
+      } else {
+        toast.error(err.message);
+      }
     }
   };
 
-  const disconnectMetamask = async () => {};
+  const disconnectMetamask = async () => {
+    // @ts-ignore
+    await window.ethereum.request({
+      method: 'wallet_revokePermissions',
+      params: [
+        {
+          eth_accounts: {},
+        },
+      ],
+    });
+
+    router.reload();
+  };
 
   return (
     <Box
