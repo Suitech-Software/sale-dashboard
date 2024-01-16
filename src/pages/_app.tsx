@@ -11,7 +11,7 @@ MongoDB.connect();
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Fragment>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
       <ToastContainer
         position="bottom-right"
         autoClose={2000}

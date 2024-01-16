@@ -66,7 +66,13 @@ const HomePage: React.FC<Props> = ({
       });
 
       setWalletAddress(accounts[0]);
-      console.log(accounts);
+      if (currentNetwork === 'eth') {
+        changeNetwork(
+          process.env.NODE_ENV === 'development' ? '0xaa36a7' : '0x1'
+        );
+      } else {
+        changeNetwork(process.env.NODE_ENV === 'development' ? '0x61' : '0x38');
+      }
     } catch (error) {
       console.log('Error connecting...');
     }
@@ -211,13 +217,19 @@ const HomePage: React.FC<Props> = ({
   return (
     <Box
       sx={{
-        p: '20px',
+        px: '100px',
+        py: '30px',
         mt: '100px',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '100%',
       }}
     >
       <Box
         sx={{
-          background: '#f9f9f9',
+          backgroundColor: 'rgba(80,80,80,.4)',
+          backdropFilter: 'blur(32px)',
           width: '500px',
           height: 'auto',
           borderRadius: '20px',
@@ -240,6 +252,7 @@ const HomePage: React.FC<Props> = ({
             sx={{
               fontSize: '24px',
               fontWeight: '600',
+              color: 'white',
             }}
           >
             TXP Pre-Sale
@@ -249,6 +262,7 @@ const HomePage: React.FC<Props> = ({
               mt: '10px',
               fontSize: '14px',
               fontWeight: '600',
+              color: 'white',
             }}
           >
             {calculateRemainingTime()}
@@ -299,6 +313,7 @@ const HomePage: React.FC<Props> = ({
               fontSize: '15px',
               mt: '10px',
               fontWeight: '600',
+              color: 'white',
             }}
           >
             {currentStage['Stage']}
@@ -307,7 +322,7 @@ const HomePage: React.FC<Props> = ({
             sx={{
               fontSize: '12px',
               mt: '10px',
-              color: '#666',
+              color: '#d4d4d8',
               fontWeight: '600',
             }}
           >
@@ -318,6 +333,7 @@ const HomePage: React.FC<Props> = ({
               fontSize: '14px',
               fontWeight: '600',
               mt: '10px',
+              color: 'white',
             }}
           >
             1 TXP = ${currentStage['Token Price'].replace('$', '')}
@@ -325,7 +341,7 @@ const HomePage: React.FC<Props> = ({
         </Box>
 
         <Button
-          variant="contained"
+          variant="outlined"
           sx={{
             display: 'flex',
             justifyContent: 'center',
@@ -334,18 +350,31 @@ const HomePage: React.FC<Props> = ({
             mt: '10px',
             height: '40px',
             borderRadius: '10px',
+            py: '10px',
+            border: '#f3f3f3 1px solid',
+            '&:hover': {
+              border: 'white 2px solid',
+            },
           }}
           onClick={() => {
-            if (currentNetwork === 'eth') {
-              changeNetwork(
-                process.env.NODE_ENV === 'development' ? '0x61' : '0x38'
-              );
-              setCurrentNetwork('bsc');
+            if (walletAddress) {
+              if (currentNetwork === 'eth') {
+                changeNetwork(
+                  process.env.NODE_ENV === 'development' ? '0x61' : '0x38'
+                );
+                setCurrentNetwork('bsc');
+              } else {
+                changeNetwork(
+                  process.env.NODE_ENV === 'development' ? '0xaa36a7' : '0x1'
+                );
+                setCurrentNetwork('eth');
+              }
             } else {
-              changeNetwork(
-                process.env.NODE_ENV === 'development' ? '0xaa36a7' : '0x1'
-              );
-              setCurrentNetwork('eth');
+              if (currentNetwork === 'eth') {
+                setCurrentNetwork('bsc');
+              } else {
+                setCurrentNetwork('eth');
+              }
             }
           }}
         >
@@ -353,6 +382,7 @@ const HomePage: React.FC<Props> = ({
             sx={{
               fontSize: '14px',
               fontWeight: '600',
+              color: 'white',
             }}
           >
             {currentNetwork === 'bsc' ? 'Switch to ETH' : 'Switch to BSC'}
@@ -364,8 +394,8 @@ const HomePage: React.FC<Props> = ({
               }}
               src="/bnb-logo.png"
               alt="BNB Logo"
-              width={30}
-              height={30}
+              width={27}
+              height={27}
             />
           ) : (
             <Image
@@ -374,8 +404,8 @@ const HomePage: React.FC<Props> = ({
               }}
               src="/ethereum.png"
               alt="ETH Logo"
-              width={30}
-              height={30}
+              width={27}
+              height={27}
             />
           )}
         </Button>
@@ -387,105 +417,6 @@ const HomePage: React.FC<Props> = ({
             mt: '10px',
           }}
         >
-          {/* <Grid item xs={12}>
-            <Button
-              variant={
-                currentToken === 'ethereum' || currentToken === 'binancecoin'
-                  ? 'contained'
-                  : 'outlined'
-              }
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                boxShadow: 'none',
-                width: '100%',
-                height: '40px',
-                borderRadius: '10px',
-                backgroundColor:
-                  currentToken === 'ethereum' || currentToken === 'binancecoin'
-                    ? '#7c3aed'
-                    : '',
-                '&:hover': {
-                  border: '#7c3aed 2px solid',
-                  backgroundColor:
-                    currentToken === 'ethereum' ||
-                    currentToken === 'binancecoin'
-                      ? '#7c3aed'
-                      : '',
-                  '*': {
-                    color:
-                      currentToken === 'ethereum' ||
-                      currentToken === 'binancecoin'
-                        ? 'white'
-                        : '#7c3aed',
-                  },
-                },
-              }}
-              onClick={() => {
-                if (currentNetwork === 'bsc') {
-                  setCurrentToken('binancecoin');
-                  currentTokenRef.current = 'binancecoin';
-                } else if (currentNetwork === 'eth') {
-                  setCurrentToken('ethereum');
-                  currentTokenRef.current = 'ethereum';
-                }
-                if (amountOfPay !== '0') getAmountOfReceiveToken();
-              }}
-            >
-              {currentNetwork === 'bsc' ? (
-                <>
-                  <Image
-                    style={{
-                      marginRight: '10px',
-                    }}
-                    src="/bnb-logo.png"
-                    alt="BNB Logo"
-                    width={22}
-                    height={22}
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: '15px',
-                      fontWeight: '600',
-                      color:
-                        currentToken === 'ethereum' ||
-                        currentToken === 'binancecoin'
-                          ? 'white'
-                          : 'black',
-                    }}
-                  >
-                    BNB
-                  </Typography>
-                </>
-              ) : (
-                <>
-                  <Image
-                    style={{
-                      marginRight: '10px',
-                    }}
-                    src="/ethereum.png"
-                    alt="Ethereum Logo"
-                    width={22}
-                    height={22}
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: '15px',
-                      fontWeight: '600',
-                      color:
-                        currentToken === 'ethereum' ||
-                        currentToken === 'binancecoin'
-                          ? 'white'
-                          : 'black',
-                    }}
-                  >
-                    ETH
-                  </Typography>
-                </>
-              )}
-            </Button>
-          </Grid> */}
           {currentNetwork === 'bsc' ? (
             <>
               <Grid item xs={6}>
@@ -501,15 +432,22 @@ const HomePage: React.FC<Props> = ({
                     width: '100%',
                     height: '40px',
                     borderRadius: '10px',
+                    border:
+                      currentToken === 'binancecoin'
+                        ? '#7c3aed 1px solid'
+                        : '#f3f3f3 1px solid',
                     backgroundColor:
                       currentToken === 'binancecoin' ? '#7c3aed' : '',
                     '&:hover': {
-                      border: '#7c3aed 2px solid',
+                      border:
+                        currentToken === 'binancecoin'
+                          ? '#7c3aed 1px solid'
+                          : 'white 2px solid',
                       backgroundColor:
                         currentToken === 'binancecoin' ? '#7c3aed' : '',
                       '*': {
                         color:
-                          currentToken === 'binancecoin' ? 'white' : '#7c3aed',
+                          currentToken === 'binancecoin' ? 'white' : 'white',
                       },
                     },
                   }}
@@ -532,7 +470,7 @@ const HomePage: React.FC<Props> = ({
                     sx={{
                       fontSize: '15px',
                       fontWeight: '600',
-                      color: currentToken === 'binancecoin' ? 'white' : 'black',
+                      color: currentToken === 'binancecoin' ? 'white' : 'white',
                     }}
                   >
                     BNB
@@ -552,15 +490,21 @@ const HomePage: React.FC<Props> = ({
                     width: '100%',
                     height: '40px',
                     borderRadius: '10px',
+                    border:
+                      currentToken === 'ethereum'
+                        ? '#7c3aed 1px solid'
+                        : '#f3f3f3 1px solid',
                     backgroundColor:
                       currentToken === 'ethereum' ? '#7c3aed' : '',
                     '&:hover': {
-                      border: '#7c3aed 2px solid',
+                      border:
+                        currentToken === 'ethereum'
+                          ? '#7c3aed 1px solid'
+                          : 'white 2px solid',
                       backgroundColor:
                         currentToken === 'ethereum' ? '#7c3aed' : '',
                       '*': {
-                        color:
-                          currentToken === 'ethereum' ? 'white' : '#7c3aed',
+                        color: currentToken === 'ethereum' ? 'white' : 'white',
                       },
                     },
                   }}
@@ -583,7 +527,7 @@ const HomePage: React.FC<Props> = ({
                     sx={{
                       fontSize: '15px',
                       fontWeight: '600',
-                      color: currentToken === 'ethereum' ? 'white' : 'black',
+                      color: currentToken === 'ethereum' ? 'white' : 'white',
                     }}
                   >
                     ETH
@@ -607,13 +551,22 @@ const HomePage: React.FC<Props> = ({
                   width: '100%',
                   height: '40px',
                   borderRadius: '10px',
+                  border:
+                    currentToken === 'ethereum' ||
+                    currentToken === 'binancecoin'
+                      ? '#7c3aed 1px solid'
+                      : '#f3f3f3 1px solid',
                   backgroundColor:
                     currentToken === 'ethereum' ||
                     currentToken === 'binancecoin'
                       ? '#7c3aed'
                       : '',
                   '&:hover': {
-                    border: '#7c3aed 2px solid',
+                    border:
+                      currentToken === 'ethereum' ||
+                      currentToken === 'binancecoin'
+                        ? '#7c3aed 1px solid'
+                        : 'white 2px solid',
                     backgroundColor:
                       currentToken === 'ethereum' ||
                       currentToken === 'binancecoin'
@@ -624,7 +577,7 @@ const HomePage: React.FC<Props> = ({
                         currentToken === 'ethereum' ||
                         currentToken === 'binancecoin'
                           ? 'white'
-                          : '#7c3aed',
+                          : 'white',
                     },
                   },
                 }}
@@ -658,7 +611,7 @@ const HomePage: React.FC<Props> = ({
                           currentToken === 'ethereum' ||
                           currentToken === 'binancecoin'
                             ? 'white'
-                            : 'black',
+                            : 'white',
                       }}
                     >
                       BNB
@@ -683,7 +636,7 @@ const HomePage: React.FC<Props> = ({
                           currentToken === 'ethereum' ||
                           currentToken === 'binancecoin'
                             ? 'white'
-                            : 'black',
+                            : 'white',
                       }}
                     >
                       ETH
@@ -704,12 +657,19 @@ const HomePage: React.FC<Props> = ({
                 width: '100%',
                 height: '40px',
                 borderRadius: '10px',
+                border:
+                  currentToken === 'tether'
+                    ? '#7c3aed 1px solid'
+                    : '#f3f3f3 1px solid',
                 backgroundColor: currentToken === 'tether' ? '#7c3aed' : '',
                 '&:hover': {
-                  border: '#7c3aed 2px solid',
+                  border:
+                    currentToken === 'tether'
+                      ? '#7c3aed 1px solid'
+                      : 'white 2px solid',
                   backgroundColor: currentToken === 'tether' ? '#7c3aed' : '',
                   '*': {
-                    color: currentToken === 'tether' ? 'white' : '#7c3aed',
+                    color: currentToken === 'tether' ? 'white' : 'white',
                   },
                 },
               }}
@@ -733,7 +693,7 @@ const HomePage: React.FC<Props> = ({
                 sx={{
                   fontSize: '15px',
                   fontWeight: '600',
-                  color: currentToken === 'tether' ? 'white' : 'black',
+                  color: currentToken === 'tether' ? 'white' : 'white',
                 }}
               >
                 USDT
@@ -747,17 +707,23 @@ const HomePage: React.FC<Props> = ({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-
                 boxShadow: 'none',
                 width: '100%',
                 height: '40px',
                 borderRadius: '10px',
+                border:
+                  currentToken === 'usd-coin'
+                    ? '#7c3aed 1px solid'
+                    : '#f3f3f3 1px solid',
                 backgroundColor: currentToken === 'usd-coin' ? '#7c3aed' : '',
                 '&:hover': {
-                  border: '#7c3aed 2px solid',
+                  border:
+                    currentToken === 'usd-coin'
+                      ? '#7c3aed 1px solid'
+                      : 'white 2px solid',
                   backgroundColor: currentToken === 'usd-coin' ? '#7c3aed' : '',
                   '*': {
-                    color: currentToken === 'usd-coin' ? 'white' : '#7c3aed',
+                    color: currentToken === 'usd-coin' ? 'white' : 'white',
                   },
                 },
               }}
@@ -781,7 +747,7 @@ const HomePage: React.FC<Props> = ({
                 sx={{
                   fontSize: '15px',
                   fontWeight: '600',
-                  color: currentToken === 'usd-coin' ? 'white' : 'black',
+                  color: currentToken === 'usd-coin' ? 'white' : 'white',
                 }}
               >
                 USDC
@@ -797,9 +763,9 @@ const HomePage: React.FC<Props> = ({
           <Box
             sx={{
               borderRadius: '20px',
+              border: 'none',
               mt: '20px',
               width: '100%',
-              border: '1px solid black',
               height: '50px',
               display: 'flex',
               justifyContent: 'space-between',
@@ -820,7 +786,8 @@ const HomePage: React.FC<Props> = ({
                 height: '47px',
                 border: 'none',
                 bgcolor: '#F8F9F8',
-                borderRadius: '20px',
+                borderTopLeftRadius: '20px',
+                borderBottomLeftRadius: '20px',
                 color: '#666666',
                 px: '13px',
                 '&:focus': {
@@ -832,7 +799,7 @@ const HomePage: React.FC<Props> = ({
               sx={{
                 borderTopRightRadius: '20px',
                 borderBottomRightRadius: '20px',
-                borderLeft: '1px solid black',
+                borderLeft: '1px solid #d4d4d8',
                 background: '#f3f3f3',
                 width: '15%',
                 height: '47px',
@@ -867,7 +834,7 @@ const HomePage: React.FC<Props> = ({
               borderRadius: '20px',
               mt: '20px',
               width: '100%',
-              border: '1px solid black',
+              border: 'none',
               height: '50px',
               display: 'flex',
               justifyContent: 'space-between',
@@ -885,7 +852,8 @@ const HomePage: React.FC<Props> = ({
                 height: '47px',
                 border: 'none',
                 bgcolor: '#F8F9F8',
-                borderRadius: '20px',
+                borderBottomLeftRadius: '20px',
+                borderTopLeftRadius: '20px',
                 color: '#666666',
                 px: '13px',
                 '&:focus': {
@@ -897,7 +865,7 @@ const HomePage: React.FC<Props> = ({
               sx={{
                 borderTopRightRadius: '20px',
                 borderBottomRightRadius: '20px',
-                borderLeft: '1px solid black',
+                borderLeft: '1px solid #d4d4d8',
                 background: '#f3f3f3',
                 width: '15%',
                 height: '47px',

@@ -4,6 +4,13 @@
   margin: 0;
 }
 
+html,
+body {
+  background: black;
+  overflow-x: hidden;
+  height: 100%;
+}
+
 .truncate {
   width: 200px;
   white-space: nowrap;
