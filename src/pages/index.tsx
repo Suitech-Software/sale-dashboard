@@ -170,6 +170,7 @@ export default function Home() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          zIndex: '100',
         }}
       >
         {walletAddress ? (

@@ -186,6 +186,28 @@ const HomePage: React.FC<Props> = ({
     return formattedTime || 'EXPIRED';
   }
 
+  function calculateTotalTimeInSeconds() {
+    const start = new Date(
+      new Date(currentStage.Date.split(' - ')[0] + ', 2024')
+    );
+
+    const now = new Date();
+    const end = new Date(
+      new Date(currentStage.Date.split(' - ')[1] + ', 2024')
+    );
+
+    //@ts-ignore
+    const totalTimeInSeconds = end - now;
+
+    //@ts-ignore
+    const resBetweenDate = end - start;
+
+    const res = resBetweenDate - totalTimeInSeconds;
+    var rate = (res / resBetweenDate) * 100;
+
+    return rate;
+  }
+
   return (
     <Box
       sx={{
@@ -238,17 +260,32 @@ const HomePage: React.FC<Props> = ({
               width: '100%',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               borderRadius: '20px',
-              background: '#0ea5e9',
-              p: '10px',
+              background: '#e4e4e7',
+              py: '20px',
+              position: 'relative',
             }}
           >
+            <Box
+              sx={{
+                height: '30px',
+                width: `${calculateTotalTimeInSeconds()}%`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '20px',
+                background: '#0ea5e9',
+                p: '20px',
+              }}
+            ></Box>
             <Typography
               sx={{
                 fontSize: '14px',
                 fontWeight: '600',
-                color: 'white',
+                color: '#333',
+                position: 'absolute',
+                left: '20%',
               }}
             >
               Until end of Pre-Sale. Next phase = $
