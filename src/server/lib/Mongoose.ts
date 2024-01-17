@@ -11,8 +11,8 @@ class MongoDB {
 
   async connect(): Promise<void> {
     try {
-      if (!mongoose.connection.readyState) {
-        await mongoose.connect(this.uri, {
+      if (!mongoose.connection || mongoose.connection.readyState === 0) {
+        await mongoose.default?.connect(this.uri, {
           ...this.connectionOptions,
         });
 

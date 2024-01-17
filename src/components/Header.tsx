@@ -76,7 +76,10 @@ const Header: React.FC<Props> = ({
           alt="Main Logo"
           width={180}
           height={50}
-          objectFit="contain"
+          priority={true}
+          style={{
+            objectFit: 'contain',
+          }}
         />
         <Box
           sx={{

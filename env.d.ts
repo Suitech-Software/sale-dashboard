@@ -12,7 +12,7 @@ namespace NodeJS {
     NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS_PRIVATE_KEY: string;
 
     DATABASE_STRING: string;
-    OUR_ETH_CONTRACT: string;
-    OUR_BSC_CONTRACT: string;
+    NEXT_PUBLIC_OUR_ETH_CONTRACT: string;
+    NEXT_PUBLIC_OUR_BSC_CONTRACT: string;
   }
 }
