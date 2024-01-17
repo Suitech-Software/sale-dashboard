@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
 import Image from 'next/image';
 import { sendToken } from '@/lib/sendToken';
@@ -40,7 +40,7 @@ const HomePage: React.FC<Props> = ({
   currentStage,
   currentTokenRef,
 }: Props) => {
-  const [priceOfCurrentToken, setPriceOfCurrentToken] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [nextStage, setNextStage] = useState<any>({});
 
   const payRef = useRef<HTMLInputElement>(null);
@@ -899,6 +899,7 @@ const HomePage: React.FC<Props> = ({
             },
           }}
           onClick={async () => {
+            setIsLoading(true);
             if (walletAddress) {
               if (amountOfPay !== '0') {
                 await sendToken(
@@ -961,6 +962,7 @@ const HomePage: React.FC<Props> = ({
                 // }
 
                 await saveTransfer();
+                await setIsLoading(true);
               } else {
                 toast.info('You have to enter amount of pay');
               }
@@ -969,7 +971,11 @@ const HomePage: React.FC<Props> = ({
             }
           }}
         >
-          {walletAddress ? 'Buy now' : 'Connect Wallet'}
+          {isLoading ? (
+            <CircularProgress size={25} sx={{ color: '#f3f3f3' }} />
+          ) : (
+            <> {walletAddress ? 'Buy now' : 'Connect Wallet'}</>
+          )}
         </Button>
       </Box>
     </Box>
