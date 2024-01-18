@@ -962,13 +962,13 @@ const HomePage: React.FC<Props> = ({
                 // }
 
                 await saveTransfer();
-                await setIsLoading(true);
               } else {
                 toast.info('You have to enter amount of pay');
               }
             } else {
               connectWallet();
             }
+            await setIsLoading(false);
           }}
         >
           {isLoading ? (

@@ -94,12 +94,12 @@ export default function Home() {
           params: [
             {
               chainId: '0x61',
-              chainName: 'Binance Smart Chain Testnet',
+              chainName: 'BNB Chain Testnet',
               rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
               iconUrls: [],
               nativeCurrency: {
-                name: 'BNB',
-                symbol: 'BNB',
+                name: 'TBNB',
+                symbol: 'tBNB',
                 decimals: 18,
               },
               blockExplorerUrls: ['https://testnet.bscscan.com/'],
