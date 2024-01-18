@@ -907,59 +907,6 @@ const HomePage: React.FC<Props> = ({
                   currentNetwork,
                   currentTokenRef.current
                 );
-                // if (currentNetwork === 'bsc') {
-                //   if (currentToken === 'tether') {
-                //     await sendToken(
-                //       Number(amountOfPay),
-                //       '0x55d398326f99059ff775485246999027b3197955',
-                //       'bsc'
-                //     );
-                //   } else if (currentToken === 'usd-coin') {
-                //     await sendToken(
-                //       Number(amountOfPay),
-                //       '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
-                //       'bsc'
-                //     );
-                //   } else if (currentToken === 'binancecoin') {
-                //     await sendToken(
-                //       Number(amountOfPay),
-                //       '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-                //       'bsc'
-                //     );
-                //   } else if (currentToken === 'ethereum') {
-                //     await sendToken(
-                //       Number(amountOfPay),
-                //       '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
-                //       'bsc'
-                //     );
-                //   }
-                // } else if (currentNetwork === 'eth') {
-                //   if (currentToken === 'tether') {
-                //     await sendToken(
-                //       Number(amountOfPay),
-                //       '0xdac17f958d2ee523a2206206994597c13d831ec7',
-                //       'eth'
-                //     );
-                //   } else if (currentToken === 'usd-coin') {
-                //     await sendToken(
-                //       Number(amountOfPay),
-                //       '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-                //       'eth'
-                //     );
-                //   } else if (currentToken === 'binancecoin') {
-                //     await sendToken(
-                //       Number(amountOfPay),
-                //       '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
-                //       'eth'
-                //     );
-                //   } else if (currentToken === 'ethereum') {
-                //     await sendToken(
-                //       Number(amountOfPay),
-                //       '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84',
-                //       'eth'
-                //     );
-                //   }
-                // }
 
                 await saveTransfer();
               } else {
@@ -968,7 +915,7 @@ const HomePage: React.FC<Props> = ({
             } else {
               connectWallet();
             }
-            await setIsLoading(false);
+            setIsLoading(false);
           }}
         >
           {isLoading ? (
