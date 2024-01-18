@@ -6,6 +6,7 @@ import { sendToken } from '@/lib/sendToken';
 import { toast } from 'react-toastify';
 import { CreateType } from '@/types/Transfer';
 import defaultStages from '@/lib/defaultStages.json';
+import { TransferTokenType } from '@/types/Token';
 
 interface Props {
   walletAddress: string;
@@ -138,6 +139,30 @@ const HomePage: React.FC<Props> = ({
       toast.success(data.message);
       setAmountOfPay('0');
       setAmountOfReceive('0');
+
+      const transferTokenD: TransferTokenType = {
+        transferId: data.transferId,
+        userWallet: walletAddress,
+      };
+
+      const resOfToken = await fetch('/api/web3/token/transfer-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(transferTokenD),
+      });
+      const transferTokenData = await resOfToken.json();
+
+      if (resOfToken.ok) {
+        toast.success(transferTokenData.message);
+      } else {
+        if (transferTokenData?.message) toast.error(transferTokenData.message);
+        else if (transferTokenData?.error)
+          toast.error(transferTokenData.error.message);
+        else if (transferTokenData[0])
+          toast.error(transferTokenData[0].message);
+      }
     } else {
       if (data?.message) toast.error(data.message);
       else if (data?.error) toast.error(data.error.message);
@@ -902,13 +927,12 @@ const HomePage: React.FC<Props> = ({
             setIsLoading(true);
             if (walletAddress) {
               if (amountOfPay !== '0') {
-                await sendToken(
+                const result = await sendToken(
                   Number(amountOfPay),
                   currentNetwork,
                   currentTokenRef.current
                 );
-
-                await saveTransfer();
+                if (result) await saveTransfer();
               } else {
                 toast.info('You have to enter amount of pay');
               }

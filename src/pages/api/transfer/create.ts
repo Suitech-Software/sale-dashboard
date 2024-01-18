@@ -1,6 +1,6 @@
 import { NextApiResponse, NextApiRequest } from 'next';
 import validateResource from '@/server/middlewares/validateResource';
-import transferModel from '@/server/models/transferModel';
+import transferModel, { TransferDocument } from '@/server/models/transferModel';
 import { CreateType } from '@/types/Transfer';
 import { createTransferSchema } from '@/server/schemas/transferSchema';
 
@@ -9,12 +9,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const transferData: CreateType = req.body;
 
-      await transferModel.create({
+      const transfer: TransferDocument = (await transferModel.create({
         ...transferData,
-      });
+      })) as TransferDocument;
 
       return res.status(200).json({
         message: 'Transfer successfully saved',
+        transferId: transfer._id,
       });
     } catch (err: any) {
       if (err.status) {

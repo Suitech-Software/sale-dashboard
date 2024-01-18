@@ -13,35 +13,35 @@ export const sendToken = async (
   currentNetwork: string,
   currentToken: string
 ) => {
-  if (get(window, 'ethereum')) {
-    const ethereum = get(window, 'ethereum') as any;
-    const accounts = await ethereum.request({
-      method: 'eth_requestAccounts',
-    });
+  try {
+    if (get(window, 'ethereum')) {
+      const ethereum = get(window, 'ethereum') as any;
+      const accounts = await ethereum.request({
+        method: 'eth_requestAccounts',
+      });
 
-    if (accounts[0]) {
-      const wallet = process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS;
-      const privateKey =
-        process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS_PRIVATE_KEY;
-      let provider;
+      if (accounts[0]) {
+        const wallet = process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS;
+        const privateKey =
+          process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS_PRIVATE_KEY;
+        let provider;
 
-      if (process.env.NODE_ENV === 'development') {
-        if (currentNetwork === 'bsc') {
-          provider = process.env.NEXT_PUBLIC_INFURA_BSC_TESTNET_PROVIDER;
-        } else {
-          provider = process.env.NEXT_PUBLIC_INFURA_ETHEREUM_TESTNET_PROVIDER;
+        if (process.env.NODE_ENV === 'development') {
+          if (currentNetwork === 'bsc') {
+            provider = process.env.NEXT_PUBLIC_INFURA_BSC_TESTNET_PROVIDER;
+          } else {
+            provider = process.env.NEXT_PUBLIC_INFURA_ETHEREUM_TESTNET_PROVIDER;
+          }
+        } else if (process.env.NODE_ENV === 'production') {
+          if (currentNetwork === 'bsc') {
+            provider = process.env.NEXT_PUBLIC_INFURA_BSC_PROVIDER;
+          } else {
+            provider = process.env.NEXT_PUBLIC_INFURA_ETHEREUM_PROVIDER;
+          }
         }
-      } else if (process.env.NODE_ENV === 'production') {
-        if (currentNetwork === 'bsc') {
-          provider = process.env.NEXT_PUBLIC_INFURA_BSC_PROVIDER;
-        } else {
-          provider = process.env.NEXT_PUBLIC_INFURA_ETHEREUM_PROVIDER;
-        }
-      }
 
-      if (currentNetwork === 'bsc') {
-        if (currentToken === 'tether') {
-          try {
+        if (currentNetwork === 'bsc') {
+          if (currentToken === 'tether') {
             const web3 = new Web3(provider);
             const contract = new web3.eth.Contract(
               bscUSDTContract,
@@ -88,238 +88,263 @@ export const sendToken = async (
               await web3.eth.sendSignedTransaction(
                 signedTransaction.rawTransaction
               );
+              return true;
             } else {
               toast.info('Your balance is not enough');
             }
-          } catch (err) {
-            console.log(err);
-          }
-        } else if (currentToken === 'usd-coin') {
-          const web3 = new Web3(provider);
+          } else if (currentToken === 'usd-coin') {
+            const web3 = new Web3(provider);
 
-          const contract = new web3.eth.Contract(
-            bscUSDCContract,
-            '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d'
-          );
+            const contract = new web3.eth.Contract(
+              bscUSDCContract,
+              '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d'
+            );
 
-          // @ts-ignore
-          const balance = await contract.methods.balanceOf(accounts[0]).call();
-          const decimals = await contract.methods.decimals().call();
-
-          const amount = value * Math.pow(10, Number(decimals));
-
-          const isBalanceGreater = new BigNumber(
-            Number(balance)
-          ).isGreaterThanOrEqualTo(Number(amount));
-
-          if (isBalanceGreater) {
-            const data = contract.methods
+            const balance = await contract.methods
               // @ts-ignore
-              .transfer(wallet, amount)
-              .encodeABI();
+              .balanceOf(accounts[0])
+              .call();
+            const decimals = await contract.methods.decimals().call();
 
-            const tx = {
-              to: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
-              from: accounts[0],
-              data: data,
-            } as any;
+            const amount = value * Math.pow(10, Number(decimals));
 
-            const gas = await web3.eth.estimateGas(tx);
-            const gasPrice = await web3.eth.getGasPrice();
-            const nonce = await web3.eth.getTransactionCount(accounts[0]);
+            const isBalanceGreater = new BigNumber(
+              Number(balance)
+            ).isGreaterThanOrEqualTo(Number(amount));
 
-            tx.gas = web3.utils.toHex(gas);
-            tx.gasPrice = web3.utils.toHex(gasPrice);
-            tx.nonce = web3.utils.toHex(nonce);
+            if (isBalanceGreater) {
+              const data = contract.methods
+                // @ts-ignore
+                .transfer(wallet, amount)
+                .encodeABI();
 
-            const signedTransaction = await web3.eth.accounts.signTransaction(
-              tx,
-              privateKey
-            );
-
-            await web3.eth.sendSignedTransaction(
-              signedTransaction.rawTransaction
-            );
-          } else {
-            toast.info('Your balance is not enough');
-          }
-        } else if (currentToken === 'binancecoin') {
-          const amount = Web3.utils.toWei(value.toString(), 'ether');
-
-          await ethereum.request({
-            method: 'eth_sendTransaction',
-            params: [
-              {
+              const tx = {
+                to: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
                 from: accounts[0],
-                to: wallet,
-                value: Number(amount).toString(16),
-                gas: 32000,
-                gasPrice: '32000',
-              },
-            ],
-          });
-        } else if (currentToken === 'ethereum') {
-          const web3 = new Web3(provider);
+                data: data,
+              } as any;
 
-          const contract = new web3.eth.Contract(
-            bscETHContract,
-            '0x2170ed0880ac9a755fd29b2688956bd959f933f8'
-          );
+              const gas = await web3.eth.estimateGas(tx);
+              const gasPrice = await web3.eth.getGasPrice();
+              const nonce = await web3.eth.getTransactionCount(accounts[0]);
 
-          // @ts-ignore
-          const balance = await contract.methods.balanceOf(accounts[0]).call();
-          const decimals = await contract.methods.decimals().call();
+              tx.gas = web3.utils.toHex(gas);
+              tx.gasPrice = web3.utils.toHex(gasPrice);
+              tx.nonce = web3.utils.toHex(nonce);
 
-          const amount = value * Math.pow(10, Number(decimals));
+              const signedTransaction = await web3.eth.accounts.signTransaction(
+                tx,
+                privateKey
+              );
 
-          const isBalanceGreater = new BigNumber(
-            Number(balance)
-          ).isGreaterThanOrEqualTo(Number(amount));
+              await web3.eth.sendSignedTransaction(
+                signedTransaction.rawTransaction
+              );
+              return true;
+            } else {
+              toast.info('Your balance is not enough');
+            }
+          } else if (currentToken === 'binancecoin') {
+            const amount = Web3.utils.toWei(value.toString(), 'ether');
 
-          if (isBalanceGreater) {
-            // @ts-ignore
-            const data = contract.methods.transfer(wallet, amount).encodeABI();
+            await ethereum.request({
+              method: 'eth_sendTransaction',
+              params: [
+                {
+                  from: accounts[0],
+                  to: wallet,
+                  value: Number(amount).toString(16),
+                  gas: 32000,
+                  gasPrice: '32000',
+                },
+              ],
+            });
+            return true;
+          } else if (currentToken === 'ethereum') {
+            const web3 = new Web3(provider);
 
-            const tx = {
-              to: '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
-              from: accounts[0],
-              data: data,
-            } as any;
-
-            const gas = await web3.eth.estimateGas(tx);
-            const gasPrice = await web3.eth.getGasPrice();
-            const nonce = await web3.eth.getTransactionCount(accounts[0]);
-
-            tx.gas = web3.utils.toHex(gas);
-            tx.gasPrice = web3.utils.toHex(gasPrice);
-            tx.nonce = web3.utils.toHex(nonce);
-
-            const signedTransaction = await web3.eth.accounts.signTransaction(
-              tx,
-              privateKey
+            const contract = new web3.eth.Contract(
+              bscETHContract,
+              '0x2170ed0880ac9a755fd29b2688956bd959f933f8'
             );
 
-            await web3.eth.sendSignedTransaction(
-              signedTransaction.rawTransaction
+            const balance = await contract.methods
+              // @ts-ignore
+              .balanceOf(accounts[0])
+              .call();
+            const decimals = await contract.methods.decimals().call();
+
+            const amount = value * Math.pow(10, Number(decimals));
+
+            const isBalanceGreater = new BigNumber(
+              Number(balance)
+            ).isGreaterThanOrEqualTo(Number(amount));
+
+            if (isBalanceGreater) {
+              const data = contract.methods
+                // @ts-ignore
+                .transfer(wallet, amount)
+                .encodeABI();
+
+              const tx = {
+                to: '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
+                from: accounts[0],
+                data: data,
+              } as any;
+
+              const gas = await web3.eth.estimateGas(tx);
+              const gasPrice = await web3.eth.getGasPrice();
+              const nonce = await web3.eth.getTransactionCount(accounts[0]);
+
+              tx.gas = web3.utils.toHex(gas);
+              tx.gasPrice = web3.utils.toHex(gasPrice);
+              tx.nonce = web3.utils.toHex(nonce);
+
+              const signedTransaction = await web3.eth.accounts.signTransaction(
+                tx,
+                privateKey
+              );
+
+              await web3.eth.sendSignedTransaction(
+                signedTransaction.rawTransaction
+              );
+
+              return true;
+            } else {
+              toast.info('Your balance is not enough');
+            }
+          }
+        } else if (currentNetwork === 'eth') {
+          if (currentToken === 'tether') {
+            const web3 = new Web3(provider);
+
+            const contract = new web3.eth.Contract(
+              ethUSDTContract,
+              '0xdac17f958d2ee523a2206206994597c13d831ec7'
             );
-          } else {
-            toast.info('Your balance is not enough');
+
+            const balance = await contract.methods
+              // @ts-ignore
+              .balanceOf(accounts[0])
+              .call();
+            const decimals = await contract.methods.decimals().call();
+
+            const amount = value * Math.pow(10, Number(decimals));
+
+            const isBalanceGreater = new BigNumber(
+              Number(balance)
+            ).isGreaterThanOrEqualTo(Number(amount));
+
+            if (isBalanceGreater) {
+              const data = contract.methods
+                // @ts-ignore
+                .transfer(wallet, amount)
+                .encodeABI();
+
+              const tx = {
+                to: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+                from: accounts[0],
+                data: data,
+              } as any;
+
+              const gas = await web3.eth.estimateGas(tx);
+              const gasPrice = await web3.eth.getGasPrice();
+              const nonce = await web3.eth.getTransactionCount(accounts[0]);
+
+              tx.gas = web3.utils.toHex(gas);
+              tx.gasPrice = web3.utils.toHex(gasPrice);
+              tx.nonce = web3.utils.toHex(nonce);
+
+              const signedTransaction = await web3.eth.accounts.signTransaction(
+                tx,
+                privateKey
+              );
+
+              await web3.eth.sendSignedTransaction(
+                signedTransaction.rawTransaction
+              );
+              return true;
+            } else {
+              toast.info('Your balance is not enough');
+            }
+          } else if (currentToken === 'usd-coin') {
+            const web3 = new Web3(provider);
+
+            const contract = new web3.eth.Contract(
+              ethUSDCContract,
+              '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
+            );
+
+            const balance = await contract.methods
+              // @ts-ignore
+              .balanceOf(accounts[0])
+              .call();
+            const decimals = await contract.methods.decimals().call();
+
+            const amount = value * Math.pow(10, Number(decimals));
+
+            const isBalanceGreater = new BigNumber(
+              Number(balance)
+            ).isGreaterThanOrEqualTo(Number(amount));
+
+            if (isBalanceGreater) {
+              const data = contract.methods
+                // @ts-ignore
+                .transfer(wallet, amount)
+                .encodeABI();
+
+              const tx = {
+                to: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+                from: accounts[0],
+                data: data,
+              } as any;
+
+              const gas = await web3.eth.estimateGas(tx);
+              const gasPrice = await web3.eth.getGasPrice();
+              const nonce = await web3.eth.getTransactionCount(accounts[0]);
+
+              tx.gas = web3.utils.toHex(gas);
+              tx.gasPrice = web3.utils.toHex(gasPrice);
+              tx.nonce = web3.utils.toHex(nonce);
+
+              const signedTransaction = await web3.eth.accounts.signTransaction(
+                tx,
+                privateKey
+              );
+
+              await web3.eth.sendSignedTransaction(
+                signedTransaction.rawTransaction
+              );
+              return true;
+            } else {
+              toast.info('Your balance is not enough');
+            }
+          } else if (currentToken === 'ethereum') {
+            const amount = Web3.utils.toWei(value.toString(), 'ether');
+
+            await ethereum.request({
+              method: 'eth_sendTransaction',
+              params: [
+                {
+                  from: accounts[0],
+                  to: wallet,
+                  value: Number(amount).toString(16),
+                  gas: 32000,
+                  gasPrice: '32000',
+                },
+              ],
+            });
+            return true;
           }
         }
-      } else if (currentNetwork === 'eth') {
-        if (currentToken === 'tether') {
-          const web3 = new Web3(provider);
-
-          const contract = new web3.eth.Contract(
-            ethUSDTContract,
-            '0xdac17f958d2ee523a2206206994597c13d831ec7'
-          );
-
-          // @ts-ignore
-          const balance = await contract.methods.balanceOf(accounts[0]).call();
-          const decimals = await contract.methods.decimals().call();
-
-          const amount = value * Math.pow(10, Number(decimals));
-
-          const isBalanceGreater = new BigNumber(
-            Number(balance)
-          ).isGreaterThanOrEqualTo(Number(amount));
-
-          if (isBalanceGreater) {
-            // @ts-ignore
-            const data = contract.methods.transfer(wallet, amount).encodeABI();
-
-            const tx = {
-              to: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-              from: accounts[0],
-              data: data,
-            } as any;
-
-            const gas = await web3.eth.estimateGas(tx);
-            const gasPrice = await web3.eth.getGasPrice();
-            const nonce = await web3.eth.getTransactionCount(accounts[0]);
-
-            tx.gas = web3.utils.toHex(gas);
-            tx.gasPrice = web3.utils.toHex(gasPrice);
-            tx.nonce = web3.utils.toHex(nonce);
-
-            const signedTransaction = await web3.eth.accounts.signTransaction(
-              tx,
-              privateKey
-            );
-
-            await web3.eth.sendSignedTransaction(
-              signedTransaction.rawTransaction
-            );
-          } else {
-            toast.info('Your balance is not enough');
-          }
-        } else if (currentToken === 'usd-coin') {
-          const web3 = new Web3(provider);
-
-          const contract = new web3.eth.Contract(
-            ethUSDCContract,
-            '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
-          );
-
-          // @ts-ignore
-          const balance = await contract.methods.balanceOf(accounts[0]).call();
-          const decimals = await contract.methods.decimals().call();
-
-          const amount = value * Math.pow(10, Number(decimals));
-
-          const isBalanceGreater = new BigNumber(
-            Number(balance)
-          ).isGreaterThanOrEqualTo(Number(amount));
-
-          if (isBalanceGreater) {
-            // @ts-ignore
-            const data = contract.methods.transfer(wallet, amount).encodeABI();
-
-            const tx = {
-              to: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-              from: accounts[0],
-              data: data,
-            } as any;
-
-            const gas = await web3.eth.estimateGas(tx);
-            const gasPrice = await web3.eth.getGasPrice();
-            const nonce = await web3.eth.getTransactionCount(accounts[0]);
-
-            tx.gas = web3.utils.toHex(gas);
-            tx.gasPrice = web3.utils.toHex(gasPrice);
-            tx.nonce = web3.utils.toHex(nonce);
-
-            const signedTransaction = await web3.eth.accounts.signTransaction(
-              tx,
-              privateKey
-            );
-
-            await web3.eth.sendSignedTransaction(
-              signedTransaction.rawTransaction
-            );
-          } else {
-            toast.info('Your balance is not enough');
-          }
-        } else if (currentToken === 'ethereum') {
-          const amount = Web3.utils.toWei(value.toString(), 'ether');
-
-          await ethereum.request({
-            method: 'eth_sendTransaction',
-            params: [
-              {
-                from: accounts[0],
-                to: wallet,
-                value: Number(amount).toString(16),
-                gas: 7000000,
-                gasPrice: '7000000',
-              },
-            ],
-          });
-        }
+        return false;
+      } else {
+        toast.info('You have to connect your wallet');
+        return false;
       }
-    } else {
-      toast.info('You have to connect your wallet');
     }
+  } catch (error: any) {
+    toast.error(error.message);
+    return false;
   }
 };
