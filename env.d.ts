@@ -15,5 +15,7 @@ namespace NodeJS {
     DATABASE_STRING: string;
     NEXT_PUBLIC_OUR_ETH_CONTRACT: string;
     NEXT_PUBLIC_OUR_BSC_CONTRACT: string;
+
+    NEXT_PUBLIC_IS_BONUS_ACTIVE: string;
   }
 }
