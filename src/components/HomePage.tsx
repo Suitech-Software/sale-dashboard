@@ -6,7 +6,11 @@ import { sendToken } from '@/lib/sendToken';
 import { toast } from 'react-toastify';
 import { CreateType } from '@/types/Transfer';
 import defaultStages from '@/lib/defaultStages.json';
-import { TransferTokenType } from '@/types/Token';
+import {
+  TransferTokenType,
+  TransferTokenWithReferralType,
+} from '@/types/Token';
+import { useRouter } from 'next/router';
 
 interface Props {
   walletAddress: string;
@@ -43,6 +47,8 @@ const HomePage: React.FC<Props> = ({
 }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [nextStage, setNextStage] = useState<any>({});
+
+  const router = useRouter();
 
   const payRef = useRef<HTMLInputElement>(null);
 
@@ -147,15 +153,21 @@ const HomePage: React.FC<Props> = ({
 
       const isBonusActive = process.env.NEXT_PUBLIC_IS_BONUS_ACTIVE;
 
-      if (isBonusActive?.toLowerCase() === 'true') {
+      if (router.query.hash) {
+        const transferTokenDForReferral: TransferTokenWithReferralType = {
+          transferId: data.transferId,
+          hash: (router.query.hash as string) ?? '',
+          userWallet: walletAddress,
+        };
+
         const resOfToken = await fetch(
-          '/api/web3/token/transfer-token-with-bonus',
+          '/api/web3/token/transfer-token-with-referral',
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(transferTokenD),
+            body: JSON.stringify(transferTokenDForReferral),
           }
         );
         const transferTokenData = await resOfToken.json();
@@ -171,24 +183,49 @@ const HomePage: React.FC<Props> = ({
             toast.error(transferTokenData[0].message);
         }
       } else {
-        const resOfToken = await fetch('/api/web3/token/transfer-token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(transferTokenD),
-        });
-        const transferTokenData = await resOfToken.json();
+        if (isBonusActive?.toLowerCase() === 'true') {
+          const resOfToken = await fetch(
+            '/api/web3/token/transfer-token-with-bonus',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(transferTokenD),
+            }
+          );
+          const transferTokenData = await resOfToken.json();
 
-        if (resOfToken.ok) {
-          toast.success(transferTokenData.message);
+          if (resOfToken.ok) {
+            toast.success(transferTokenData.message);
+          } else {
+            if (transferTokenData?.message)
+              toast.error(transferTokenData.message);
+            else if (transferTokenData?.error)
+              toast.error(transferTokenData.error.message);
+            else if (transferTokenData[0])
+              toast.error(transferTokenData[0].message);
+          }
         } else {
-          if (transferTokenData?.message)
-            toast.error(transferTokenData.message);
-          else if (transferTokenData?.error)
-            toast.error(transferTokenData.error.message);
-          else if (transferTokenData[0])
-            toast.error(transferTokenData[0].message);
+          const resOfToken = await fetch('/api/web3/token/transfer-token', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(transferTokenD),
+          });
+          const transferTokenData = await resOfToken.json();
+
+          if (resOfToken.ok) {
+            toast.success(transferTokenData.message);
+          } else {
+            if (transferTokenData?.message)
+              toast.error(transferTokenData.message);
+            else if (transferTokenData?.error)
+              toast.error(transferTokenData.error.message);
+            else if (transferTokenData[0])
+              toast.error(transferTokenData[0].message);
+          }
         }
       }
     } else {
@@ -955,12 +992,12 @@ const HomePage: React.FC<Props> = ({
             setIsLoading(true);
             if (walletAddress) {
               if (amountOfPay !== '0') {
-                const result = await sendToken(
-                  Number(amountOfPay),
-                  currentNetwork,
-                  currentTokenRef.current
-                );
-                if (result) await saveTransfer();
+                // const result = await sendToken(
+                //   Number(amountOfPay),
+                //   currentNetwork,
+                //   currentTokenRef.current
+                // );
+                if (true) await saveTransfer();
               } else {
                 toast.info('You have to enter amount of pay');
               }

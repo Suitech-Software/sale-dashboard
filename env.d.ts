@@ -17,5 +17,7 @@ namespace NodeJS {
     NEXT_PUBLIC_OUR_BSC_CONTRACT: string;
 
     NEXT_PUBLIC_IS_BONUS_ACTIVE: string;
+
+    NEXT_PUBLIC_UI_URL: string;
   }
 }

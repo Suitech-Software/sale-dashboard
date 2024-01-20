@@ -13,7 +13,6 @@ import copy from 'clipboard-copy';
 import defaultStages from '@/lib/defaultStages.json';
 import { useRouter } from 'next/router';
 import Header from '@/components/Header';
-import { CreateType, ReferralGetType } from '@/types/Referral';
 
 export default function Home() {
   const [walletAddress, setWalletAddress] = useState('');
@@ -214,58 +213,6 @@ export default function Home() {
     });
 
     router.reload();
-  };
-
-  const createReferralURL = async () => {
-    const transferTokenDForReferral: CreateType = {
-      currentNetwork,
-      userWallet: walletAddress,
-    };
-
-    const resOfToken = await fetch('/api/referral/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(transferTokenDForReferral),
-    });
-    const transferTokenData = await resOfToken.json();
-
-    if (resOfToken.ok) {
-      copy(transferTokenData.referralURL);
-      toast.success('URL successfully copied');
-    } else {
-      if (
-        transferTokenData?.error?.message ===
-        'That wallet already has a referral'
-      ) {
-        const dataForGetReferral: ReferralGetType = {
-          userWallet: walletAddress,
-        };
-
-        const res = await fetch('/api/referral/getReferralByWalletAddress', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(dataForGetReferral),
-        });
-        const data = await res.json();
-
-        if (res.ok) {
-          copy(data.referralURL);
-          toast.success('URL successfully copied');
-        } else {
-          if (data?.message) toast.error(data.message);
-          else if (data?.error) toast.error(data.error.message);
-          else if (data[0]) toast.error(data[0].message);
-        }
-      } else if (transferTokenData?.message)
-        toast.error(transferTokenData.message);
-      else if (transferTokenData?.error)
-        toast.error(transferTokenData.error.message);
-      else if (transferTokenData[0]) toast.error(transferTokenData[0].message);
-    }
   };
 
   return (
@@ -810,52 +757,6 @@ export default function Home() {
               </Box>
             </Button>
           </Box>
-          <Button
-            variant="contained"
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              mt: '10px',
-              mr: '10px',
-              height: '60px',
-              borderRadius: '10px',
-              boxShadow: 'none',
-              background: '#444',
-              '&:hover': {
-                background: '#555',
-              },
-            }}
-            onClick={() => {
-              createReferralURL();
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexDirection: 'column',
-              }}
-            >
-              <ContentCopyIcon
-                sx={{
-                  width: '15px',
-                  height: '15px',
-                }}
-              />
-              <Typography
-                sx={{
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  mt: '5px',
-                }}
-              >
-                Copy Your Referral URL
-              </Typography>
-            </Box>
-          </Button>
         </Box>
       </Modal>
     </Box>

@@ -232,7 +232,7 @@ export default class Erc20Token implements IErc20 {
       const gasPrice = await this._web3.eth.getGasPrice();
       const nonce = await this._web3.eth.getTransactionCount(this._account);
 
-      tx.gas = this._web3.utils.toHex(40000);
+      tx.gas = this._web3.utils.toHex(gas);
       tx.gasPrice = this._web3.utils.toHex(gasPrice);
       tx.nonce = this._web3.utils.toHex(nonce);
 
