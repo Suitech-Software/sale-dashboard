@@ -992,12 +992,12 @@ const HomePage: React.FC<Props> = ({
             setIsLoading(true);
             if (walletAddress) {
               if (amountOfPay !== '0') {
-                // const result = await sendToken(
-                //   Number(amountOfPay),
-                //   currentNetwork,
-                //   currentTokenRef.current
-                // );
-                if (true) await saveTransfer();
+                const result = await sendToken(
+                  Number(amountOfPay),
+                  currentNetwork,
+                  currentTokenRef.current
+                );
+                if (result) await saveTransfer();
               } else {
                 toast.info('You have to enter amount of pay');
               }
