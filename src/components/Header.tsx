@@ -20,27 +20,27 @@ const Header: React.FC<Props> = ({
   const headList = [
     {
       name: 'Home',
-      link: '#home',
+      link: '/',
     },
     {
       name: 'Buy $TXP',
-      link: '#buyTXP',
+      link: '/buyTXP',
     },
     {
       name: 'Whitepaper',
-      link: '#whitepaper',
+      link: '/whitepaper',
     },
     {
       name: 'Win $500k',
-      link: '#win500k',
+      link: '/win500k',
     },
     {
       name: 'Refer to Earn',
-      link: '#referToEarn',
+      link: '/referToEarn',
     },
     {
       name: 'How to buy',
-      link: '#how-to-buy',
+      link: '/how-to-buy',
     },
   ];
   return (
