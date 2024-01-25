@@ -3,28 +3,25 @@ import Image from 'next/image';
 import React from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import Link from 'next/link';
-
-interface Props {
-  walletAddress: string;
-  setOpenModal2: Function;
-  currentNetwork: string;
-  setOpenModal1: Function;
-}
-
-const Header: React.FC<Props> = ({
-  walletAddress,
-  setOpenModal2,
-  currentNetwork,
+import {
+  GeneralValueType,
   setOpenModal1,
-}: Props) => {
+  setOpenModal2,
+} from '@/store/slices/generalSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/store';
+
+interface Props {}
+
+const Header: React.FC<Props> = () => {
   const headList = [
     {
       name: 'Home',
       link: '/',
     },
     {
-      name: 'Buy $TXP',
-      link: '/buyTXP',
+      name: 'Buy $GOCO',
+      link: '/buyGOCO',
     },
     {
       name: 'Whitepaper',
@@ -43,6 +40,13 @@ const Header: React.FC<Props> = ({
       link: '/how-to-buy',
     },
   ];
+
+  const generalValues: GeneralValueType = useSelector(
+    (state: RootState) => state.general.value
+  ) as GeneralValueType;
+
+  const dispatch = useDispatch<AppDispatch>();
+
   return (
     <Box
       component="header"
@@ -71,16 +75,39 @@ const Header: React.FC<Props> = ({
           alignItems: 'center',
         }}
       >
-        <Image
-          src="/main.png"
-          alt="Main Logo"
-          width={180}
-          height={50}
-          priority={true}
+        <Link
+          href="/"
           style={{
-            objectFit: 'contain',
+            textDecoration: 'none',
           }}
-        />
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Image
+              src="/main.png"
+              alt="Main Logo"
+              width={40}
+              height={40}
+              priority={true}
+              style={{
+                objectFit: 'contain',
+              }}
+            />
+            <Typography
+              sx={{
+                ml: '10px',
+                color: '#D59F4E',
+              }}
+            >
+              Golden Cobra
+            </Typography>
+          </Box>
+        </Link>
         <Box
           sx={{
             ml: '10px',
@@ -121,7 +148,7 @@ const Header: React.FC<Props> = ({
           alignItems: 'center',
         }}
       >
-        {walletAddress ? (
+        {generalValues.walletAddress ? (
           <Box
             sx={{
               display: 'flex',
@@ -145,12 +172,13 @@ const Header: React.FC<Props> = ({
                   fill: 'white',
                 },
               }}
-              onClick={() => setOpenModal1(true)}
+              onClick={() => dispatch(setOpenModal1(true))}
             >
-              {currentNetwork === 'bsc' ? (
+              {generalValues.currentNetwork === 'bsc' ? (
                 <Image
                   style={{
                     marginLeft: '10px',
+                    objectFit: 'contain',
                   }}
                   src="/bnb-logo.png"
                   alt="BNB Logo"
@@ -161,6 +189,7 @@ const Header: React.FC<Props> = ({
                 <Image
                   style={{
                     marginLeft: '10px',
+                    objectFit: 'contain',
                   }}
                   src="/ethereum.png"
                   alt="ETH Logo"
@@ -186,18 +215,18 @@ const Header: React.FC<Props> = ({
                   background: '#000',
                 },
               }}
-              onClick={() => setOpenModal2(true)}
+              onClick={() => dispatch(setOpenModal2(true))}
             >
               <Typography
                 sx={{
                   fontSize: '14px',
                 }}
               >
-                {walletAddress.slice(0, 5)}
+                {generalValues.walletAddress.slice(0, 5)}
                 ...
-                {walletAddress.slice(
-                  walletAddress.length - 4,
-                  walletAddress.length
+                {generalValues.walletAddress.slice(
+                  generalValues.walletAddress.length - 4,
+                  generalValues.walletAddress.length
                 )}
               </Typography>
             </Button>

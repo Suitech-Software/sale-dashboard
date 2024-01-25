@@ -11,7 +11,7 @@ export interface ITransfer {
 
 export type CreateType = Omit<ITransfer, 'isTransferred'>;
 
-export type TokenReturnType = ITransfer & {
+export type TransferReturnType = ITransfer & {
   _id: string;
   createdAt: string;
   updatedAt: string;

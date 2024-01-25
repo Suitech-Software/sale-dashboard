@@ -1,4 +1,4 @@
-import Web3, { EthExecutionAPI, SupportedProviders } from 'web3';
+import Web3, { Bytes, EthExecutionAPI, SupportedProviders } from 'web3';
 import erc20ContractArtifact from '@/contracts/Erc20Token.json';
 import HDWalletProvider from '@truffle/hdwallet-provider';
 import { IErc20 } from './IErc20';
@@ -244,6 +244,50 @@ export default class Erc20Token implements IErc20 {
       await this._web3.eth.sendSignedTransaction(
         signedTransaction.rawTransaction
       );
+    } catch (err: any) {
+      if (err.error.message.indexOf('insufficient funds') != -1) {
+        throw new CustomError('Web3 JS Error', 'Insufficient funds', 500);
+      } else {
+        throw new CustomError('Web3 JS Error', err.error.message, 500);
+      }
+    }
+  }
+
+  public async transferForClaim(to: string, amount: number): Promise<Bytes> {
+    try {
+      const tokenAmount = Web3.utils.toBigInt(
+        Web3.utils.toWei(String(amount), 'ether')
+      );
+
+      const transferTx = this._contract.methods.transfer(to, tokenAmount);
+
+      const data = transferTx.encodeABI();
+
+      const tx = {
+        to: this._contractAddress,
+        from: this._account,
+        data: data,
+      } as any;
+
+      const gas = await this._web3.eth.estimateGas(tx);
+      const gasPrice = await this._web3.eth.getGasPrice();
+      const nonce = await this._web3.eth.getTransactionCount(this._account);
+
+      tx.gas = this._web3.utils.toHex(gas);
+      tx.gasPrice = this._web3.utils.toHex(gasPrice);
+      tx.nonce = this._web3.utils.toHex(nonce);
+
+      const signedTransaction = await this._web3.eth.accounts.signTransaction(
+        tx,
+        this._privateKey
+      );
+
+      const { transactionHash } = await this._web3.eth.sendSignedTransaction(
+        signedTransaction.rawTransaction
+      );
+      // TODO: burayı görmek istiyorum nasıl gelecek
+      console.log(transactionHash);
+      return transactionHash;
     } catch (err: any) {
       if (err.error.message.indexOf('insufficient funds') != -1) {
         throw new CustomError('Web3 JS Error', 'Insufficient funds', 500);

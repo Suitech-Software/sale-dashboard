@@ -15,7 +15,7 @@ export type ReferralGetType = {
   userWallet: string;
 };
 
-export type TokenReturnType = IReferral & {
+export type ReferralReturnType = IReferral & {
   _id: string;
   createdAt: string;
   updatedAt: string;
