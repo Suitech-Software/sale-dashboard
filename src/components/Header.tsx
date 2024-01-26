@@ -20,12 +20,12 @@ const Header: React.FC<Props> = () => {
       link: '/',
     },
     {
-      name: 'Buy $GOCO',
-      link: '/buyGOCO',
+      name: 'Stake',
+      link: '/stake',
     },
     {
-      name: 'Whitepaper',
-      link: '/whitepaper',
+      name: 'My Stakes',
+      link: '/my-stakes',
     },
     {
       name: 'Win $500k',

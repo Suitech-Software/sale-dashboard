@@ -8,7 +8,7 @@ export interface SendedTokenDocument extends mongoose.Document, ISendedToken {
 
 const sendedTokenSchema = new mongoose.Schema(
   {
-    userWallet: { type: String, required: true, unique: true },
+    userWallet: { type: String, required: true },
     payment_transaction_hash: {
       type: String,
       required: false,

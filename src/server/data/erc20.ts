@@ -285,11 +285,10 @@ export default class Erc20Token implements IErc20 {
       const { transactionHash } = await this._web3.eth.sendSignedTransaction(
         signedTransaction.rawTransaction
       );
-      // TODO: burayı görmek istiyorum nasıl gelecek
-      console.log(transactionHash);
+
       return transactionHash;
     } catch (err: any) {
-      if (err.error.message.indexOf('insufficient funds') != -1) {
+      if (err?.error?.message.indexOf('insufficient funds') != -1) {
         throw new CustomError('Web3 JS Error', 'Insufficient funds', 500);
       } else {
         throw new CustomError('Web3 JS Error', err.error.message, 500);

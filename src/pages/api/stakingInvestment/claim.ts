@@ -34,16 +34,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const stakingInvestment: StakingInvestmentDocument =
         (await stakingInvestmentModel.findOne({
           userWallet: claimData.userWallet,
+          is_active: true,
+          is_cancelled: false,
+          is_unstaked: false,
         })) as StakingInvestmentDocument;
 
       if (!stakingInvestment)
         throw new CustomError('Not Found', 'You do not have any stake', 404);
-
-      stakingInvestment.is_unstaked = true;
-      stakingInvestment.is_active = false;
-      stakingInvestment.description = 'Reward Claimed';
-
-      await stakingInvestment.save();
 
       const stakingStake: StakingStageDocument =
         (await stakingStageModel.findById(
@@ -68,7 +65,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       let smartContract;
 
-      if (transfer.currentNetwork === 'bsc') {
+      if (stakingInvestment.currentNetwork === 'bsc') {
         smartContract = await process.env.NEXT_PUBLIC_OUR_BSC_CONTRACT;
       } else {
         smartContract = await process.env.NEXT_PUBLIC_OUR_ETH_CONTRACT;
@@ -81,7 +78,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           .NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS_PRIVATE_KEY_FOR_OUR_SMART_CONTRACT;
 
       const tokenService = new TokenService(
-        transfer.currentNetwork,
+        stakingInvestment.currentNetwork,
         smartContract,
         privateKey,
         wallet
@@ -91,6 +88,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         transfer.userWallet,
         Number(sendedToken.total_token_amount)
       );
+
+      stakingInvestment.is_unstaked = true;
+      stakingInvestment.is_active = false;
+      stakingInvestment.description = 'Reward Claimed';
+
+      await stakingInvestment.save();
 
       await sendedTokenModel.findByIdAndUpdate(sendedToken._id, {
         is_sended: 'sended',

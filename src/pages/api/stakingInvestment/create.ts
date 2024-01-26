@@ -15,6 +15,35 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const stakingInvestmentData: CreateType = req.body;
 
+      const si: StakingInvestmentDocument[] =
+        (await stakingInvestmentModel.find({
+          userWallet: stakingInvestmentData.userWallet,
+        })) as StakingInvestmentDocument[];
+
+      for (let i = 0; i < si.length; i++) {
+        if (si[i]?.is_active) {
+          throw new CustomError(
+            'Bad Request',
+            'You already have an active stake',
+            400
+          );
+        } else if (si[i]?.is_cancelled && si[i]?.block_release_date) {
+          if (si[i]?.block_release_date > new Date()) {
+            var milli = si[i]?.block_release_date.getTime() - Date.now();
+
+            var hour = Math.floor(milli / (1000 * 60 * 60));
+
+            var minutes = Math.floor((milli % (1000 * 60 * 60)) / (1000 * 60));
+
+            throw new CustomError(
+              'Bad Request',
+              `You had block until ${hour} hours ${minutes} minutes`,
+              400
+            );
+          }
+        }
+      }
+
       const stakingStage: StakingStageDocument =
         (await stakingStageModel.findById(
           stakingInvestmentData.staking_stage
@@ -38,6 +67,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           staking_at: Date.now(),
           unstaking_at,
         })) as StakingInvestmentDocument;
+
+      stakingStage.used_round_supply += stakingInvestment.staked_token_amount;
+
+      await stakingStage.save();
 
       return res.status(201).json({
         message: 'Staking Investment successfully saved',

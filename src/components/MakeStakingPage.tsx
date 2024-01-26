@@ -3,24 +3,67 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import BadgeIcon from '@mui/icons-material/Badge';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import LockIcon from '@mui/icons-material/Lock';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NineKPlusIcon from '@mui/icons-material/NineKPlus';
 import WalletIcon from '@mui/icons-material/Wallet';
+import { GeneralValueType } from '@/store/slices/generalSlice';
+import { RootState } from '@/store';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { findBalanceByAddress } from '@/lib/findBalanceByAddress';
 
 interface Props {
   stage: StakingStageReturnType;
 }
 
 const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
-  const [walletBalance, setWalletBalance] = useState('527109300000000050000');
+  const [currentBalance, setCurrentBalance] = useState(0);
+  const [earned_award, setEarned_award] = useState(0);
 
-  const stake_reward_percentage = stage.reward_percentage;
-  const stake_duration = stage.duration;
-  const _earned_award =
-    (Number(walletBalance) * stake_duration * stake_reward_percentage) / 100;
-  const earned_award = _earned_award;
+  const generalValues: GeneralValueType = useSelector(
+    (state: RootState) => state.general.value
+  ) as GeneralValueType;
 
-  const saveStake = async () => {};
+  useEffect(() => {
+    findBalanceByAddress(
+      generalValues.currentNetwork,
+      generalValues.walletAddress
+    ).then((balance) => {
+      setCurrentBalance(balance);
+      const stake_reward_percentage = stage.reward_percentage;
+      const stake_duration = stage.duration;
+      const _earned_award =
+        (Number(balance) * stake_duration * stake_reward_percentage) / 100;
+      setEarned_award(_earned_award);
+    });
+  }, [currentBalance, earned_award]);
+
+  const saveStake = async () => {
+    const stakingData = {
+      userWallet: generalValues.walletAddress,
+      staking_stage: stage._id,
+      staked_token_amount: currentBalance,
+      currentNetwork: generalValues.currentNetwork,
+    };
+
+    const res = await fetch('/api/stakingInvestment/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(stakingData),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      toast.success(data.message);
+    } else {
+      if (data?.message) toast.error(data.message);
+      else if (data?.error) toast.error(data.error.message);
+      else if (data[0]) toast.error(data[0].message);
+    }
+  };
 
   return (
     <Box
@@ -273,7 +316,7 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                   textAlign: 'center',
                 }}
               >
-                {walletBalance}
+                {currentBalance}
               </Typography>
             </Box>
           </Box>
@@ -310,7 +353,9 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
               </Typography>
               <Box
                 component="input"
-                defaultValue={walletBalance}
+                value={currentBalance}
+                disabled
+                type="number"
                 sx={{
                   mt: { xs: '10px', md: '0px' },
                   width: { xs: '100%', md: '80%' },
@@ -349,7 +394,9 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
               </Typography>
               <Box
                 component="input"
-                defaultValue={Number(walletBalance) + Number(earned_award)}
+                disabled
+                type="number"
+                value={Number(currentBalance) + Number(earned_award)}
                 sx={{
                   mt: { xs: '10px', md: '0px' },
                   width: { xs: '100%', md: '70%' },

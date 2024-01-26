@@ -16,6 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const stakingInvestment: StakingInvestmentDocument =
         (await stakingInvestmentModel.findOne({
           userWallet: cancelData.userWallet,
+          is_active: true,
         })) as StakingInvestmentDocument;
 
       if (!stakingInvestment)
@@ -50,16 +51,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       await stakingInvestment.save();
 
-      await stakingStageModel.findByIdAndUpdate(
-        stakingInvestment.staking_stage,
-        {
-          $inc: {
-            used_round_supply: -parseInt(
-              stakingInvestment.staked_token_amount.toString()
-            ),
-          },
-        }
+      const stakingStage = await stakingStageModel.findById(
+        stakingInvestment.staking_stage
       );
+
+      stakingStage.used_round_supply -= stakingInvestment.staked_token_amount;
+
+      await stakingStage.save();
 
       return res.status(200).json({
         message: 'Stake successfully canceled',

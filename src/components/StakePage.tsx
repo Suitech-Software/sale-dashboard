@@ -4,12 +4,19 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { StakingStageReturnType } from '@/types/StakingStage';
 import MakeStakingPage from './MakeStakingPage';
+import { GeneralValueType } from '@/store/slices/generalSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 interface Props {}
 
 const StakePage: React.FC<Props> = ({}: Props) => {
   const [stages, setStages] = useState<StakingStageReturnType[]>([]);
   const [stake, setStake] = useState<string>('');
+
+  const generalValues: GeneralValueType = useSelector(
+    (state: RootState) => state.general.value
+  ) as GeneralValueType;
 
   useEffect(() => {
     const fetchStakingStages = async () => {
@@ -144,7 +151,11 @@ const StakePage: React.FC<Props> = ({}: Props) => {
                         }}
                         variant="contained"
                         onClick={() => {
-                          setStake(stage.stage.toString());
+                          if (generalValues.walletAddress) {
+                            setStake(stage.stage.toString());
+                          } else {
+                            toast.info('You have to connect your wallet');
+                          }
                         }}
                       >
                         <Typography

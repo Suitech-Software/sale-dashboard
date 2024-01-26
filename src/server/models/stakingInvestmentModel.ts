@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { IStakingInvestment } from '@/types/StakingInvestment';
+import './stakingStageModel';
 
 export interface StakingInvestmentDocument
   extends mongoose.Document,
@@ -13,14 +14,17 @@ const stakingInvestmentSchema = new mongoose.Schema(
     userWallet: {
       type: String,
       required: true,
-      unique: true,
     },
     is_active: {
       type: Boolean,
     },
     staking_stage: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'staking_stages',
+      ref: 'StakingStage',
+      required: true,
+    },
+    currentNetwork: {
+      type: String,
       required: true,
     },
     contract_stake_id: {

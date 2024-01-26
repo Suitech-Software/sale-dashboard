@@ -3,18 +3,21 @@ import validateResource from '@/server/middlewares/validateResource';
 import stakingInvestmentModel, {
   StakingInvestmentDocument,
 } from '@/server/models/stakingInvestmentModel';
-import { GetStakingInvestmentType } from '@/types/StakingInvestment';
 import { getStakingInvestmentSchema } from '@/server/schemas/stakingInvestmentSchema';
+import { get } from 'lodash';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
-      const stakingInvestmentData: GetStakingInvestmentType = req.body;
-
-      const stakingInvestment: StakingInvestmentDocument =
-        (await stakingInvestmentModel.findOne({
-          userWallet: stakingInvestmentData.userWallet,
-        })) as StakingInvestmentDocument;
+      const stakingInvestment = await stakingInvestmentModel
+        .findOne({
+          userWallet: get(req.query, 'userWallet') as string,
+          is_active: true,
+        })
+        .populate({
+          path: 'staking_stage',
+          select: 'name reward_percentage duration',
+        });
 
       return res.status(200).json({
         message: 'Staking Investment successfully returned',

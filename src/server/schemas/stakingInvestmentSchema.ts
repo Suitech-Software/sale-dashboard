@@ -8,6 +8,7 @@ export const createStakingInvestmentSchema = object({
     staked_token_amount: number({
       required_error: 'Staked Token Amount is required',
     }),
+    currentNetwork: string({ required_error: 'Current Network is required' }),
     base_token_amount: number().optional(),
     total_earning: number().optional(),
     description: string().optional(),
@@ -28,7 +29,7 @@ export const cancelStakingInvestmentSchema = object({
 });
 
 export const getStakingInvestmentSchema = object({
-  body: object({
+  query: object({
     userWallet: string({ required_error: 'User Wallet is required' }),
   }),
 });

@@ -4,6 +4,7 @@ export interface IStakingInvestment {
   userWallet: string;
   is_active: boolean;
   staking_stage: StakingStageDocument['_id'];
+  currentNetwork: string;
   contract_stake_id: number;
   staking_at: Date;
   unstaking_at: Date;
