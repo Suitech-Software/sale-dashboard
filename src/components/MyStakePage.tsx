@@ -16,6 +16,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -24,6 +25,8 @@ function MyStakePage() {
   const [myStakes, setMyStakes] = useState<
     StakingInvestmentWithStageReturnType[]
   >([]);
+
+  const router = useRouter();
 
   const generalValues: GeneralValueType = useSelector(
     (state: RootState) => state.general.value
@@ -75,7 +78,8 @@ function MyStakePage() {
     if (res.ok) {
       toast.success(data.message);
       toast.info('You has been blocked for 72 hours');
-      // TODO: burada history page a route yap
+
+      router.push('/stake-history');
     } else {
       if (data?.message) toast.error(data.message);
       else if (data?.error) toast.error(data.error.message);
@@ -99,7 +103,7 @@ function MyStakePage() {
 
     if (res.ok) {
       toast.success(data.message);
-      // TODO: burada history page a route yap
+      router.push('/stake-history');
     } else {
       if (data?.message) toast.error(data.message);
       else if (data?.error) toast.error(data.error.message);
@@ -137,7 +141,7 @@ function MyStakePage() {
       >
         {myStakes[0] ? (
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: 650 }} aria-label="My Stake">
               <TableHead>
                 <TableRow>
                   <TableCell>Sr.No.</TableCell>

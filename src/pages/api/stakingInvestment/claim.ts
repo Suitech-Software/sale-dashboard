@@ -58,6 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const sendedToken: SendedTokenDocument = (await sendedTokenModel.create({
         userWallet: transfer.userWallet,
+        staking_investment: stakingInvestment._id,
         is_sended: 'preparing',
         total_token_amount: earned_award,
         description: 'Stake Reward',

@@ -258,7 +258,7 @@ export default class Erc20Token implements IErc20 {
       const tokenAmount = Web3.utils.toBigInt(
         Web3.utils.toWei(String(amount), 'ether')
       );
-
+      
       const transferTx = this._contract.methods.transfer(to, tokenAmount);
 
       const data = transferTx.encodeABI();

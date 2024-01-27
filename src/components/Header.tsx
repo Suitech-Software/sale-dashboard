@@ -28,8 +28,8 @@ const Header: React.FC<Props> = () => {
       link: '/my-stakes',
     },
     {
-      name: 'Win $500k',
-      link: '/win500k',
+      name: 'Stake History',
+      link: '/stake-history',
     },
     {
       name: 'Refer to Earn',

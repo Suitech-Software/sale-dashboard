@@ -1,5 +1,8 @@
+import { StakingInvestmentDocument } from '@/server/models/stakingInvestmentModel';
+
 export interface ISendedToken {
   userWallet: string;
+  staking_investment: StakingInvestmentDocument['_id'];
   payment_transaction_hash: string;
   is_sended: string;
   total_token_amount: number;

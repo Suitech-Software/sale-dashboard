@@ -11,6 +11,7 @@ import { RootState } from '@/store';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { findBalanceByAddress } from '@/lib/findBalanceByAddress';
+import { useRouter } from 'next/router';
 
 interface Props {
   stage: StakingStageReturnType;
@@ -23,6 +24,8 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
   const generalValues: GeneralValueType = useSelector(
     (state: RootState) => state.general.value
   ) as GeneralValueType;
+
+  const router = useRouter();
 
   useEffect(() => {
     findBalanceByAddress(
@@ -58,6 +61,7 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
 
     if (res.ok) {
       toast.success(data.message);
+      router.push('/my-stakes');
     } else {
       if (data?.message) toast.error(data.message);
       else if (data?.error) toast.error(data.error.message);
@@ -322,121 +326,144 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
           </Box>
         </Grid>
         <Grid item xs={12} lg={7}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              alignItems: 'center',
-              width: '100%',
-              height: '100%',
-            }}
-          >
+          {currentBalance >= stage.min_stake_amount ? (
             <Box
               sx={{
                 display: 'flex',
-                alignItems: { xs: 'flex-start', md: 'center' },
-                flexDirection: { xs: 'column', md: 'row' },
-                justifyContent: 'space-between',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                alignItems: 'center',
                 width: '100%',
+                height: '100%',
               }}
             >
-              <Typography
+              <Box
                 sx={{
-                  color: '#333',
-                  fontWeight: '600',
-                  fontSize: '15px',
-                  textAlign: 'center',
+                  display: 'flex',
+                  alignItems: { xs: 'flex-start', md: 'center' },
+                  flexDirection: { xs: 'column', md: 'row' },
+                  justifyContent: 'space-between',
+                  width: '100%',
                 }}
               >
-                GOCO Token*
-              </Typography>
+                <Typography
+                  sx={{
+                    color: '#333',
+                    fontWeight: '600',
+                    fontSize: '15px',
+                    textAlign: 'center',
+                  }}
+                >
+                  GOCO Token*
+                </Typography>
+                <Box
+                  component="input"
+                  value={currentBalance}
+                  disabled
+                  type="number"
+                  sx={{
+                    mt: { xs: '10px', md: '0px' },
+                    width: { xs: '100%', md: '80%' },
+                    height: '47px',
+                    border: '#8F8F8F solid 0.2px',
+                    bgcolor: '#F8F9F8',
+                    borderRadius: '10px',
+                    color: '#666666',
+                    px: '13px',
+                    boxShadow: '0px 3px 20px 0px #0000001A',
+                    '&:focus': {
+                      outline: 'none',
+                    },
+                  }}
+                />
+              </Box>
               <Box
-                component="input"
-                value={currentBalance}
-                disabled
-                type="number"
                 sx={{
-                  mt: { xs: '10px', md: '0px' },
-                  width: { xs: '100%', md: '80%' },
-                  height: '47px',
-                  border: '#8F8F8F solid 0.2px',
-                  bgcolor: '#F8F9F8',
-                  borderRadius: '10px',
-                  color: '#666666',
-                  px: '13px',
-                  boxShadow: '0px 3px 20px 0px #0000001A',
-                  '&:focus': {
-                    outline: 'none',
-                  },
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: { xs: 'flex-start', md: 'center' },
-                flexDirection: { xs: 'column', md: 'row' },
-                justifyContent: 'space-between',
-                mt: '30px',
-                width: '100%',
-              }}
-            >
-              <Typography
-                sx={{
-                  color: '#333',
-                  fontWeight: '600',
-                  fontSize: '15px',
-                  textAlign: 'center',
+                  display: 'flex',
+                  alignItems: { xs: 'flex-start', md: 'center' },
+                  flexDirection: { xs: 'column', md: 'row' },
+                  justifyContent: 'space-between',
+                  mt: '30px',
+                  width: '100%',
                 }}
               >
-                GOCO Token Earned
-              </Typography>
-              <Box
-                component="input"
-                disabled
-                type="number"
-                value={Number(currentBalance) + Number(earned_award)}
-                sx={{
-                  mt: { xs: '10px', md: '0px' },
-                  width: { xs: '100%', md: '70%' },
-                  height: '47px',
-                  border: '#8F8F8F solid 0.2px',
-                  bgcolor: '#F8F9F8',
-                  borderRadius: '10px',
-                  color: '#666666',
-                  px: '13px',
-                  boxShadow: '0px 3px 20px 0px #0000001A',
-                  '&:focus': {
-                    outline: 'none',
-                  },
-                }}
-              />
-            </Box>
+                <Typography
+                  sx={{
+                    color: '#333',
+                    fontWeight: '600',
+                    fontSize: '15px',
+                    textAlign: 'center',
+                  }}
+                >
+                  GOCO Token Earned
+                </Typography>
+                <Box
+                  component="input"
+                  disabled
+                  type="number"
+                  value={Number(currentBalance) + Number(earned_award)}
+                  sx={{
+                    mt: { xs: '10px', md: '0px' },
+                    width: { xs: '100%', md: '70%' },
+                    height: '47px',
+                    border: '#8F8F8F solid 0.2px',
+                    bgcolor: '#F8F9F8',
+                    borderRadius: '10px',
+                    color: '#666666',
+                    px: '13px',
+                    boxShadow: '0px 3px 20px 0px #0000001A',
+                    '&:focus': {
+                      outline: 'none',
+                    },
+                  }}
+                />
+              </Box>
 
-            <Button
+              <Button
+                sx={{
+                  width: { xs: '100%', md: '150px' },
+                  padding: '10px',
+                  borderRadius: '20px',
+                  mt: '50px',
+                  alignSelf: 'flex-end',
+                }}
+                variant="contained"
+                onClick={saveStake}
+              >
+                <Typography
+                  sx={{
+                    color: '#fff',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    textAlign: 'center',
+                  }}
+                >
+                  Save
+                </Typography>
+              </Button>
+            </Box>
+          ) : (
+            <Box
               sx={{
-                width: { xs: '100%', md: '150px' },
-                padding: '10px',
-                borderRadius: '20px',
-                mt: '50px',
-                alignSelf: 'flex-end',
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                alignItems: 'center',
+                width: '100%',
+                height: '100%',
               }}
-              variant="contained"
-              onClick={saveStake}
             >
               <Typography
                 sx={{
-                  color: '#fff',
+                  color: '#777',
+                  fontSize: '18px',
                   fontWeight: '600',
-                  fontSize: '14px',
-                  textAlign: 'center',
                 }}
               >
-                Save
+                Insufficient Token Balance
               </Typography>
-            </Button>
-          </Box>
+            </Box>
+          )}
         </Grid>
       </Grid>
     </Box>

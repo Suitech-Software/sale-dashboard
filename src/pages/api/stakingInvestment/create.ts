@@ -66,6 +66,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           is_active: true,
           staking_at: Date.now(),
           unstaking_at,
+          description: 'In Staking',
         })) as StakingInvestmentDocument;
 
       stakingStage.used_round_supply += stakingInvestment.staked_token_amount;
