@@ -11,125 +11,78 @@ import {
   TransferTokenWithReferralType,
 } from '@/types/Token';
 import { useRouter } from 'next/router';
-
-interface Props {
-  walletAddress: string;
-  setWalletAddress: Function;
-  currentNetwork: string;
-  setCurrentNetwork: Function;
-  changeNetwork: Function;
-  disconnectMetamask: Function;
-  amountOfPay: string;
-  setAmountOfPay: Function;
-  amountOfReceive: string;
-  setAmountOfReceive: Function;
-  currentToken: string;
-  setCurrentToken: Function;
-  currentStage: any;
-  currentTokenRef: any;
-}
-
-const HomePage: React.FC<Props> = ({
-  setWalletAddress,
-  walletAddress,
-  currentNetwork,
-  setCurrentNetwork,
-  changeNetwork,
-  disconnectMetamask,
-  amountOfPay,
+import { detectMetamask, getAmountOfReceiveToken } from '../lib/general';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store/index';
+import {
+  GeneralValueType,
   setAmountOfPay,
-  amountOfReceive,
   setAmountOfReceive,
-  currentToken,
+  setCurrentNetwork,
   setCurrentToken,
-  currentStage,
-  currentTokenRef,
-}: Props) => {
+} from '../store/slices/generalSlice';
+import {
+  useWeb3Modal,
+  useWeb3ModalProvider,
+  useWeb3ModalAccount,
+} from '@web3modal/ethers/react';
+
+interface Props {}
+
+const HomePage: React.FC<Props> = ({}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [nextStage, setNextStage] = useState<any>({});
+
+  const generalValues: GeneralValueType = useSelector(
+    (state: RootState) => state.general.value
+  ) as GeneralValueType;
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const router = useRouter();
 
   const payRef = useRef<HTMLInputElement>(null);
 
+  const { open } = useWeb3Modal();
+  const { address, chainId, isConnected } = useWeb3ModalAccount();
+  const { walletProvider } = useWeb3ModalProvider();
+
+  useEffect(() => {
+    if (chainId === 1 || chainId === 11155111 || chainId === 5) {
+      dispatch(setCurrentNetwork('eth'));
+      dispatch(setCurrentToken('ethereum'));
+    } else if (chainId === 56 || chainId === 97) {
+      dispatch(setCurrentNetwork('bsc'));
+      dispatch(setCurrentToken('binancecoin'));
+    }
+    detectMetamask(generalValues.walletAddress, dispatch);
+    dispatch(setAmountOfPay('0'));
+    dispatch(setAmountOfReceive('0'));
+  }, [chainId]);
+
   useEffect(() => {
     returnNextStagePrice();
   }, []);
 
-  const connectWallet = async () => {
-    try {
-      // @ts-ignore
-      await window.ethereum.request({
-        method: 'wallet_requestPermissions',
-        params: [
-          {
-            eth_accounts: {},
-          },
-        ],
-      });
-
-      // @ts-ignore
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts',
-      });
-
-      setWalletAddress(accounts[0]);
-      if (currentNetwork === 'eth') {
-        changeNetwork(
-          process.env.NODE_ENV === 'development' ? '0xaa36a7' : '0x1'
-        );
-      } else {
-        changeNetwork(process.env.NODE_ENV === 'development' ? '0x61' : '0x38');
-      }
-    } catch (error) {
-      console.log('Error connecting...');
-    }
-  };
-
-  // tether
-  // usd-coin
-  // binancecoin
-  // ethereum
-  const getAmountOfReceiveToken = async () => {
-    if (payRef.current && currentTokenRef.current) {
-      if (payRef.current.value !== '' && payRef.current.value !== '0') {
-        const res = await fetch(
-          'https://api.coingecko.com/api/v3/simple/price?ids='.concat(
-            currentTokenRef.current,
-            '&vs_currencies=usd'
-          )
-        );
-        const data = await res.json();
-        // let a = '';
-        // if (currentTokenRef.current == 'tether') {
-        //   a = '2';
-        // } else if (currentTokenRef.current == 'ethereum') {
-        //   a = '2570.72';
-        // } else if (currentTokenRef.current == 'usd-coin') {
-        //   a = '1';
-        // } else if (currentTokenRef.current == 'binancecoin') {
-        //   a = '302.42';
-        // }
-        const aOfReceive =
-          (Number(payRef.current.value) * data[currentTokenRef.current]?.usd) /
-          Number(currentStage?.['Token Price'].replace('$', ''));
-
-        setAmountOfReceive(aOfReceive);
-      } else {
-        setAmountOfReceive('0');
-      }
-    }
-  };
+  useEffect(() => {
+    if (generalValues.amountOfPay !== '0')
+      getAmountOfReceiveToken(
+        payRef,
+        generalValues.currentToken,
+        generalValues.currentStage,
+        dispatch
+      );
+  }, [generalValues.currentToken, generalValues.amountOfPay]);
 
   const saveTransfer = async () => {
     const transferData: CreateType = {
-      amountOfPay,
-      amountOfReceive: amountOfReceive.toString(),
-      currentNetwork,
-      currentToken,
-      stage: currentStage?.Stage,
-      tokenPrice: currentStage?.['Token Price'],
-      userWallet: walletAddress,
+      amountOfPay: generalValues.amountOfPay,
+      amountOfReceive: generalValues.amountOfReceive.toString(),
+      currentNetwork: generalValues.currentNetwork,
+      currentToken: generalValues.currentToken,
+      stage: generalValues.currentStage?.Stage,
+      tokenPrice: generalValues.currentStage?.['Token Price'],
+      userWallet: generalValues.walletAddress,
     };
     const res = await fetch('/api/transfer/create', {
       method: 'POST',
@@ -143,12 +96,12 @@ const HomePage: React.FC<Props> = ({
 
     if (res.ok) {
       toast.success(data.message);
-      setAmountOfPay('0');
-      setAmountOfReceive('0');
+      dispatch(setAmountOfPay('0'));
+      dispatch(setAmountOfReceive('0'));
 
       const transferTokenD: TransferTokenType = {
         transferId: data.transferId,
-        userWallet: walletAddress,
+        userWallet: generalValues.walletAddress,
       };
 
       const isBonusActive = process.env.NEXT_PUBLIC_IS_BONUS_ACTIVE;
@@ -157,7 +110,7 @@ const HomePage: React.FC<Props> = ({
         const transferTokenDForReferral: TransferTokenWithReferralType = {
           transferId: data.transferId,
           hash: (router.query.hash as string) ?? '',
-          userWallet: walletAddress,
+          userWallet: generalValues.walletAddress,
         };
 
         const resOfToken = await fetch(
@@ -236,7 +189,7 @@ const HomePage: React.FC<Props> = ({
   };
 
   const returnNextStagePrice = async () => {
-    const cur_stage = currentStage['Stage'].match(/\d+/);
+    const cur_stage = generalValues.currentStage['Stage'].match(/\d+/);
 
     const ns = defaultStages.filter((defaultStage) =>
       defaultStage.Stage.includes((Number(cur_stage) + 1).toString())
@@ -248,7 +201,7 @@ const HomePage: React.FC<Props> = ({
   function calculateRemainingTime() {
     const now = new Date();
     const end = new Date(
-      new Date(currentStage.Date.split(' - ')[1] + ', 2024')
+      new Date(generalValues.currentStage?.Date?.split(' - ')[1] + ', 2024')
     );
 
     // @ts-ignore
@@ -284,12 +237,12 @@ const HomePage: React.FC<Props> = ({
 
   function calculateTotalTimeInSeconds() {
     const start = new Date(
-      new Date(currentStage.Date.split(' - ')[0] + ', 2024')
+      new Date(generalValues.currentStage?.Date?.split(' - ')[0] + ', 2024')
     );
 
     const now = new Date();
     const end = new Date(
-      new Date(currentStage.Date.split(' - ')[1] + ', 2024')
+      new Date(generalValues.currentStage?.Date?.split(' - ')[1] + ', 2024')
     );
 
     //@ts-ignore
@@ -406,7 +359,7 @@ const HomePage: React.FC<Props> = ({
               color: 'white',
             }}
           >
-            {currentStage['Stage']}
+            {generalValues.currentStage['Stage']}
           </Typography>
           <Typography
             sx={{
@@ -416,7 +369,7 @@ const HomePage: React.FC<Props> = ({
               fontWeight: '600',
             }}
           >
-            {currentStage['Token Amount']}
+            {generalValues.currentStage['Token Amount']}
           </Typography>
           <Typography
             sx={{
@@ -426,7 +379,8 @@ const HomePage: React.FC<Props> = ({
               color: 'white',
             }}
           >
-            1 TXP = ${currentStage['Token Price'].replace('$', '')}
+            1 TXP = $
+            {generalValues.currentStage['Token Price']?.replace('$', '')}
           </Typography>
         </Box>
 
@@ -447,24 +401,8 @@ const HomePage: React.FC<Props> = ({
             },
           }}
           onClick={() => {
-            if (walletAddress) {
-              if (currentNetwork === 'eth') {
-                changeNetwork(
-                  process.env.NODE_ENV === 'development' ? '0x61' : '0x38'
-                );
-                setCurrentNetwork('bsc');
-              } else {
-                changeNetwork(
-                  process.env.NODE_ENV === 'development' ? '0xaa36a7' : '0x1'
-                );
-                setCurrentNetwork('eth');
-              }
-            } else {
-              if (currentNetwork === 'eth') {
-                setCurrentNetwork('bsc');
-              } else {
-                setCurrentNetwork('eth');
-              }
+            if (generalValues.walletAddress) {
+              open({ view: 'Networks' });
             }
           }}
         >
@@ -475,12 +413,15 @@ const HomePage: React.FC<Props> = ({
               color: 'white',
             }}
           >
-            {currentNetwork === 'bsc' ? 'Switch to ETH' : 'Switch to BSC'}
+            {generalValues.currentNetwork === 'bsc'
+              ? 'Switch to ETH'
+              : 'Switch to BSC'}
           </Typography>
-          {currentNetwork === 'eth' ? (
+          {generalValues.currentNetwork === 'eth' ? (
             <Image
               style={{
                 marginLeft: '10px',
+                objectFit: 'contain',
               }}
               src="/bnb-logo.png"
               alt="BNB Logo"
@@ -491,6 +432,7 @@ const HomePage: React.FC<Props> = ({
             <Image
               style={{
                 marginLeft: '10px',
+                objectFit: 'contain',
               }}
               src="/ethereum.png"
               alt="ETH Logo"
@@ -507,12 +449,14 @@ const HomePage: React.FC<Props> = ({
             mt: '10px',
           }}
         >
-          {currentNetwork === 'bsc' ? (
+          {generalValues.currentNetwork === 'bsc' ? (
             <>
               <Grid item xs={6}>
                 <Button
                   variant={
-                    currentToken === 'binancecoin' ? 'contained' : 'outlined'
+                    generalValues.currentToken === 'binancecoin'
+                      ? 'contained'
+                      : 'outlined'
                   }
                   sx={{
                     display: 'flex',
@@ -523,33 +467,38 @@ const HomePage: React.FC<Props> = ({
                     height: '40px',
                     borderRadius: '10px',
                     border:
-                      currentToken === 'binancecoin'
+                      generalValues.currentToken === 'binancecoin'
                         ? '#7c3aed 1px solid'
                         : '#f3f3f3 1px solid',
                     backgroundColor:
-                      currentToken === 'binancecoin' ? '#7c3aed' : '',
+                      generalValues.currentToken === 'binancecoin'
+                        ? '#7c3aed'
+                        : '',
                     '&:hover': {
                       border:
-                        currentToken === 'binancecoin'
+                        generalValues.currentToken === 'binancecoin'
                           ? '#7c3aed 1px solid'
                           : 'white 2px solid',
                       backgroundColor:
-                        currentToken === 'binancecoin' ? '#7c3aed' : '',
+                        generalValues.currentToken === 'binancecoin'
+                          ? '#7c3aed'
+                          : '',
                       '*': {
                         color:
-                          currentToken === 'binancecoin' ? 'white' : 'white',
+                          generalValues.currentToken === 'binancecoin'
+                            ? 'white'
+                            : 'white',
                       },
                     },
                   }}
                   onClick={() => {
-                    setCurrentToken('binancecoin');
-                    currentTokenRef.current = 'binancecoin';
-                    if (amountOfPay !== '0') getAmountOfReceiveToken();
+                    dispatch(setCurrentToken('binancecoin'));
                   }}
                 >
                   <Image
                     style={{
                       marginRight: '10px',
+                      objectFit: 'contain',
                     }}
                     src="/bnb-logo.png"
                     alt="BNB Logo"
@@ -560,7 +509,10 @@ const HomePage: React.FC<Props> = ({
                     sx={{
                       fontSize: '15px',
                       fontWeight: '600',
-                      color: currentToken === 'binancecoin' ? 'white' : 'white',
+                      color:
+                        generalValues.currentToken === 'binancecoin'
+                          ? 'white'
+                          : 'white',
                     }}
                   >
                     BNB
@@ -570,7 +522,9 @@ const HomePage: React.FC<Props> = ({
               <Grid item xs={6}>
                 <Button
                   variant={
-                    currentToken === 'ethereum' ? 'contained' : 'outlined'
+                    generalValues.currentToken === 'ethereum'
+                      ? 'contained'
+                      : 'outlined'
                   }
                   sx={{
                     display: 'flex',
@@ -581,32 +535,38 @@ const HomePage: React.FC<Props> = ({
                     height: '40px',
                     borderRadius: '10px',
                     border:
-                      currentToken === 'ethereum'
+                      generalValues.currentToken === 'ethereum'
                         ? '#7c3aed 1px solid'
                         : '#f3f3f3 1px solid',
                     backgroundColor:
-                      currentToken === 'ethereum' ? '#7c3aed' : '',
+                      generalValues.currentToken === 'ethereum'
+                        ? '#7c3aed'
+                        : '',
                     '&:hover': {
                       border:
-                        currentToken === 'ethereum'
+                        generalValues.currentToken === 'ethereum'
                           ? '#7c3aed 1px solid'
                           : 'white 2px solid',
                       backgroundColor:
-                        currentToken === 'ethereum' ? '#7c3aed' : '',
+                        generalValues.currentToken === 'ethereum'
+                          ? '#7c3aed'
+                          : '',
                       '*': {
-                        color: currentToken === 'ethereum' ? 'white' : 'white',
+                        color:
+                          generalValues.currentToken === 'ethereum'
+                            ? 'white'
+                            : 'white',
                       },
                     },
                   }}
                   onClick={() => {
-                    setCurrentToken('ethereum');
-                    currentTokenRef.current = 'ethereum';
-                    if (amountOfPay !== '0') getAmountOfReceiveToken();
+                    dispatch(setCurrentToken('ethereum'));
                   }}
                 >
                   <Image
                     style={{
                       marginRight: '10px',
+                      objectFit: 'contain',
                     }}
                     src="/ethereum.png"
                     alt="Ethereum Logo"
@@ -617,7 +577,10 @@ const HomePage: React.FC<Props> = ({
                     sx={{
                       fontSize: '15px',
                       fontWeight: '600',
-                      color: currentToken === 'ethereum' ? 'white' : 'white',
+                      color:
+                        generalValues.currentToken === 'ethereum'
+                          ? 'white'
+                          : 'white',
                     }}
                   >
                     ETH
@@ -629,7 +592,8 @@ const HomePage: React.FC<Props> = ({
             <Grid item xs={12}>
               <Button
                 variant={
-                  currentToken === 'ethereum' || currentToken === 'binancecoin'
+                  generalValues.currentToken === 'ethereum' ||
+                  generalValues.currentToken === 'binancecoin'
                     ? 'contained'
                     : 'outlined'
                 }
@@ -642,51 +606,49 @@ const HomePage: React.FC<Props> = ({
                   height: '40px',
                   borderRadius: '10px',
                   border:
-                    currentToken === 'ethereum' ||
-                    currentToken === 'binancecoin'
+                    generalValues.currentToken === 'ethereum' ||
+                    generalValues.currentToken === 'binancecoin'
                       ? '#7c3aed 1px solid'
                       : '#f3f3f3 1px solid',
                   backgroundColor:
-                    currentToken === 'ethereum' ||
-                    currentToken === 'binancecoin'
+                    generalValues.currentToken === 'ethereum' ||
+                    generalValues.currentToken === 'binancecoin'
                       ? '#7c3aed'
                       : '',
                   '&:hover': {
                     border:
-                      currentToken === 'ethereum' ||
-                      currentToken === 'binancecoin'
+                      generalValues.currentToken === 'ethereum' ||
+                      generalValues.currentToken === 'binancecoin'
                         ? '#7c3aed 1px solid'
                         : 'white 2px solid',
                     backgroundColor:
-                      currentToken === 'ethereum' ||
-                      currentToken === 'binancecoin'
+                      generalValues.currentToken === 'ethereum' ||
+                      generalValues.currentToken === 'binancecoin'
                         ? '#7c3aed'
                         : '',
                     '*': {
                       color:
-                        currentToken === 'ethereum' ||
-                        currentToken === 'binancecoin'
+                        generalValues.currentToken === 'ethereum' ||
+                        generalValues.currentToken === 'binancecoin'
                           ? 'white'
                           : 'white',
                     },
                   },
                 }}
                 onClick={() => {
-                  if (currentNetwork === 'bsc') {
-                    setCurrentToken('binancecoin');
-                    currentTokenRef.current = 'binancecoin';
-                  } else if (currentNetwork === 'eth') {
-                    setCurrentToken('ethereum');
-                    currentTokenRef.current = 'ethereum';
+                  if (generalValues.currentNetwork === 'bsc') {
+                    dispatch(setCurrentToken('binancecoin'));
+                  } else if (generalValues.currentNetwork === 'eth') {
+                    dispatch(setCurrentToken('ethereum'));
                   }
-                  if (amountOfPay !== '0') getAmountOfReceiveToken();
                 }}
               >
-                {currentNetwork === 'bsc' ? (
+                {generalValues.currentNetwork === 'bsc' ? (
                   <>
                     <Image
                       style={{
                         marginRight: '10px',
+                        objectFit: 'contain',
                       }}
                       src="/bnb-logo.png"
                       alt="BNB Logo"
@@ -698,8 +660,8 @@ const HomePage: React.FC<Props> = ({
                         fontSize: '15px',
                         fontWeight: '600',
                         color:
-                          currentToken === 'ethereum' ||
-                          currentToken === 'binancecoin'
+                          generalValues.currentToken === 'ethereum' ||
+                          generalValues.currentToken === 'binancecoin'
                             ? 'white'
                             : 'white',
                       }}
@@ -712,6 +674,7 @@ const HomePage: React.FC<Props> = ({
                     <Image
                       style={{
                         marginRight: '10px',
+                        objectFit: 'contain',
                       }}
                       src="/ethereum.png"
                       alt="Ethereum Logo"
@@ -723,8 +686,8 @@ const HomePage: React.FC<Props> = ({
                         fontSize: '15px',
                         fontWeight: '600',
                         color:
-                          currentToken === 'ethereum' ||
-                          currentToken === 'binancecoin'
+                          generalValues.currentToken === 'ethereum' ||
+                          generalValues.currentToken === 'binancecoin'
                             ? 'white'
                             : 'white',
                       }}
@@ -738,7 +701,11 @@ const HomePage: React.FC<Props> = ({
           )}
           <Grid item xs={6}>
             <Button
-              variant={currentToken === 'tether' ? 'contained' : 'outlined'}
+              variant={
+                generalValues.currentToken === 'tether'
+                  ? 'contained'
+                  : 'outlined'
+              }
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -748,31 +715,34 @@ const HomePage: React.FC<Props> = ({
                 height: '40px',
                 borderRadius: '10px',
                 border:
-                  currentToken === 'tether'
+                  generalValues.currentToken === 'tether'
                     ? '#7c3aed 1px solid'
                     : '#f3f3f3 1px solid',
-                backgroundColor: currentToken === 'tether' ? '#7c3aed' : '',
+                backgroundColor:
+                  generalValues.currentToken === 'tether' ? '#7c3aed' : '',
                 '&:hover': {
                   border:
-                    currentToken === 'tether'
+                    generalValues.currentToken === 'tether'
                       ? '#7c3aed 1px solid'
                       : 'white 2px solid',
-                  backgroundColor: currentToken === 'tether' ? '#7c3aed' : '',
+                  backgroundColor:
+                    generalValues.currentToken === 'tether' ? '#7c3aed' : '',
                   '*': {
-                    color: currentToken === 'tether' ? 'white' : 'white',
+                    color:
+                      generalValues.currentToken === 'tether'
+                        ? 'white'
+                        : 'white',
                   },
                 },
               }}
               onClick={() => {
-                setCurrentToken('tether');
-                currentTokenRef.current = 'tether';
-
-                if (amountOfPay !== '0') getAmountOfReceiveToken();
+                dispatch(setCurrentToken('tether'));
               }}
             >
               <Image
                 style={{
                   marginRight: '10px',
+                  objectFit: 'contain',
                 }}
                 src="/usdt-logo.png"
                 alt="USDT Logo"
@@ -783,7 +753,8 @@ const HomePage: React.FC<Props> = ({
                 sx={{
                   fontSize: '15px',
                   fontWeight: '600',
-                  color: currentToken === 'tether' ? 'white' : 'white',
+                  color:
+                    generalValues.currentToken === 'tether' ? 'white' : 'white',
                 }}
               >
                 USDT
@@ -792,7 +763,11 @@ const HomePage: React.FC<Props> = ({
           </Grid>
           <Grid item xs={6}>
             <Button
-              variant={currentToken === 'usd-coin' ? 'contained' : 'outlined'}
+              variant={
+                generalValues.currentToken === 'usd-coin'
+                  ? 'contained'
+                  : 'outlined'
+              }
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -802,31 +777,34 @@ const HomePage: React.FC<Props> = ({
                 height: '40px',
                 borderRadius: '10px',
                 border:
-                  currentToken === 'usd-coin'
+                  generalValues.currentToken === 'usd-coin'
                     ? '#7c3aed 1px solid'
                     : '#f3f3f3 1px solid',
-                backgroundColor: currentToken === 'usd-coin' ? '#7c3aed' : '',
+                backgroundColor:
+                  generalValues.currentToken === 'usd-coin' ? '#7c3aed' : '',
                 '&:hover': {
                   border:
-                    currentToken === 'usd-coin'
+                    generalValues.currentToken === 'usd-coin'
                       ? '#7c3aed 1px solid'
                       : 'white 2px solid',
-                  backgroundColor: currentToken === 'usd-coin' ? '#7c3aed' : '',
+                  backgroundColor:
+                    generalValues.currentToken === 'usd-coin' ? '#7c3aed' : '',
                   '*': {
-                    color: currentToken === 'usd-coin' ? 'white' : 'white',
+                    color:
+                      generalValues.currentToken === 'usd-coin'
+                        ? 'white'
+                        : 'white',
                   },
                 },
               }}
               onClick={() => {
-                setCurrentToken('usd-coin');
-                currentTokenRef.current = 'usd-coin';
-
-                if (amountOfPay !== '0') getAmountOfReceiveToken();
+                dispatch(setCurrentToken('usd-coin'));
               }}
             >
               <Image
                 style={{
                   marginRight: '10px',
+                  objectFit: 'contain',
                 }}
                 src="/usdc-logo.png"
                 alt="USDC Logo"
@@ -837,7 +815,10 @@ const HomePage: React.FC<Props> = ({
                 sx={{
                   fontSize: '15px',
                   fontWeight: '600',
-                  color: currentToken === 'usd-coin' ? 'white' : 'white',
+                  color:
+                    generalValues.currentToken === 'usd-coin'
+                      ? 'white'
+                      : 'white',
                 }}
               >
                 USDC
@@ -866,10 +847,9 @@ const HomePage: React.FC<Props> = ({
               component="input"
               ref={payRef}
               type="number"
-              value={amountOfPay}
+              value={generalValues.amountOfPay}
               onChange={(e) => {
-                setAmountOfPay(e.target.value);
-                getAmountOfReceiveToken();
+                dispatch(setAmountOfPay(e.target.value));
               }}
               sx={{
                 width: '85%',
@@ -898,13 +878,16 @@ const HomePage: React.FC<Props> = ({
                 alignItems: 'center',
               }}
             >
-              {currentNetwork === 'bsc' ? (
+              {generalValues.currentNetwork === 'bsc' ? (
                 <Box>
                   <Image
                     src="/bnb-logo.png"
                     alt="BNB Logo"
                     width={22}
                     height={22}
+                    style={{
+                      objectFit: 'contain',
+                    }}
                   />
                 </Box>
               ) : (
@@ -914,6 +897,9 @@ const HomePage: React.FC<Props> = ({
                     alt="Ethereum Logo"
                     width={22}
                     height={22}
+                    style={{
+                      objectFit: 'contain',
+                    }}
                   />
                 </Box>
               )}
@@ -934,8 +920,10 @@ const HomePage: React.FC<Props> = ({
             <Box
               component="input"
               type="number"
-              value={amountOfReceive}
-              onChange={(e) => setAmountOfReceive(e.target.value)}
+              value={generalValues.amountOfReceive}
+              onChange={(e) => {
+                dispatch(setAmountOfReceive(e.target.value));
+              }}
               disabled
               sx={{
                 width: '85%',
@@ -965,7 +953,15 @@ const HomePage: React.FC<Props> = ({
               }}
             >
               <Box>
-                <Image src="/next.svg" alt="BNB Logo" width={22} height={22} />
+                <Image
+                  src="/main.png"
+                  alt="BNB Logo"
+                  width={25}
+                  height={25}
+                  style={{
+                    objectFit: 'contain',
+                  }}
+                />
               </Box>
             </Box>
           </Box>
@@ -990,19 +986,25 @@ const HomePage: React.FC<Props> = ({
           }}
           onClick={async () => {
             setIsLoading(true);
-            if (walletAddress) {
-              if (amountOfPay !== '0') {
-                const result = await sendToken(
-                  Number(amountOfPay),
-                  currentNetwork,
-                  currentTokenRef.current
-                );
-                if (result) await saveTransfer();
+            if (isConnected) {
+              if (generalValues.walletAddress) {
+                if (generalValues.amountOfPay !== '0') {
+                  const result = await sendToken(
+                    address,
+                    Number(generalValues.amountOfPay),
+                    generalValues.currentNetwork,
+                    generalValues.currentToken,
+                    walletProvider
+                  );
+                  if (result) await saveTransfer();
+                } else {
+                  toast.info('You have to enter amount of pay');
+                }
               } else {
-                toast.info('You have to enter amount of pay');
+                toast.info('Please connect your wallet');
               }
             } else {
-              connectWallet();
+              toast.info('Please connect your wallet');
             }
             setIsLoading(false);
           }}
@@ -1010,7 +1012,7 @@ const HomePage: React.FC<Props> = ({
           {isLoading ? (
             <CircularProgress size={25} sx={{ color: '#f3f3f3' }} />
           ) : (
-            <> {walletAddress ? 'Buy now' : 'Connect Wallet'}</>
+            <>Buy now</>
           )}
         </Button>
       </Box>

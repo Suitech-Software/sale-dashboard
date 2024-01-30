@@ -7,20 +7,18 @@ import bscUSDCContract from '@/contracts/bsc_usdc_contract.json';
 import bscETHContract from '@/contracts/bsc_eth_contract.json';
 import { toast } from 'react-toastify';
 import { BigNumber } from 'bignumber.js';
+import { BrowserProvider, ethers } from 'ethers';
 
 export const sendToken = async (
+  address: any,
   value: number,
   currentNetwork: string,
-  currentToken: string
+  currentToken: string,
+  walletProvider: any
 ) => {
   try {
     if (get(window, 'ethereum')) {
-      const ethereum = get(window, 'ethereum') as any;
-      const accounts = await ethereum.request({
-        method: 'eth_requestAccounts',
-      });
-
-      if (accounts[0]) {
+      if (address) {
         const wallet = process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS;
         const privateKey =
           process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS_PRIVATE_KEY;
@@ -40,6 +38,9 @@ export const sendToken = async (
           }
         }
 
+        const ethersProvider = new BrowserProvider(walletProvider);
+        const signer = await ethersProvider.getSigner();
+
         if (currentNetwork === 'bsc') {
           if (currentToken === 'tether') {
             const web3 = new Web3(provider);
@@ -50,7 +51,7 @@ export const sendToken = async (
 
             const balance = await contract.methods
               // @ts-ignore
-              .balanceOf(accounts[0])
+              .balanceOf(address)
               .call();
             const decimals = await contract.methods.decimals().call();
 
@@ -68,13 +69,13 @@ export const sendToken = async (
 
               const tx = {
                 to: '0x55d398326f99059fF775485246999027B3197955',
-                from: accounts[0],
+                from: address,
                 data: data,
               } as any;
 
               const gas = await web3.eth.estimateGas(tx);
               const gasPrice = await web3.eth.getGasPrice();
-              const nonce = await web3.eth.getTransactionCount(accounts[0]);
+              const nonce = await web3.eth.getTransactionCount(address);
 
               tx.gas = web3.utils.toHex(gas);
               tx.gasPrice = web3.utils.toHex(gasPrice);
@@ -102,7 +103,7 @@ export const sendToken = async (
 
             const balance = await contract.methods
               // @ts-ignore
-              .balanceOf(accounts[0])
+              .balanceOf(address)
               .call();
             const decimals = await contract.methods.decimals().call();
 
@@ -120,13 +121,13 @@ export const sendToken = async (
 
               const tx = {
                 to: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
-                from: accounts[0],
+                from: address,
                 data: data,
               } as any;
 
               const gas = await web3.eth.estimateGas(tx);
               const gasPrice = await web3.eth.getGasPrice();
-              const nonce = await web3.eth.getTransactionCount(accounts[0]);
+              const nonce = await web3.eth.getTransactionCount(address);
 
               tx.gas = web3.utils.toHex(gas);
               tx.gasPrice = web3.utils.toHex(gasPrice);
@@ -145,20 +146,16 @@ export const sendToken = async (
               toast.info('Your balance is not enough');
             }
           } else if (currentToken === 'binancecoin') {
-            const amount = Web3.utils.toWei(value.toString(), 'ether');
+            const amount = ethers.parseUnits(value.toString(), 18);
 
-            await ethereum.request({
-              method: 'eth_sendTransaction',
-              params: [
-                {
-                  from: accounts[0],
-                  to: wallet,
-                  value: Number(amount).toString(16),
-                  gas: 32000,
-                  gasPrice: '32000',
-                },
-              ],
+            await signer.sendTransaction({
+              from: address,
+              to: wallet,
+              value: amount,
+              gasLimit: 32000,
+              gasPrice: '32000',
             });
+
             return true;
           } else if (currentToken === 'ethereum') {
             const web3 = new Web3(provider);
@@ -170,7 +167,7 @@ export const sendToken = async (
 
             const balance = await contract.methods
               // @ts-ignore
-              .balanceOf(accounts[0])
+              .balanceOf(address)
               .call();
             const decimals = await contract.methods.decimals().call();
 
@@ -188,13 +185,13 @@ export const sendToken = async (
 
               const tx = {
                 to: '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
-                from: accounts[0],
+                from: address,
                 data: data,
               } as any;
 
               const gas = await web3.eth.estimateGas(tx);
               const gasPrice = await web3.eth.getGasPrice();
-              const nonce = await web3.eth.getTransactionCount(accounts[0]);
+              const nonce = await web3.eth.getTransactionCount(address);
 
               tx.gas = web3.utils.toHex(gas);
               tx.gasPrice = web3.utils.toHex(gasPrice);
@@ -225,7 +222,7 @@ export const sendToken = async (
 
             const balance = await contract.methods
               // @ts-ignore
-              .balanceOf(accounts[0])
+              .balanceOf(address)
               .call();
             const decimals = await contract.methods.decimals().call();
 
@@ -243,13 +240,13 @@ export const sendToken = async (
 
               const tx = {
                 to: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-                from: accounts[0],
+                from: address,
                 data: data,
               } as any;
 
               const gas = await web3.eth.estimateGas(tx);
               const gasPrice = await web3.eth.getGasPrice();
-              const nonce = await web3.eth.getTransactionCount(accounts[0]);
+              const nonce = await web3.eth.getTransactionCount(address);
 
               tx.gas = web3.utils.toHex(gas);
               tx.gasPrice = web3.utils.toHex(gasPrice);
@@ -277,7 +274,7 @@ export const sendToken = async (
 
             const balance = await contract.methods
               // @ts-ignore
-              .balanceOf(accounts[0])
+              .balanceOf(address)
               .call();
             const decimals = await contract.methods.decimals().call();
 
@@ -295,13 +292,13 @@ export const sendToken = async (
 
               const tx = {
                 to: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-                from: accounts[0],
+                from: address,
                 data: data,
               } as any;
 
               const gas = await web3.eth.estimateGas(tx);
               const gasPrice = await web3.eth.getGasPrice();
-              const nonce = await web3.eth.getTransactionCount(accounts[0]);
+              const nonce = await web3.eth.getTransactionCount(address);
 
               tx.gas = web3.utils.toHex(gas);
               tx.gasPrice = web3.utils.toHex(gasPrice);
@@ -320,20 +317,16 @@ export const sendToken = async (
               toast.info('Your balance is not enough');
             }
           } else if (currentToken === 'ethereum') {
-            const amount = Web3.utils.toWei(value.toString(), 'ether');
+            const amount = ethers.parseUnits(value.toString(), 18);
 
-            await ethereum.request({
-              method: 'eth_sendTransaction',
-              params: [
-                {
-                  from: accounts[0],
-                  to: wallet,
-                  value: Number(amount).toString(16),
-                  gas: 32000,
-                  gasPrice: '32000',
-                },
-              ],
+            await signer.sendTransaction({
+              from: address,
+              to: wallet,
+              value: amount,
+              gasLimit: 32000,
+              gasPrice: '32000',
             });
+
             return true;
           }
         }
@@ -344,7 +337,18 @@ export const sendToken = async (
       }
     }
   } catch (error: any) {
-    toast.error(error.message);
+    console.log(error.message.includes('user reject'));
+    if (error.message.includes('user reject')) {
+      toast.info('You rejected it');
+    } else if (
+      error.message.includes(
+        "Parameter decoding error: Returned values aren't valid, did it run Out of Gas? You might also see this error if you are not using the correct ABI for the contract you are retrieving data from, requesting data from a block number that does not exist, or querying a node which is not fully synced."
+      )
+    ) {
+      toast.error('There is a problem about contract ABIs');
+    } else {
+      toast.error(error.message);
+    }
     return false;
   }
 };

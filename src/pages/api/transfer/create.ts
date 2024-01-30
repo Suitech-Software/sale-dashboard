@@ -13,7 +13,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         ...transferData,
       })) as TransferDocument;
 
-      return res.status(200).json({
+      return res.status(201).json({
         message: 'Transfer successfully saved',
         transferId: transfer._id,
       });

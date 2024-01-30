@@ -10,7 +10,7 @@ export const createReferralSchema = object({
 });
 
 export const getReferralSchema = object({
-  body: object({
+  query: object({
     userWallet: string({ required_error: 'User Wallet is required' }),
   }),
 });

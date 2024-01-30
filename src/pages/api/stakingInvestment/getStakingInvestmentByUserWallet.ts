@@ -1,21 +1,27 @@
 import { NextApiResponse, NextApiRequest } from 'next';
 import validateResource from '@/server/middlewares/validateResource';
-import referralModel, { ReferralDocument } from '@/server/models/referralModel';
-import { getReferralSchema } from '@/server/schemas/referralSchema';
+import stakingInvestmentModel, {
+  StakingInvestmentDocument,
+} from '@/server/models/stakingInvestmentModel';
+import { getStakingInvestmentSchema } from '@/server/schemas/stakingInvestmentSchema';
 import { get } from 'lodash';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     try {
-      const referral: ReferralDocument = (await referralModel.findOne({
-        userWallet: get(req.query, 'userWallet') as string,
-      })) as ReferralDocument;
-
-      const referralURL = `${process.env.NEXT_PUBLIC_UI_URL}/referral?hash=${referral.hash}`;
+      const stakingInvestment = await stakingInvestmentModel
+        .findOne({
+          userWallet: get(req.query, 'userWallet') as string,
+          is_active: true,
+        })
+        .populate({
+          path: 'staking_stage',
+          select: 'name reward_percentage duration',
+        });
 
       return res.status(200).json({
-        message: 'Referral successfully returned',
-        referralURL: referralURL,
+        message: 'Staking Investment successfully returned',
+        stakingInvestment: stakingInvestment,
       });
     } catch (err: any) {
       if (err.status) {
@@ -39,4 +45,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default validateResource(handler, getReferralSchema);
+export default validateResource(handler, getStakingInvestmentSchema);

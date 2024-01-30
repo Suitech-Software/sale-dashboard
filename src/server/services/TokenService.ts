@@ -1,3 +1,4 @@
+import { Bytes } from 'web3';
 import Erc20Token from '../data/erc20';
 
 class TokenService {
@@ -27,6 +28,10 @@ class TokenService {
 
   async transfer(to: string, amount: number): Promise<void> {
     await this._erc20Token.transfer(to, amount);
+  }
+
+  async transferForClaim(to: string, amount: number): Promise<Bytes> {
+   return  await this._erc20Token.transferForClaim(to, amount);
   }
 
   async totalSupply(): Promise<number> {
