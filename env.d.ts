@@ -21,5 +21,7 @@ namespace NodeJS {
     NEXT_PUBLIC_UI_URL: string;
 
     NEXT_PUBLIC_BLOCK_TIME_PER_HOURS: string;
+
+    NEXT_PUBLIC_WEB3_MODAL_PROJECT_ID: string;
   }
 }

@@ -1,15 +1,18 @@
 import { Box, Button, Typography } from '@mui/material';
 import Image from 'next/image';
-import React from 'react';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import {
   GeneralValueType,
-  setOpenModal1,
+  setCurrentNetwork,
   setOpenModal2,
+  setWalletAddress,
 } from '@/store/slices/generalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
+import { detectMetamask } from '@/lib/general';
+import { useWeb3Modal } from '@web3modal/ethers/react';
+import { useWeb3ModalAccount } from '@web3modal/ethers/react';
 
 interface Props {}
 
@@ -41,11 +44,30 @@ const Header: React.FC<Props> = () => {
     },
   ];
 
+  const { open } = useWeb3Modal();
+  const { address, chainId } = useWeb3ModalAccount();
+
   const generalValues: GeneralValueType = useSelector(
     (state: RootState) => state.general.value
   ) as GeneralValueType;
 
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(setWalletAddress(address ?? ''));
+    detectMetamask(
+      address?.toString() ?? generalValues.walletAddress,
+      dispatch
+    );
+  }, [address]);
+
+  useEffect(() => {
+    if (chainId === 1 || chainId === 11155111 || chainId === 5) {
+      dispatch(setCurrentNetwork('eth'));
+    } else if (chainId === 56 || chainId === 97) {
+      dispatch(setCurrentNetwork('bsc'));
+    }
+  }, [chainId]);
 
   return (
     <Box
@@ -148,7 +170,7 @@ const Header: React.FC<Props> = () => {
           alignItems: 'center',
         }}
       >
-        {generalValues.walletAddress ? (
+        {generalValues?.walletAddress ? (
           <Box
             sx={{
               display: 'flex',
@@ -164,7 +186,7 @@ const Header: React.FC<Props> = () => {
                 alignItems: 'center',
                 height: '40px',
                 borderRadius: '10px',
-                border: 'none',
+                border: 'none !important',
                 '&:hover': {
                   border: 'none',
                 },
@@ -172,7 +194,7 @@ const Header: React.FC<Props> = () => {
                   fill: 'white',
                 },
               }}
-              onClick={() => dispatch(setOpenModal1(true))}
+              disabled
             >
               {generalValues.currentNetwork === 'bsc' ? (
                 <Image
@@ -197,7 +219,6 @@ const Header: React.FC<Props> = () => {
                   height={30}
                 />
               )}
-              <ArrowDropDownIcon />
             </Button>
             <Button
               variant="contained"
@@ -250,9 +271,11 @@ const Header: React.FC<Props> = () => {
               boxShadow: 'none',
             },
           }}
-          onClick={async () => {}}
+          onClick={() => {
+            open();
+          }}
         >
-          Launch
+          {generalValues.walletAddress ? 'Wallet' : 'Connect'}
         </Button>
       </Box>
     </Box>

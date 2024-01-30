@@ -15,7 +15,6 @@ export interface GeneralValueType {
   amountOfPay: string;
   amountOfReceive: string;
   currentStage: CurrentStageType;
-  openModal1: boolean;
   openModal2: boolean;
 }
 
@@ -37,7 +36,6 @@ const initialState: GeneralState = {
       'Token Amount': '',
       'Token Price': '',
     },
-    openModal1: false,
     openModal2: false,
   },
 };
@@ -67,9 +65,6 @@ const generalSlice = createSlice({
     setCurrentStage: (state, action) => {
       state.value.currentStage = action.payload;
     },
-    setOpenModal1: (state, action) => {
-      state.value.openModal1 = action.payload;
-    },
     setOpenModal2: (state, action) => {
       state.value.openModal2 = action.payload;
     },
@@ -84,7 +79,7 @@ export const {
   setAmountOfPay,
   setAmountOfReceive,
   setCurrentStage,
-  setOpenModal1,
   setOpenModal2,
 } = generalSlice.actions;
+
 export default generalSlice.reducer;

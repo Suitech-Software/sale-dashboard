@@ -11,7 +11,7 @@ import {
   TransferTokenWithReferralType,
 } from '@/types/Token';
 import { useRouter } from 'next/router';
-import { changeNetwork, getAmountOfReceiveToken } from '../lib/general';
+import { detectMetamask, getAmountOfReceiveToken } from '../lib/general';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/index';
 import {
@@ -21,7 +21,11 @@ import {
   setCurrentNetwork,
   setCurrentToken,
 } from '../store/slices/generalSlice';
-import { connectWallet } from '@/lib/general';
+import {
+  useWeb3Modal,
+  useWeb3ModalProvider,
+  useWeb3ModalAccount,
+} from '@web3modal/ethers/react';
 
 interface Props {}
 
@@ -38,6 +42,23 @@ const HomePage: React.FC<Props> = ({}: Props) => {
   const router = useRouter();
 
   const payRef = useRef<HTMLInputElement>(null);
+
+  const { open } = useWeb3Modal();
+  const { address, chainId, isConnected } = useWeb3ModalAccount();
+  const { walletProvider } = useWeb3ModalProvider();
+
+  useEffect(() => {
+    if (chainId === 1 || chainId === 11155111 || chainId === 5) {
+      dispatch(setCurrentNetwork('eth'));
+      dispatch(setCurrentToken('ethereum'));
+    } else if (chainId === 56 || chainId === 97) {
+      dispatch(setCurrentNetwork('bsc'));
+      dispatch(setCurrentToken('binancecoin'));
+    }
+    detectMetamask(generalValues.walletAddress, dispatch);
+    dispatch(setAmountOfPay('0'));
+    dispatch(setAmountOfReceive('0'));
+  }, [chainId]);
 
   useEffect(() => {
     returnNextStagePrice();
@@ -381,29 +402,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
           }}
           onClick={() => {
             if (generalValues.walletAddress) {
-              if (generalValues.currentNetwork === 'eth') {
-                changeNetwork(
-                  process.env.NODE_ENV === 'development' ? '0x61' : '0x38',
-                  generalValues.walletAddress,
-                  generalValues.currentNetwork,
-                  dispatch
-                );
-                dispatch(setCurrentNetwork('bsc'));
-              } else {
-                changeNetwork(
-                  process.env.NODE_ENV === 'development' ? '0xaa36a7' : '0x1',
-                  generalValues.walletAddress,
-                  generalValues.currentNetwork,
-                  dispatch
-                );
-                dispatch(setCurrentNetwork('eth'));
-              }
-            } else {
-              if (generalValues.currentNetwork === 'eth') {
-                dispatch(setCurrentNetwork('bsc'));
-              } else {
-                dispatch(setCurrentNetwork('eth'));
-              }
+              open({ view: 'Networks' });
             }
           }}
         >
@@ -987,23 +986,25 @@ const HomePage: React.FC<Props> = ({}: Props) => {
           }}
           onClick={async () => {
             setIsLoading(true);
-            if (generalValues.walletAddress) {
-              if (generalValues.amountOfPay !== '0') {
-                const result = await sendToken(
-                  Number(generalValues.amountOfPay),
-                  generalValues.currentNetwork,
-                  generalValues.currentToken
-                );
-                if (result) await saveTransfer();
+            if (isConnected) {
+              if (generalValues.walletAddress) {
+                if (generalValues.amountOfPay !== '0') {
+                  const result = await sendToken(
+                    address,
+                    Number(generalValues.amountOfPay),
+                    generalValues.currentNetwork,
+                    generalValues.currentToken,
+                    walletProvider
+                  );
+                  if (result) await saveTransfer();
+                } else {
+                  toast.info('You have to enter amount of pay');
+                }
               } else {
-                toast.info('You have to enter amount of pay');
+                toast.info('Please connect your wallet');
               }
             } else {
-              connectWallet(
-                generalValues.walletAddress,
-                generalValues.currentNetwork,
-                dispatch
-              );
+              toast.info('Please connect your wallet');
             }
             setIsLoading(false);
           }}
@@ -1011,7 +1012,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
           {isLoading ? (
             <CircularProgress size={25} sx={{ color: '#f3f3f3' }} />
           ) : (
-            <> {generalValues.walletAddress ? 'Buy now' : 'Connect Wallet'}</>
+            <>Buy now</>
           )}
         </Button>
       </Box>
