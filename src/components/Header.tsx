@@ -13,6 +13,7 @@ import { AppDispatch, RootState } from '@/store';
 import { detectMetamask } from '@/lib/general';
 import { useWeb3Modal } from '@web3modal/ethers/react';
 import { useWeb3ModalAccount } from '@web3modal/ethers/react';
+import { useRouter } from 'next/router';
 
 interface Props {}
 
@@ -23,25 +24,29 @@ const Header: React.FC<Props> = () => {
       link: '/',
     },
     {
-      name: 'Stake',
-      link: '/stake',
+      name: 'Features',
+      link: '/features',
     },
     {
-      name: 'My Stakes',
-      link: '/my-stakes',
+      name: 'About Us',
+      link: '/about-us',
     },
     {
-      name: 'Stake History',
-      link: '/stake-history',
+      name: 'Connect Us',
+      link: '/connect-us',
     },
-    {
-      name: 'Refer to Earn',
-      link: '/referToEarn',
-    },
-    {
-      name: 'How to buy',
-      link: '/how-to-buy',
-    },
+    // {
+    //   name: 'Stake',
+    //   link: '/stake',
+    // },
+    // {
+    //   name: 'My Stakes',
+    //   link: '/my-stakes',
+    // },
+    // {
+    //   name: 'Stake History',
+    //   link: '/stake-history',
+    // },
   ];
 
   const { open } = useWeb3Modal();
@@ -52,6 +57,8 @@ const Header: React.FC<Props> = () => {
   ) as GeneralValueType;
 
   const dispatch = useDispatch<AppDispatch>();
+
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(setWalletAddress(address ?? ''));
@@ -75,7 +82,7 @@ const Header: React.FC<Props> = () => {
       sx={{
         width: '100%',
         height: '70px',
-        backgroundColor: 'rgba(80,80,80,.4)',
+        backgroundColor: '#000',
         backdropFilter: 'blur(32px)',
         border: 'none',
         position: 'fixed',
@@ -130,38 +137,62 @@ const Header: React.FC<Props> = () => {
             </Typography>
           </Box>
         </Link>
-        <Box
-          sx={{
-            ml: '10px',
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}
-        >
-          {headList.map((hl, i) => (
-            <Box
-              sx={{
-                ml: '20px',
-                '*': {
-                  textDecoration: 'none',
-                },
-              }}
-              key={i}
-            >
-              <Link href={hl.link} passHref>
+      </Box>{' '}
+      <Box
+        sx={{
+          ml: '10px',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+        {headList.map((hl, i) => (
+          <Box
+            sx={{
+              ml: '20px',
+              '*': {
+                textDecoration: 'none',
+              },
+            }}
+            key={i}
+          >
+            <Link href={hl.link} passHref>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                {router.asPath === hl.link ? (
+                  <Box
+                    sx={{
+                      width: '5px',
+                      height: '5px',
+                      background:
+                        'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)',
+                      borderRadius: '100%',
+                      mr: '5px',
+                    }}
+                  ></Box>
+                ) : null}
                 <Typography
                   sx={{
-                    color: '#fff',
-                    fontSize: '14px',
-                    fontWeight: '600',
+                    background:
+                      router.asPath === hl.link
+                        ? 'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)'
+                        : 'rgb(130,130,129)',
+                    color: 'transparent',
+                    WebkitBackgroundClip: 'text',
+                    fontSize: '15px',
                   }}
                 >
                   {hl.name}
                 </Typography>
-              </Link>
-            </Box>
-          ))}
-        </Box>
+              </Box>
+            </Link>
+          </Box>
+        ))}
       </Box>
       <Box
         sx={{
@@ -261,21 +292,23 @@ const Header: React.FC<Props> = () => {
             justifyContent: 'center',
             alignItems: 'center',
             height: '40px',
-            boxShadow: 'none',
             px: '30px',
-            borderRadius: '15px',
-            background: '#fbbf24',
+            borderRadius: '5px',
+            background:
+              'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)',
             color: 'black',
-            '&:hover': {
-              background: '#f59e0b',
-              boxShadow: 'none',
-            },
           }}
           onClick={() => {
             open();
           }}
         >
-          {generalValues.walletAddress ? 'Wallet' : 'Connect'}
+          <Typography
+            sx={{
+              textTransform: 'capitalize',
+            }}
+          >
+            {generalValues.walletAddress ? ' Your Wallet' : 'Connect Wallet'}
+          </Typography>
         </Button>
       </Box>
     </Box>
