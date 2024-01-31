@@ -30,8 +30,17 @@ export default function Layout({ children }: LayoutProps) {
     const cs = defaultStages.find((stage) => {
       const startDate = new Date(stage.Date.split(' - ')[0] + ', 2024');
       const endDate = new Date(stage.Date.split(' - ')[1] + ', 2024');
-      return currentDate >= startDate && currentDate <= endDate;
+      endDate.setHours(23);
+      endDate.setMinutes(59);
+      endDate.setSeconds(59);
+
+      return (
+        currentDate >= startDate &&
+        currentDate <= endDate &&
+        currentDate.getMonth() === startDate.getMonth()
+      );
     });
+
     dispatch(setCurrentStage(cs ?? { Stage: '' }));
   }
 
