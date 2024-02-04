@@ -28,6 +28,7 @@ import {
 } from '@web3modal/ethers/react';
 import styles from '@/styles/Home.module.css';
 import Reveal from './Reveal';
+import Tokenomics from './Tokenomics';
 
 interface Props {}
 
@@ -1635,6 +1636,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
           </>
         </Reveal>
       </Box>
+      <Reveal>
+        <Tokenomics />
+      </Reveal>
       <Reveal>
         <Box
           sx={{
