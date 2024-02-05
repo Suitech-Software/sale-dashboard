@@ -44,7 +44,7 @@ function Tokenomics() {
         width: '100%',
         height: 'auto',
         py: '30px',
-        px: { xs: '10px', md: '30px' },
+        px: { xs: '0px', md: '30px' },
         display: 'flex',
         justifyContent: { xs: 'center', sm: 'space-evenly' },
         flexDirection: { xs: 'column', lg: 'row' },
@@ -149,6 +149,7 @@ function Tokenomics() {
           justifyItems: 'center',
           alignItems: 'center',
           flexDirection: 'column',
+          px: { xs: '10px', sm: '0px' },
         }}
       >
         {data.map((d, i) => (

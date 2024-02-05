@@ -1637,7 +1637,32 @@ const HomePage: React.FC<Props> = ({}: Props) => {
         </Reveal>
       </Box>
       <Reveal>
-        <Tokenomics />
+        <>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              mt: { xs: '30px', sm: '50px' },
+            }}
+          >
+            <Typography
+              sx={{
+                background:
+                  'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)',
+                color: 'transparent',
+                WebkitBackgroundClip: 'text',
+                display: 'inline-flex',
+                fontSize: { xs: '27px', sm: '50px' },
+                fontWeight: '600',
+              }}
+            >
+              Tokenomics
+            </Typography>
+          </Box>
+          <Tokenomics />
+        </>
       </Reveal>
       <Reveal>
         <Box
