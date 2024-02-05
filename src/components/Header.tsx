@@ -1,6 +1,6 @@
 import { Box, Button, Drawer, Menu, MenuItem, Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import {
   GeneralValueType,
@@ -120,11 +120,6 @@ const Header: React.FC<Props> = () => {
         anchor="left"
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
-        sx={{
-          width: '250px',
-          height: '100%',
-          background: '#333',
-        }}
       >
         <Box
           sx={{

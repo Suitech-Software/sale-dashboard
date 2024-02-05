@@ -388,23 +388,23 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             </Reveal>
           </Box>
         </Box>
-        <Box
-          sx={{
-            backgroundColor: 'rgba(80,80,80,.4)',
-            backdropFilter: 'blur(32px)',
-            width: { xs: '100%', md: '500px', lg: '500px' },
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: { xs: 'center', lg: 'flex-start' },
-            flexDirection: 'column',
-            height: 'auto',
-            borderRadius: '20px',
-            boxShadow: '0px 3px 20px 0px #0000001A',
-            p: '20px',
-            mt: { xs: '40px', lg: '0px' },
-          }}
-        >
-          <Reveal>
+        <Reveal>
+          <Box
+            sx={{
+              backgroundColor: 'rgba(80,80,80,.4)',
+              backdropFilter: 'blur(32px)',
+              width: { xs: '100%', md: '500px', lg: '500px' },
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: { xs: 'center', lg: 'flex-start' },
+              flexDirection: 'column',
+              height: 'auto',
+              borderRadius: '20px',
+              boxShadow: '0px 3px 20px 0px #0000001A',
+              p: '20px',
+              mt: { xs: '40px', lg: '0px' },
+            }}
+          >
             <>
               <Box
                 sx={{
@@ -1137,10 +1137,6 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   background:
                     'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)',
                   color: 'black',
-                  '&:hover': {
-                    background: '#f59e0b',
-                    boxShadow: 'none',
-                  },
                 }}
                 onClick={async () => {
                   setIsLoading(true);
@@ -1174,8 +1170,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 )}
               </Button>
             </>
-          </Reveal>
-        </Box>
+          </Box>
+        </Reveal>
       </Box>
       <Box
         sx={{
