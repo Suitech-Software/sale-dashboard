@@ -29,6 +29,7 @@ import {
 import styles from '@/styles/Home.module.css';
 import Reveal from './Reveal';
 import Tokenomics from './Tokenomics';
+import Footer from './Footer';
 
 interface Props {}
 
@@ -2148,124 +2149,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
       </Reveal>
 
       <Reveal>
-        <Box
-          sx={{
-            py: '30px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            width: '100%',
-            height: 'auto',
-            background: 'rgb(9,8,8)',
-            px: { xs: '50px', lg: '150px' },
-            mt: '30px',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexDirection: { xs: 'column', md: 'row' },
-              width: '100%',
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: { xs: 'space-evenly', md: 'space-between' },
-                alignItems: 'center',
-                width: { xs: '100%', sm: '70%', md: '30%', lg: '25%' },
-              }}
-            >
-              <Typography
-                sx={{
-                  color: 'rgb(130,130,129)',
-                  fontSize: { xs: '11px', sm: '13px' },
-                  letterSpacing: { xs: '1px', sm: '3px' },
-                }}
-              >
-                Home
-              </Typography>
-              <Typography
-                sx={{
-                  color: 'rgb(130,130,129)',
-                  fontSize: { xs: '11px', sm: '13px' },
-                  letterSpacing: { xs: '1px', sm: '3px' },
-                }}
-              >
-                Features
-              </Typography>
-              <Typography
-                sx={{
-                  color: 'rgb(130,130,129)',
-                  fontSize: { xs: '11px', sm: '13px' },
-                  letterSpacing: { xs: '1px', sm: '3px' },
-                }}
-              >
-                About Us
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: { xs: 'center', md: 'space-evenly' },
-                alignItems: 'center',
-                width: { xs: '100%', sm: '70%', md: '30%', lg: '25%' },
-                mt: { xs: '30px', md: '0px' },
-              }}
-            >
-              <Image
-                src="/main.png"
-                alt="Main Logo"
-                width={60}
-                height={60}
-                priority={true}
-                style={{
-                  objectFit: 'contain',
-                }}
-              />
-              <Typography
-                sx={{
-                  color: '#D59F4E',
-                  fontSize: { xs: '16px', sm: '20px' },
-                  ml: { xs: '20px', md: '0px' },
-                }}
-              >
-                Golden Cobra
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: { xs: 'space-evenly', md: 'space-between' },
-                alignItems: 'center',
-                width: { xs: '100%', sm: '70%', md: '30%', lg: '25%' },
-                mt: { xs: '30px', md: '0px' },
-              }}
-            >
-              <Typography
-                sx={{
-                  color: 'rgb(130,130,129)',
-                  fontSize: { xs: '11px', sm: '13px' },
-                  letterSpacing: { xs: '1px', sm: '3px' },
-                }}
-              >
-                Connect Wallet
-              </Typography>
-              <Typography
-                sx={{
-                  color: 'rgb(130,130,129)',
-                  fontSize: { xs: '11px', sm: '13px' },
-                  letterSpacing: { xs: '1px', sm: '3px' },
-                }}
-              >
-                Connect Us
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
+        <Footer />
       </Reveal>
     </Box>
   );
