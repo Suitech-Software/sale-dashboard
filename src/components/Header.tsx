@@ -453,8 +453,8 @@ const Header: React.FC<Props> = () => {
                   }}
                 >
                   {featureList.map((feature, i) => (
-                    <MenuItem onClick={handleClose} key={i}>
-                      <Link href={feature.link} passHref>
+                    <Link href={feature.link} passHref key={i}>
+                      <MenuItem onClick={handleClose}>
                         <Box
                           sx={{
                             display: 'flex',
@@ -473,8 +473,8 @@ const Header: React.FC<Props> = () => {
                             {feature.name}
                           </Typography>
                         </Box>
-                      </Link>
-                    </MenuItem>
+                      </MenuItem>
+                    </Link>
                   ))}
                 </Menu>
               </>

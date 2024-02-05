@@ -15,6 +15,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import Footer from './Footer';
+import Reveal from './Reveal';
 
 function StakeHistoryPage() {
   const [stakes, setStakes] = useState<StakingInvestmentWithStageReturnType[]>(
@@ -57,120 +59,156 @@ function StakeHistoryPage() {
   return (
     <Box
       sx={{
-        px: { xs: '10px', sm: '30px', lg: '100px' },
-        py: '30px',
-        mt: '100px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
         width: '100%',
-        zIndex: '10',
       }}
     >
-      <Typography
-        sx={{
-          color: 'white',
-          fontWeight: '600',
-          fontSize: '20px',
-        }}
-      >
-        Stake History
-      </Typography>
-
       <Box
         sx={{
-          mt: '30px',
+          px: { xs: '10px', sm: '30px', lg: '100px' },
+          py: '30px',
+          mt: '100px',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          minHeight: '100vh',
+          height: 'auto',
+          zIndex: '10',
+          backgroundImage: 'url(/6.png)',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
         }}
       >
-        {stakes[0] ? (
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="Stake History">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Sr.No.</TableCell>
-                  <TableCell>Stage Name</TableCell>
-                  <TableCell>Staking At</TableCell>
-                  <TableCell>Unstaking At</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell>Staked Token Amount</TableCell>
-                  <TableCell>Reward</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {stakes.map(
-                  (myStake: StakingInvestmentWithStageReturnType, i) => (
-                    <TableRow
-                      key={myStake._id}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {i + 1}
-                      </TableCell>
-                      <TableCell>{myStake.staking_stage.name}</TableCell>
-                      <TableCell>
-                        {new Date(myStake.staking_at).toLocaleString('en-US', {
-                          weekday: 'long',
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                          hour: 'numeric',
-                          minute: 'numeric',
-                          second: 'numeric',
-                          timeZoneName: 'short',
-                        })}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(myStake.unstaking_at).toLocaleString(
-                          'en-US',
-                          {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            second: 'numeric',
-                            timeZoneName: 'short',
-                          }
-                        )}
-                      </TableCell>
-                      <TableCell>{myStake.description}</TableCell>
-                      <TableCell>{myStake.staked_token_amount}</TableCell>
-                      <TableCell>
-                        {(Number(myStake.staked_token_amount) *
-                          myStake.staking_stage.duration *
-                          myStake.staking_stage.reward_percentage) /
-                          100}
-                      </TableCell>
-                    </TableRow>
-                  )
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
+        <Reveal>
           <Box
             sx={{
-              height: '50vh',
-              width: '100%',
               display: 'flex',
-              justifyContent: 'center',
               alignItems: 'center',
-              zIndex: '10',
+              justifyContent: { xs: 'center', md: 'flex-start' },
+              width: '100%',
+              mt: { xs: '30px' },
             }}
           >
             <Typography
               sx={{
-                color: '#fff',
-                fontSize: '18px',
+                background:
+                  'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)',
+                color: 'transparent',
+                WebkitBackgroundClip: 'text',
+                display: 'inline-flex',
+                fontSize: { xs: '30px', sm: '40px' },
                 fontWeight: '600',
               }}
             >
-              You have not any stake.
+              Stake History
             </Typography>
           </Box>
-        )}
+        </Reveal>
+        <Reveal>
+          <Box
+            sx={{
+              mt: '30px',
+            }}
+          >
+            {stakes[0] ? (
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="Stake History">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Sr.No.</TableCell>
+                      <TableCell>Stage Name</TableCell>
+                      <TableCell>Staking At</TableCell>
+                      <TableCell>Unstaking At</TableCell>
+                      <TableCell>Description</TableCell>
+                      <TableCell>Staked Token Amount</TableCell>
+                      <TableCell>Reward</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {stakes.map(
+                      (myStake: StakingInvestmentWithStageReturnType, i) => (
+                        <TableRow
+                          key={myStake._id}
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {i + 1}
+                          </TableCell>
+                          <TableCell>{myStake.staking_stage.name}</TableCell>
+                          <TableCell>
+                            {new Date(myStake.staking_at).toLocaleString(
+                              'en-US',
+                              {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                second: 'numeric',
+                                timeZoneName: 'short',
+                              }
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {new Date(myStake.unstaking_at).toLocaleString(
+                              'en-US',
+                              {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                second: 'numeric',
+                                timeZoneName: 'short',
+                              }
+                            )}
+                          </TableCell>
+                          <TableCell>{myStake.description}</TableCell>
+                          <TableCell>{myStake.staked_token_amount}</TableCell>
+                          <TableCell>
+                            {(Number(myStake.staked_token_amount) *
+                              myStake.staking_stage.duration *
+                              myStake.staking_stage.reward_percentage) /
+                              100}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            ) : (
+              <Box
+                sx={{
+                  height: '50vh',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  zIndex: '10',
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: '#fff',
+                    fontSize: '20px',
+                    fontWeight: '600',
+                  }}
+                >
+                  You have not any stake.
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        </Reveal>
       </Box>
+      <Reveal>
+        <Footer />
+      </Reveal>
     </Box>
   );
 }
