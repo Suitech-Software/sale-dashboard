@@ -73,7 +73,7 @@ const Header: React.FC<Props> = () => {
       address?.toString() ?? generalValues.walletAddress,
       dispatch
     );
-  }, [address]);
+  }, [address, generalValues.walletAddress]);
 
   useEffect(() => {
     if (chainId === 1 || chainId === 11155111 || chainId === 5) {

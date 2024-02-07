@@ -55,14 +55,17 @@ const HomePage: React.FC<Props> = ({}: Props) => {
     if (chainId === 1 || chainId === 11155111 || chainId === 5) {
       dispatch(setCurrentNetwork('eth'));
       dispatch(setCurrentToken('ethereum'));
+      detectMetamask(generalValues.walletAddress, dispatch);
+      dispatch(setAmountOfPay('0'));
+      dispatch(setAmountOfReceive('0'));
     } else if (chainId === 56 || chainId === 97) {
       dispatch(setCurrentNetwork('bsc'));
       dispatch(setCurrentToken('binancecoin'));
+      detectMetamask(generalValues.walletAddress, dispatch);
+      dispatch(setAmountOfPay('0'));
+      dispatch(setAmountOfReceive('0'));
     }
-    detectMetamask(generalValues.walletAddress, dispatch);
-    dispatch(setAmountOfPay('0'));
-    dispatch(setAmountOfReceive('0'));
-  }, [chainId]);
+  }, [chainId, generalValues.walletAddress]);
 
   useEffect(() => {
     returnNextStagePrice();

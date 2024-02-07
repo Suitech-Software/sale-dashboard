@@ -2,12 +2,10 @@ import { Box, Typography } from '@mui/material';
 import { ReactNode, useEffect } from 'react';
 import defaultStages from '@/lib/defaultStages.json';
 import Header from '@/components/Header';
-import { detectMetamask } from '@/lib/general';
 import { AppDispatch, RootState } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { GeneralValueType, setCurrentStage } from '@/store/slices/generalSlice';
 import Models from '../Models';
-import Image from 'next/image';
 
 interface LayoutProps {
   children?: ReactNode;
@@ -21,7 +19,6 @@ export default function Layout({ children }: LayoutProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    detectMetamask(generalValues.walletAddress, dispatch);
     getCurrentStageDate();
   }, []);
 
