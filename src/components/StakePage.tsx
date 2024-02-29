@@ -7,6 +7,9 @@ import MakeStakingPage from './MakeStakingPage';
 import { GeneralValueType } from '@/store/slices/generalSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import Reveal from './Reveal';
+import Footer from './Footer';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 interface Props {}
 
@@ -44,183 +47,230 @@ const StakePage: React.FC<Props> = ({}: Props) => {
   return (
     <Box
       sx={{
-        px: { xs: '10px', sm: '100px' },
-        py: '30px',
-        mt: '100px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
         width: '100%',
-        zIndex: '10',
       }}
     >
-      <Typography
+      <Box
         sx={{
-          color: 'white',
-          fontWeight: '600',
-          fontSize: '20px',
+          px: { xs: '10px', sm: '100px' },
+          py: '30px',
+          mt: '100px',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          zIndex: '10',
+          minHeight: '100vh',
+          height: 'auto',
+          backgroundImage: 'url(/6.png)',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
         }}
       >
-        {stake ? 'Make Staking' : 'Stake List'}
-      </Typography>
-      {stages[0] ? (
-        <>
-          {stake ? (
-            <MakeStakingPage stage={stages[Number(stake) - 1]} />
-          ) : (
-            <Grid
-              container
+        {stake ? (
+          <KeyboardArrowLeftIcon
+            sx={{
+              fill: 'white',
+              width: '30px',
+              height: '30px',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              setStake('');
+            }}
+          />
+        ) : null}
+        <Reveal>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: { xs: 'center', md: 'flex-start' },
+              width: '100%',
+              mt: { xs: '30px' },
+            }}
+          >
+            <Typography
               sx={{
-                mt: '30px',
+                background:
+                  'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)',
+                color: 'transparent',
+                WebkitBackgroundClip: 'text',
+                display: 'inline-flex',
+                fontSize: { xs: '30px', sm: '40px' },
+                fontWeight: '600',
               }}
-              spacing={3}
             >
-              {stages.map((stage: StakingStageReturnType) => (
-                <Grid item xs={12} md={6} lg={4} key={stage._id}>
-                  <Box
-                    sx={{
-                      backgroundColor: '#fff',
-                      boxShadow:
-                        '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
-                      padding: '40px 20px',
-                      borderRadius: '20px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignContent: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        color: '#333',
-                        fontWeight: '600',
-                        fontSize: '16px',
-                        textAlign: 'center',
-                      }}
-                    >
-                      {stage.name}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        color: '#333',
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        textAlign: 'center',
-                        mt: '15px',
-                      }}
-                    >
-                      Stake Start Date:{' '}
-                      {new Date().toLocaleDateString(undefined, {
-                        year: 'numeric',
-                        month: 'numeric',
-                        day: 'numeric',
-                      })}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        color: '#333',
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        textAlign: 'center',
-                        mt: '15px',
-                      }}
-                    >
-                      Stake End Date:{' '}
-                      {new Date(
-                        new Date(Date.now()).setDate(
-                          new Date(Date.now()).getDate() + stage.duration
-                        )
-                      ).toLocaleDateString(undefined, {
-                        year: 'numeric',
-                        month: 'numeric',
-                        day: 'numeric',
-                      })}
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        my: '40px',
-                      }}
-                    >
-                      <Button
+              {stake ? 'Make Staking' : 'Stake List'}
+            </Typography>
+          </Box>
+        </Reveal>
+        <Reveal>
+          {stages[0] ? (
+            <>
+              {stake ? (
+                <Reveal>
+                  <MakeStakingPage stage={stages[Number(stake) - 1]} />
+                </Reveal>
+              ) : (
+                <Grid
+                  container
+                  sx={{
+                    mt: '30px',
+                  }}
+                  spacing={3}
+                >
+                  {stages.map((stage: StakingStageReturnType) => (
+                    <Grid item xs={12} md={6} lg={4} key={stage._id}>
+                      <Box
                         sx={{
-                          width: '150px',
-                          padding: '10px',
-                        }}
-                        variant="contained"
-                        onClick={() => {
-                          if (generalValues.walletAddress) {
-                            setStake(stage.stage.toString());
-                          } else {
-                            toast.info('You have to connect your wallet');
-                          }
+                          backgroundColor: '#fff',
+                          boxShadow:
+                            '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
+                          padding: '40px 20px',
+                          borderRadius: '20px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignContent: 'center',
+                          justifyContent: 'center',
                         }}
                       >
                         <Typography
                           sx={{
-                            color: '#fff',
+                            color: '#333',
+                            fontWeight: '600',
+                            fontSize: '16px',
+                            textAlign: 'center',
+                          }}
+                        >
+                          {stage.name}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: '#333',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            textAlign: 'center',
+                            mt: '15px',
+                          }}
+                        >
+                          Stake Start Date:{' '}
+                          {new Date().toLocaleDateString(undefined, {
+                            year: 'numeric',
+                            month: 'numeric',
+                            day: 'numeric',
+                          })}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: '#333',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            textAlign: 'center',
+                            mt: '15px',
+                          }}
+                        >
+                          Stake End Date:{' '}
+                          {new Date(
+                            new Date(Date.now()).setDate(
+                              new Date(Date.now()).getDate() + stage.duration
+                            )
+                          ).toLocaleDateString(undefined, {
+                            year: 'numeric',
+                            month: 'numeric',
+                            day: 'numeric',
+                          })}
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            my: '40px',
+                          }}
+                        >
+                          <Button
+                            sx={{
+                              width: '150px',
+                              padding: '10px',
+                            }}
+                            variant="contained"
+                            onClick={() => {
+                              if (generalValues.walletAddress) {
+                                setStake(stage.stage.toString());
+                              } else {
+                                toast.info('You have to connect your wallet');
+                              }
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                color: '#fff',
+                                fontWeight: '600',
+                                fontSize: '14px',
+                                textAlign: 'center',
+                              }}
+                            >
+                              Stake
+                            </Typography>
+                          </Button>
+                        </Box>
+                        <Typography
+                          sx={{
+                            color: '#666',
                             fontWeight: '600',
                             fontSize: '14px',
                             textAlign: 'center',
                           }}
                         >
-                          Stake
+                          Duration: {stage.duration}
                         </Typography>
-                      </Button>
-                    </Box>
-                    <Typography
-                      sx={{
-                        color: '#666',
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        textAlign: 'center',
-                      }}
-                    >
-                      Duration: {stage.duration}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        color: '#666',
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        mt: '15px',
-                        textAlign: 'center',
-                      }}
-                    >
-                      Used Round Supply: {stage.used_round_supply}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        color: '#666',
-                        fontWeight: '600',
-                        fontSize: '14px',
-                        mt: '15px',
-                        textAlign: 'center',
-                      }}
-                    >
-                      Minimum Stake Amount: {stage.min_stake_amount} TXP
-                    </Typography>
-                  </Box>
+                        <Typography
+                          sx={{
+                            color: '#666',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            mt: '15px',
+                            textAlign: 'center',
+                          }}
+                        >
+                          Used Round Supply: {stage.used_round_supply}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: '#666',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            mt: '15px',
+                            textAlign: 'center',
+                          }}
+                        >
+                          Minimum Stake Amount: {stage.min_stake_amount} TXP
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
+              )}
+            </>
+          ) : (
+            <Box
+              sx={{
+                width: '100%',
+                height: '300px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <CircularProgress size={35} sx={{ color: '#f3f3f3' }} />
+            </Box>
           )}
-        </>
-      ) : (
-        <Box
-          sx={{
-            width: '100%',
-            height: '300px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <CircularProgress size={35} sx={{ color: '#f3f3f3' }} />
-        </Box>
-      )}
+        </Reveal>
+      </Box>
+      <Reveal>
+        <Footer />
+      </Reveal>
     </Box>
   );
 };
