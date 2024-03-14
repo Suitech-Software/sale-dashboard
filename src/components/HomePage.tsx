@@ -506,7 +506,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     color: "white",
                   }}
                 >
-                  1 TXP = $
+                  1 GOCO = $
                   {generalValues.currentStage["Token Price"]?.replace("$", "")}
                 </Typography>
               </Box>
