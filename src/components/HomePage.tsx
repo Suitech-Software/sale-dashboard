@@ -29,6 +29,7 @@ import {
 import styles from "@/styles/Home.module.css";
 import Reveal from "./Reveal";
 import Tokenomics from "./Tokenomics";
+import styles1 from "./MyComponent.module.css";
 import Footer from "./Footer";
 
 interface Props {}
@@ -1773,6 +1774,164 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             >
               In the near feature.
             </Typography>
+          </Box>
+        </Box>
+        <Box display="flex" justifyContent="space-between" paddingX={4}>
+          <Box
+            color="white"
+            width={["100%", "30%"]}
+            padding={4}
+            border="1px solid #ccc"
+            borderRadius={8}
+            marginX={3}
+            textAlign="center"
+            className={styles1["background"]}
+          >
+            <Image
+              src="/silver.png"
+              alt="Background Image"
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+              className={styles1["background-image"]}
+            />
+            <img
+              src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+              alt="Goco Token"
+              style={{
+                width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
+                height: "auto", // Otomatik yükseklik, oranın korunmasını sağlar
+                borderRadius: "8px 8px 0 0", // İstediğiniz köşe yuvarlaklığı
+              }}
+            />
+            <h2>Silver Package</h2>
+            <p style={{ padding: 5 }}>
+              You get many features with this package.
+            </p>
+            <ul style={{ listStyleType: "none", padding: 5 }}>
+              <li>Add Feature 1</li>
+              <li>Add Feature 2</li>
+              <li>Add Feature 3</li>
+            </ul>
+            <button
+              style={{
+                background:
+                  "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+                color: "#000000",
+                border: "none",
+                marginTop: "10px",
+                padding: "15px 20px",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "16px",
+              }}
+            >
+              Join Premium
+            </button>
+          </Box>
+          <Box
+            color="white"
+            width={["100%", "30%"]}
+            padding={4}
+            border="1px solid #ccc"
+            borderRadius={8}
+            textAlign="center"
+            className={styles1["background"]}
+          >
+            <Image
+              src="/premium.png"
+              alt="Background Image"
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+              className={styles1["background-image"]}
+            />
+            <img
+              src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+              alt="Goco Token"
+              style={{
+                width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
+                height: "auto", // Otomatik yükseklik, oranın korunmasını sağlar
+                borderRadius: "8px 8px 0 0", // İstediğiniz köşe yuvarlaklığı
+              }}
+            />
+            <h2>Gold Package</h2>
+            <p style={{ padding: 5 }}>
+              This package includes all the features of the silver package plus:
+              presents:
+            </p>
+            <ul style={{ listStyleType: "none", padding: 5 }}>
+              <li>Add Feature 1</li>
+              <li>Add Feature 2</li>
+              <li>Add Feature3</li>
+            </ul>
+            <button
+              style={{
+                background:
+                  "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+                color: "#000000",
+                border: "none",
+                marginTop: "10px",
+                padding: "15px 20px",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "16px",
+              }}
+            >
+              Join Premium
+            </button>
+          </Box>
+          <Box
+            color="white"
+            width={["100%", "30%"]}
+            padding={4}
+            border="1px solid #ccc"
+            borderRadius={8}
+            marginX={3}
+            textAlign="center"
+            className={styles1["background"]}
+          >
+            <Image
+              src="/gold.png"
+              alt="Background Image"
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+              className={styles1["background-image"]}
+            />
+            <img
+              src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+              alt="Goco Token"
+              style={{
+                width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
+                height: "auto", // Otomatik yükseklik, oranın korunmasını sağlar
+                borderRadius: "8px 8px 0 0", // İstediğiniz köşe yuvarlaklığı
+              }}
+            />
+            <h2>Premium Package</h2>
+            <p style={{ padding: 5 }}>
+              This package offers all the features of the gold package plus:
+            </p>
+            <ul style={{ listStyleType: "none", padding: 5 }}>
+              <li>Add Feature 1</li>
+              <li>Add Feature 2</li>
+              <li>Add Feature 3</li>
+            </ul>
+            <button
+              style={{
+                background:
+                  "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+                color: "#000000",
+                border: "none",
+                marginTop: "10px",
+                padding: "15px 20px",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "16px",
+              }}
+            >
+              Join Premium
+            </button>
           </Box>
         </Box>
       </Reveal>
