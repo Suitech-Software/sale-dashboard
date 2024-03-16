@@ -1665,276 +1665,272 @@ const HomePage: React.FC<Props> = ({}: Props) => {
           <Tokenomics />
         </>
       </Reveal>
-      <Reveal>
+      <Box
+        sx={{
+          py: "30px",
+          display: "flex",
+          justifyContent: { xs: "center", sm: "space-evenly" },
+          flexDirection: { xs: "column", lg: "row" },
+          alignItems: "center",
+          width: "100%",
+          height: "auto",
+          background: "rgb(9,8,8)",
+          px: "30px",
+        }}
+      >
+        <Box
+          component="img"
+          style={{
+            objectFit: "contain",
+          }}
+          src="/world.png"
+          alt="World"
+          sx={{
+            width: {
+              xs: "100%",
+              md: 600,
+            },
+            height: {
+              xs: "300px",
+              sm: "400px",
+              md: 500,
+            },
+          }}
+        />
         <Box
           sx={{
-            py: "30px",
             display: "flex",
-            justifyContent: { xs: "center", sm: "space-evenly" },
-            flexDirection: { xs: "column", lg: "row" },
-            alignItems: "center",
-            width: "100%",
-            height: "auto",
-            background: "rgb(9,8,8)",
-            px: "30px",
+            justifyContent: { xs: "center", sm: "flex-start" },
+            alignItems: { xs: "center", sm: "flex-start" },
+            flexDirection: "column",
           }}
         >
-          <Box
-            component="img"
-            style={{
-              objectFit: "contain",
-            }}
-            src="/world.png"
-            alt="World"
+          <Typography
             sx={{
-              width: {
-                xs: "100%",
-                md: 600,
-              },
-              height: {
-                xs: "300px",
-                sm: "400px",
-                md: 500,
-              },
+              color: "#fff",
+              fontSize: { xs: "13px", sm: "16px" },
+              letterSpacing: { xs: "1px", sm: "3px" },
             }}
-          />
+          >
+            THERE ONLINE TRADING.
+          </Typography>
           <Box
             sx={{
               display: "flex",
               justifyContent: { xs: "center", sm: "flex-start" },
               alignItems: { xs: "center", sm: "flex-start" },
-              flexDirection: "column",
+              flexDirection: { xs: "row", sm: "column" },
             }}
           >
             <Typography
               sx={{
+                background:
+                  "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+                color: "transparent",
+                WebkitBackgroundClip: "text",
+                fontSize: { xs: "16px", sm: "60px" },
+                fontWeight: "600",
+                display: { xs: "inline-flex", sm: "block" },
+              }}
+            >
+              Cryptocurrency
+            </Typography>
+            <Typography
+              sx={{
                 color: "#fff",
-                fontSize: { xs: "13px", sm: "16px" },
-                letterSpacing: { xs: "1px", sm: "3px" },
+                fontSize: { xs: "16px", sm: "60px" },
+                fontWeight: "600",
+                mt: { xs: "0px", sm: "-20px" },
+                display: { xs: "inline-flex", sm: "block" },
+                ml: { xs: "10px", sm: "0px" },
               }}
             >
-              THERE ONLINE TRADING.
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: { xs: "center", sm: "flex-start" },
-                alignItems: { xs: "center", sm: "flex-start" },
-                flexDirection: { xs: "row", sm: "column" },
-              }}
-            >
-              <Typography
-                sx={{
-                  background:
-                    "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
-                  color: "transparent",
-                  WebkitBackgroundClip: "text",
-                  fontSize: { xs: "16px", sm: "60px" },
-                  fontWeight: "600",
-                  display: { xs: "inline-flex", sm: "block" },
-                }}
-              >
-                Cryptocurrency
-              </Typography>
-              <Typography
-                sx={{
-                  color: "#fff",
-                  fontSize: { xs: "16px", sm: "60px" },
-                  fontWeight: "600",
-                  mt: { xs: "0px", sm: "-20px" },
-                  display: { xs: "inline-flex", sm: "block" },
-                  ml: { xs: "10px", sm: "0px" },
-                }}
-              >
-                For People.
-              </Typography>
-            </Box>
-            <Typography
-              sx={{
-                color: "rgb(130,130,129)",
-                fontSize: "13px",
-                letterSpacing: { xs: "1px", md: "2px" },
-                mt: "10px",
-                width: { xs: "80%", sm: "400px" },
-                textAlign: "justify",
-              }}
-            >
-              There are a lot of online forex trading accounts and people who
-              are encouraging as according to them it has a lot of benefits
-            </Typography>
-            <Typography
-              sx={{
-                color: "rgb(130,130,129)",
-                fontSize: "13px",
-                letterSpacing: { xs: "1px", md: "2px" },
-                width: { xs: "80%", sm: "400px" },
-                textAlign: { xs: "center", sm: "left" },
-                mt: "5px",
-              }}
-            >
-              In the near feature.
+              For People.
             </Typography>
           </Box>
+          <Typography
+            sx={{
+              color: "rgb(130,130,129)",
+              fontSize: "13px",
+              letterSpacing: { xs: "1px", md: "2px" },
+              mt: "10px",
+              width: { xs: "80%", sm: "400px" },
+              textAlign: "justify",
+            }}
+          >
+            There are a lot of online forex trading accounts and people who are
+            encouraging as according to them it has a lot of benefits
+          </Typography>
+          <Typography
+            sx={{
+              color: "rgb(130,130,129)",
+              fontSize: "13px",
+              letterSpacing: { xs: "1px", md: "2px" },
+              width: { xs: "80%", sm: "400px" },
+              textAlign: { xs: "center", sm: "left" },
+              mt: "5px",
+            }}
+          >
+            In the near feature.
+          </Typography>
         </Box>
-        <Box display="flex" justifyContent="space-between" paddingX={4}>
-          <Box
-            color="white"
-            width={["100%", "30%"]}
-            padding={4}
-            border="1px solid #ccc"
-            borderRadius={8}
-            marginX={3}
-            textAlign="center"
-            className={styles1["background"]}
+      </Box>
+      <Box display="flex" justifyContent="space-between" paddingX={4}>
+        <Box
+          color="white"
+          width={["100%", "30%"]}
+          padding={4}
+          border="1px solid #ccc"
+          borderRadius={8}
+          marginX={3}
+          textAlign="center"
+          className={styles1["background"]}
+        >
+          <Image
+            src="/silver.png"
+            alt="Background Image"
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            className={styles1["background-image"]}
+          />
+          <img
+            src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+            alt="Goco Token"
+            style={{
+              width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
+              height: "auto", // Otomatik yükseklik, oranın korunmasını sağlar
+              borderRadius: "8px 8px 0 0", // İstediğiniz köşe yuvarlaklığı
+            }}
+          />
+          <h2>Silver Package</h2>
+          <p style={{ padding: 5 }}>You get many features with this package.</p>
+          <ul style={{ listStyleType: "none", padding: 5 }}>
+            <li>Add Feature 1</li>
+            <li>Add Feature 2</li>
+            <li>Add Feature 3</li>
+          </ul>
+          <button
+            style={{
+              background:
+                "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+              color: "#000000",
+              border: "none",
+              marginTop: "10px",
+              padding: "15px 20px",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontSize: "16px",
+            }}
           >
-            <Image
-              src="/silver.png"
-              alt="Background Image"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-              className={styles1["background-image"]}
-            />
-            <img
-              src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
-              alt="Goco Token"
-              style={{
-                width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
-                height: "auto", // Otomatik yükseklik, oranın korunmasını sağlar
-                borderRadius: "8px 8px 0 0", // İstediğiniz köşe yuvarlaklığı
-              }}
-            />
-            <h2>Silver Package</h2>
-            <p style={{ padding: 5 }}>
-              You get many features with this package.
-            </p>
-            <ul style={{ listStyleType: "none", padding: 5 }}>
-              <li>Add Feature 1</li>
-              <li>Add Feature 2</li>
-              <li>Add Feature 3</li>
-            </ul>
-            <button
-              style={{
-                background:
-                  "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
-                color: "#000000",
-                border: "none",
-                marginTop: "10px",
-                padding: "15px 20px",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "16px",
-              }}
-            >
-              Join Premium
-            </button>
-          </Box>
-          <Box
-            color="white"
-            width={["100%", "30%"]}
-            padding={4}
-            border="1px solid #ccc"
-            borderRadius={8}
-            textAlign="center"
-            className={styles1["background"]}
-          >
-            <Image
-              src="/premium.png"
-              alt="Background Image"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-              className={styles1["background-image"]}
-            />
-            <img
-              src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
-              alt="Goco Token"
-              style={{
-                width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
-                height: "auto", // Otomatik yükseklik, oranın korunmasını sağlar
-                borderRadius: "8px 8px 0 0", // İstediğiniz köşe yuvarlaklığı
-              }}
-            />
-            <h2>Gold Package</h2>
-            <p style={{ padding: 5 }}>
-              This package includes all the features of the silver package plus:
-              presents:
-            </p>
-            <ul style={{ listStyleType: "none", padding: 5 }}>
-              <li>Add Feature 1</li>
-              <li>Add Feature 2</li>
-              <li>Add Feature3</li>
-            </ul>
-            <button
-              style={{
-                background:
-                  "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
-                color: "#000000",
-                border: "none",
-                marginTop: "10px",
-                padding: "15px 20px",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "16px",
-              }}
-            >
-              Join Premium
-            </button>
-          </Box>
-          <Box
-            color="white"
-            width={["100%", "30%"]}
-            padding={4}
-            border="1px solid #ccc"
-            borderRadius={8}
-            marginX={3}
-            textAlign="center"
-            className={styles1["background"]}
-          >
-            <Image
-              src="/gold.png"
-              alt="Background Image"
-              layout="fill"
-              objectFit="cover"
-              objectPosition="center"
-              className={styles1["background-image"]}
-            />
-            <img
-              src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
-              alt="Goco Token"
-              style={{
-                width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
-                height: "auto", // Otomatik yükseklik, oranın korunmasını sağlar
-                borderRadius: "8px 8px 0 0", // İstediğiniz köşe yuvarlaklığı
-              }}
-            />
-            <h2>Premium Package</h2>
-            <p style={{ padding: 5 }}>
-              This package offers all the features of the gold package plus:
-            </p>
-            <ul style={{ listStyleType: "none", padding: 5 }}>
-              <li>Add Feature 1</li>
-              <li>Add Feature 2</li>
-              <li>Add Feature 3</li>
-            </ul>
-            <button
-              style={{
-                background:
-                  "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
-                color: "#000000",
-                border: "none",
-                marginTop: "10px",
-                padding: "15px 20px",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "16px",
-              }}
-            >
-              Join Premium
-            </button>
-          </Box>
+            Join Premium
+          </button>
         </Box>
-      </Reveal>
+        <Box
+          color="white"
+          width={["100%", "30%"]}
+          padding={4}
+          border="1px solid #ccc"
+          borderRadius={8}
+          textAlign="center"
+          className={styles1["background"]}
+        >
+          <Image
+            src="/premium.png"
+            alt="Background Image"
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            className={styles1["background-image"]}
+          />
+          <img
+            src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+            alt="Goco Token"
+            style={{
+              width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
+              height: "auto", // Otomatik yükseklik, oranın korunmasını sağlar
+              borderRadius: "8px 8px 0 0", // İstediğiniz köşe yuvarlaklığı
+            }}
+          />
+          <h2>Gold Package</h2>
+          <p style={{ padding: 5 }}>
+            This package includes all the features of the silver package plus:
+            presents:
+          </p>
+          <ul style={{ listStyleType: "none", padding: 5 }}>
+            <li>Add Feature 1</li>
+            <li>Add Feature 2</li>
+            <li>Add Feature3</li>
+          </ul>
+          <button
+            style={{
+              background:
+                "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+              color: "#000000",
+              border: "none",
+              marginTop: "10px",
+              padding: "15px 20px",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontSize: "16px",
+            }}
+          >
+            Join Premium
+          </button>
+        </Box>
+        <Box
+          color="white"
+          width={["100%", "30%"]}
+          padding={4}
+          border="1px solid #ccc"
+          borderRadius={8}
+          marginX={3}
+          textAlign="center"
+          className={styles1["background"]}
+        >
+          <Image
+            src="/gold.png"
+            alt="Background Image"
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+            className={styles1["background-image"]}
+          />
+          <img
+            src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+            alt="Goco Token"
+            style={{
+              width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
+              height: "auto", // Otomatik yükseklik, oranın korunmasını sağlar
+              borderRadius: "8px 8px 0 0", // İstediğiniz köşe yuvarlaklığı
+            }}
+          />
+          <h2>Premium Package</h2>
+          <p style={{ padding: 5 }}>
+            This package offers all the features of the gold package plus:
+          </p>
+          <ul style={{ listStyleType: "none", padding: 5 }}>
+            <li>Add Feature 1</li>
+            <li>Add Feature 2</li>
+            <li>Add Feature 3</li>
+          </ul>
+          <button
+            style={{
+              background:
+                "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+              color: "#000000",
+              border: "none",
+              marginTop: "10px",
+              padding: "15px 20px",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontSize: "16px",
+            }}
+          >
+            Join Premium
+          </button>
+        </Box>
+      </Box>
       <Reveal>
         <Box
           sx={{
