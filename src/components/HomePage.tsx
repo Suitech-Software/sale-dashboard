@@ -107,88 +107,88 @@ const HomePage: React.FC<Props> = ({}: Props) => {
       dispatch(setAmountOfPay("0"));
       dispatch(setAmountOfReceive("0"));
 
-      const transferTokenD: TransferTokenType = {
-        transferId: data.transferId,
-        userWallet: generalValues.walletAddress,
-      };
+      // const transferTokenD: TransferTokenType = {
+      //   transferId: data.transferId,
+      //   userWallet: generalValues.walletAddress,
+      // };
 
-      const isBonusActive = process.env.NEXT_PUBLIC_IS_BONUS_ACTIVE;
+      // const isBonusActive = process.env.NEXT_PUBLIC_IS_BONUS_ACTIVE;
 
-      if (router.query.hash) {
-        const transferTokenDForReferral: TransferTokenWithReferralType = {
-          transferId: data.transferId,
-          hash: (router.query.hash as string) ?? "",
-          userWallet: generalValues.walletAddress,
-        };
+      // if (router.query.hash) {
+      //   const transferTokenDForReferral: TransferTokenWithReferralType = {
+      //     transferId: data.transferId,
+      //     hash: (router.query.hash as string) ?? "",
+      //     userWallet: generalValues.walletAddress,
+      //   };
 
-        const resOfToken = await fetch(
-          "/api/web3/token/transfer-token-with-referral",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(transferTokenDForReferral),
-          }
-        );
-        const transferTokenData = await resOfToken.json();
+      //   const resOfToken = await fetch(
+      //     "/api/web3/token/transfer-token-with-referral",
+      //     {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify(transferTokenDForReferral),
+      //     }
+      //   );
+      //   const transferTokenData = await resOfToken.json();
 
-        if (resOfToken.ok) {
-          toast.success(transferTokenData.message);
-        } else {
-          if (transferTokenData?.message)
-            toast.error(transferTokenData.message);
-          else if (transferTokenData?.error)
-            toast.error(transferTokenData.error.message);
-          else if (transferTokenData[0])
-            toast.error(transferTokenData[0].message);
-        }
-      } else {
-        if (isBonusActive?.toLowerCase() === "true") {
-          const resOfToken = await fetch(
-            "/api/web3/token/transfer-token-with-bonus",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(transferTokenD),
-            }
-          );
-          const transferTokenData = await resOfToken.json();
+      //   if (resOfToken.ok) {
+      //     toast.success(transferTokenData.message);
+      //   } else {
+      //     if (transferTokenData?.message)
+      //       toast.error(transferTokenData.message);
+      //     else if (transferTokenData?.error)
+      //       toast.error(transferTokenData.error.message);
+      //     else if (transferTokenData[0])
+      //       toast.error(transferTokenData[0].message);
+      //   }
+      // } else {
+      //   if (isBonusActive?.toLowerCase() === "true") {
+      //     const resOfToken = await fetch(
+      //       "/api/web3/token/transfer-token-with-bonus",
+      //       {
+      //         method: "POST",
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //         },
+      //         body: JSON.stringify(transferTokenD),
+      //       }
+      //     );
+      //     const transferTokenData = await resOfToken.json();
 
-          if (resOfToken.ok) {
-            toast.success(transferTokenData.message);
-          } else {
-            if (transferTokenData?.message)
-              toast.error(transferTokenData.message);
-            else if (transferTokenData?.error)
-              toast.error(transferTokenData.error.message);
-            else if (transferTokenData[0])
-              toast.error(transferTokenData[0].message);
-          }
-        } else {
-          const resOfToken = await fetch("/api/web3/token/transfer-token", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(transferTokenD),
-          });
-          const transferTokenData = await resOfToken.json();
+      //     if (resOfToken.ok) {
+      //       toast.success(transferTokenData.message);
+      //     } else {
+      //       if (transferTokenData?.message)
+      //         toast.error(transferTokenData.message);
+      //       else if (transferTokenData?.error)
+      //         toast.error(transferTokenData.error.message);
+      //       else if (transferTokenData[0])
+      //         toast.error(transferTokenData[0].message);
+      //     }
+      //   } else {
+      //     const resOfToken = await fetch("/api/web3/token/transfer-token", {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify(transferTokenD),
+      //     });
+      //     const transferTokenData = await resOfToken.json();
 
-          if (resOfToken.ok) {
-            toast.success(transferTokenData.message);
-          } else {
-            if (transferTokenData?.message)
-              toast.error(transferTokenData.message);
-            else if (transferTokenData?.error)
-              toast.error(transferTokenData.error.message);
-            else if (transferTokenData[0])
-              toast.error(transferTokenData[0].message);
-          }
-        }
-      }
+      //     if (resOfToken.ok) {
+      //       toast.success(transferTokenData.message);
+      //     } else {
+      //       if (transferTokenData?.message)
+      //         toast.error(transferTokenData.message);
+      //       else if (transferTokenData?.error)
+      //         toast.error(transferTokenData.error.message);
+      //       else if (transferTokenData[0])
+      //         toast.error(transferTokenData[0].message);
+      //     }
+      //   }
+      // }
     } else {
       if (data?.message) toast.error(data.message);
       else if (data?.error) toast.error(data.error.message);
