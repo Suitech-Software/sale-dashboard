@@ -385,7 +385,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   letterSpacing: "1px",
                 }}
               >
-                Now, it's time to come up with a great slogan to tie all the
+                Now, it&apos;s time to come up with a great slogan to tie all the
                 pieces together. And not just a slogan, but a catchy and
                 timeless slogan that people across the world will remember you
                 for.
