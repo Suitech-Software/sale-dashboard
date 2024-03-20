@@ -323,7 +323,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   width: "fit-content",
                 }}
               >
-                Everything you need.
+                Everything you need a.
               </Typography>
             </Box>
           </Reveal>
