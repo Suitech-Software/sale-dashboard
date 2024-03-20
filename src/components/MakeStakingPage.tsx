@@ -28,17 +28,37 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    findBalanceByAddress(
-      generalValues.currentNetwork,
-      generalValues.walletAddress
-    ).then((balance) => {
-      setCurrentBalance(balance);
-      const stake_reward_percentage = stage.reward_percentage;
-      const stake_duration = stage.duration;
-      const _earned_award =
-        (Number(balance) * stake_duration * stake_reward_percentage) / 100;
-      setEarned_award(_earned_award);
-    });
+    // findBalanceByAddress(
+    //   generalValues.currentNetwork,
+    //   generalValues.walletAddress
+    // ).then((balance) => {
+    //   setCurrentBalance(balance);
+    //   const stake_reward_percentage = stage.reward_percentage;
+    //   const stake_duration = stage.duration;
+    //   const _earned_award =
+    //     (Number(balance) * stake_duration * stake_reward_percentage) / 100;
+    //   setEarned_award(_earned_award);
+    // });
+
+    fetch(
+      `/api/transfer/getAmountOfReceiveByAddress?userWallet=${generalValues.walletAddress}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data:any) => {
+        setCurrentBalance(data.balance);
+        const stake_reward_percentage = stage.reward_percentage;
+        const stake_duration = stage.duration;
+        const _earned_award =
+          (Number(data.balance) * stake_duration * stake_reward_percentage) /
+          100;
+        setEarned_award(_earned_award);
+      });
   }, [currentBalance, earned_award]);
 
   const saveStake = async () => {

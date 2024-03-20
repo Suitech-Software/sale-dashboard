@@ -13,3 +13,9 @@ export const createTransferSchema = object({
     stage: string({ required_error: 'Stage is required' }),
   }),
 });
+
+export const getAmountOfReceiveByAddressSchema = object({
+  query: object({
+    userWallet: string({ required_error: 'User Wallet is required' }),
+  }),
+});
