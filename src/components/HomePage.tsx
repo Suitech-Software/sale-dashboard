@@ -348,9 +348,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   display: "inline-flex",
                   ml: { xs: "10px", lg: "0px" },
                 }}
-              >
-                
-              </Typography>
+              ></Typography>
               <Typography
                 sx={{
                   textTransform: "uppercase",
@@ -385,11 +383,10 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   letterSpacing: "1px",
                 }}
               >
-                Where art, fun, and fame collide to create the ultimate meme crypto experience!
-                
-                👑🐍 Forget dogs and frogs - the era of the Royal Snake has arrived! Golden Cobra is here to take over and redefine the meme coin game! $GOCO 
-                
-
+                Where art, fun, and fame collide to create the ultimate meme
+                crypto experience! 👑🐍 Forget dogs and frogs - the era of the
+                Royal Snake has arrived! Golden Cobra is here to take over and
+                redefine the meme coin game! $GOCO
               </Typography>
             </Reveal>
           </Box>
@@ -1245,9 +1242,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 mt: "10px",
                 textAlign: "center",
               }}
-            >
-              
-            </Typography>
+            ></Typography>
           </>
         </Reveal>
         <Reveal>
@@ -1430,7 +1425,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                Our goal is to reach 12,756 fans to make the GOLDEN COBRA hug the world and turn every piece of sand on the beaches to gold.
+                Our goal is to reach 12,756 fans to make the GOLDEN COBRA hug
+                the world and turn every piece of sand on the beaches to gold.
               </Typography>
               <Typography
                 sx={{
@@ -1441,7 +1437,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                 (Each fan is an additional 1 meter to the GOCO'ssssss tailssss).
+                (Each fan is an additional 1 meter to the GOCO&apos;ssssss
+                tailssss).
               </Typography>
             </Box>
             <Grid
@@ -1492,7 +1489,10 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    SUSTAINABILITY GUARANTEED: $GOCO isn't just about memes; it's about huge utility. The Golden Cobra Snake, our next-level Play to Earn Game. It's not just a token; it's a journey!
+                    SUSTAINABILITY GUARANTEED: $GOCO isn&apos;t just about
+                    memes; it&apos;s about huge utility. The Golden Cobra Snake,
+                    our next-level Play to Earn Game. It&apos;s not just a
+                    token; it&apos;s a journey!
                   </Typography>
                 </Box>
               </Grid>
@@ -1536,7 +1536,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    SMART INVESTMENT: Why settle for boring investments when you can have fun AND earn more with GOCO? It's the best of both worlds!
+                    SMART INVESTMENT: Why settle for boring investments when you
+                    can have fun AND earn more with GOCO? It&apos;s the best of
+                    both worlds!
                   </Typography>
                 </Box>
               </Grid>
@@ -1580,7 +1582,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    EACH FAN IS A GREEN CANDLE, lighting up our charts and spreading the word about the Golden Cobra phenomenon. Together, we'll reach new heights!
+                    EACH FAN IS A GREEN CANDLE, lighting up our charts and
+                    spreading the word about the Golden Cobra phenomenon.
+                    Together, we&apos;ll reach new heights!
                   </Typography>
                 </Box>
               </Grid>
@@ -1624,9 +1628,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    EARN APY DURING PRESALE!
-Do not wait for a second, begin earning APY on $GOCO tokens today by buying the presale. 
-Click here to learn more!  (link to staking on whitepaper)
+                    EARN APY DURING PRESALE! Do not wait for a second, begin
+                    earning APY on $GOCO tokens today by buying the presale.
+                    Click here to learn more! (link to staking on whitepaper)
                   </Typography>
                 </Box>
               </Grid>
@@ -1730,10 +1734,7 @@ Click here to learn more!  (link to staking on whitepaper)
                 display: { xs: "inline-flex", sm: "block" },
               }}
             >
-              
-Unlock a treasure chest of 
-
-
+              Unlock a treasure chest of
             </Typography>
             <Typography
               sx={{
@@ -1757,8 +1758,7 @@ Unlock a treasure chest of
               width: { xs: "80%", sm: "400px" },
               textAlign: "justify",
             }}
-          >
-          </Typography>
+          ></Typography>
           <Typography
             sx={{
               color: "rgb(130,130,129)",
@@ -1769,7 +1769,15 @@ Unlock a treasure chest of
               mt: "5px",
             }}
           >
-            Whether you're purchasing, referring friends, or engaging with our ecosystem, we offer real rewards like purchase and referral bonuses, token rewards, exclusive NFT tickets, Play-to-Earn features, staking multiplier tickets, and raffle tickets. Worth hundreds of thousands of dollars, these rewards are available in instant, hourly, daily, weekly, and monthly periods, ensuring that the GOCO token and the "Golden Cobra" snake game reach our community of millions in no time. Join us now and reap the benefits of being part of the Golden Cobra family!
+            Whether you&apos;re purchasing, referring friends, or engaging with
+            our ecosystem, we offer real rewards like purchase and referral
+            bonuses, token rewards, exclusive NFT tickets, Play-to-Earn
+            features, staking multiplier tickets, and raffle tickets. Worth
+            hundreds of thousands of dollars, these rewards are available in
+            instant, hourly, daily, weekly, and monthly periods, ensuring that
+            the GOCO token and the "Golden Cobra" snake game reach our community
+            of millions in no time. Join us now and reap the benefits of being
+            part of the Golden Cobra family!
           </Typography>
         </Box>
       </Box>
@@ -1991,7 +1999,7 @@ Unlock a treasure chest of
                   ml: "10px",
                 }}
               >
-                Made 
+                Made
               </Typography>
               <Typography
                 sx={{
@@ -2001,9 +2009,7 @@ Unlock a treasure chest of
                   display: "inline-flex",
                   ml: "10px",
                 }}
-              >
-                
-              </Typography>
+              ></Typography>
               <Typography
                 sx={{
                   color: "#fff",
@@ -2026,7 +2032,11 @@ Unlock a treasure chest of
                 width: { xs: "80%", sm: "400px" },
               }}
             >
-              Buying GOCO is as easy as slithering down a sunbeam. We have clear, concise instructions for even the most crypto-phobic among us.Buying GOCO is as easy as slithering down a sunbeam. We have clear, concise instructions for even the most crypto-phobic among us.
+              Buying GOCO is as easy as slithering down a sunbeam. We have
+              clear, concise instructions for even the most crypto-phobic among
+              us.Buying GOCO is as easy as slithering down a sunbeam. We have
+              clear, concise instructions for even the most crypto-phobic among
+              us.
             </Typography>
             <Typography
               sx={{
@@ -2241,9 +2251,9 @@ Unlock a treasure chest of
         >
           <Box
             sx={{
-              // display: 'flex',
-              // alignItems: 'center',
-              // justifyContent: 'center',
+              // display: &apos;flex&apos;,
+              // alignItems: &apos;center&apos;,
+              // justifyContent: &apos;center&apos;,
               width: "100%",
               textAlign: "center",
             }}
@@ -2256,7 +2266,7 @@ Unlock a treasure chest of
                 display: "inline-flex",
               }}
             >
-              Join   
+              Join
             </Typography>
             <Typography
               sx={{
@@ -2294,31 +2304,34 @@ Unlock a treasure chest of
               textAlign: "center",
             }}
           >
-            Join us, and let's make GOCO the most loved, most popular, and most traded meme token of all time! 
-            </Typography>
-            <Typography
-                sx={{
-                  color: "rgb(130,130,129)",
-                  fontSize: { xs: "11px", sm: "13px" },
-                  letterSpacing: { xs: "1px", sm: "3px" },
-                  mt: "10px",
-                  textAlign: "center",
-                }}
-              >
-                 Get ready to embrace the meme revolution with GOCO - Because life's too short for boring investments. Let's have fun and earn big with GOCO!
-                 </Typography>
-            <Typography
-                sx={{
-                  color: "rgb(130,130,129)",
-                  fontSize: { xs: "11px", sm: "13px" },
-                  letterSpacing: { xs: "1px", sm: "3px" },
-                  mt: "10px",
-                  textAlign: "center",
-                }}
-              >
-                 This is just the beginning! Stay tuned for updates, contests, and more hilariously awesome content.
-            </Typography>
-          
+            Join us, and let&apos;s make GOCO the most loved, most popular, and
+            most traded meme token of all time!
+          </Typography>
+          <Typography
+            sx={{
+              color: "rgb(130,130,129)",
+              fontSize: { xs: "11px", sm: "13px" },
+              letterSpacing: { xs: "1px", sm: "3px" },
+              mt: "10px",
+              textAlign: "center",
+            }}
+          >
+            Get ready to embrace the meme revolution with GOCO - Because
+            life&apos;s too short for boring investments. Let&apos;s have fun
+            and earn big with GOCO!
+          </Typography>
+          <Typography
+            sx={{
+              color: "rgb(130,130,129)",
+              fontSize: { xs: "11px", sm: "13px" },
+              letterSpacing: { xs: "1px", sm: "3px" },
+              mt: "10px",
+              textAlign: "center",
+            }}
+          >
+            This is just the beginning! Stay tuned for updates, contests, and
+            more hilariously awesome content.
+          </Typography>
         </Box>
       </Reveal>
 
