@@ -1775,9 +1775,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             features, staking multiplier tickets, and raffle tickets. Worth
             hundreds of thousands of dollars, these rewards are available in
             instant, hourly, daily, weekly, and monthly periods, ensuring that
-            the GOCO token and the "Golden Cobra" snake game reach our community
-            of millions in no time. Join us now and reap the benefits of being
-            part of the Golden Cobra family!
+            the GOCO token and the &apos;Golden Cobra&apos; snake game reach our
+            community of millions in no time. Join us now and reap the benefits
+            of being part of the Golden Cobra family!
           </Typography>
         </Box>
       </Box>
