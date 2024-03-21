@@ -323,7 +323,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   width: "fit-content",
                 }}
               >
-                Everything you need a.
+                Introducing GOCO
               </Typography>
             </Box>
           </Reveal>
@@ -337,7 +337,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   display: { xs: "inline-flex", lg: "block" },
                 }}
               >
-                Buy, Sell
+                The Golden Cobra
               </Typography>
 
               <Typography
@@ -349,7 +349,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   ml: { xs: "10px", lg: "0px" },
                 }}
               >
-                &
+                
               </Typography>
               <Typography
                 sx={{
@@ -364,7 +364,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   ml: "10px",
                 }}
               >
-                Accept
+                Meme Token
               </Typography>
             </Box>
           </Reveal>
@@ -385,10 +385,11 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   letterSpacing: "1px",
                 }}
               >
-                Now, it&apos;s time to come up with a great slogan to tie all the
-                pieces together. And not just a slogan, but a catchy and
-                timeless slogan that people across the world will remember you
-                for.
+                Where art, fun, and fame collide to create the ultimate meme crypto experience!
+                
+                👑🐍 Forget dogs and frogs - the era of the Royal Snake has arrived! Golden Cobra is here to take over and redefine the meme coin game! $GOCO 
+                
+
               </Typography>
             </Reveal>
           </Box>
@@ -1245,8 +1246,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 textAlign: "center",
               }}
             >
-              Your trusted cryptocurrency partner it&apos;s time to come up with
-              a great slogan.
+              
             </Typography>
           </>
         </Reveal>
@@ -1373,7 +1373,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   display: "inline-flex",
                 }}
               >
-                New
+                Taller
               </Typography>
               <Typography
                 sx={{
@@ -1387,7 +1387,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   ml: "10px",
                 }}
               >
-                Decade,
+                The Snake,
               </Typography>
               <Typography
                 sx={{
@@ -1398,7 +1398,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   ml: "10px",
                 }}
               >
-                New
+                Higher
               </Typography>
               <Typography
                 sx={{
@@ -1409,7 +1409,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   display: "inline-flex",
                 }}
               >
-                Assets
+                Its Reach
               </Typography>
             </Box>
             <Box
@@ -1430,8 +1430,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                Now, it&apos;s time to come up with a great slogan to tie all
-                the pieces together.
+                Our goal is to reach 12,756 fans to make the GOLDEN COBRA hug the world and turn every piece of sand on the beaches to gold.
               </Typography>
               <Typography
                 sx={{
@@ -1442,7 +1441,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                And not just a slogan.
+                 (Each fan is an additional 1 meter to the GOCO'ssssss tailssss).
               </Typography>
             </Box>
             <Grid
@@ -1481,7 +1480,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       letterSpacing: "2px",
                     }}
                   >
-                    Cryptocurrency
+                    Play to Earn
                   </Typography>
                   <Typography
                     sx={{
@@ -1493,8 +1492,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    Now, it&apos;s time to come up with a great slogan to tie
-                    all the pieces together.
+                    SUSTAINABILITY GUARANTEED: $GOCO isn't just about memes; it's about huge utility. The Golden Cobra Snake, our next-level Play to Earn Game. It's not just a token; it's a journey!
                   </Typography>
                 </Box>
               </Grid>
@@ -1526,7 +1524,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       letterSpacing: "2px",
                     }}
                   >
-                    Crypto Exchange
+                    Fun + Growth
                   </Typography>
                   <Typography
                     sx={{
@@ -1538,8 +1536,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    Now, it&apos;s time to come up with a great slogan to tie
-                    all the pieces together.
+                    SMART INVESTMENT: Why settle for boring investments when you can have fun AND earn more with GOCO? It's the best of both worlds!
                   </Typography>
                 </Box>
               </Grid>
@@ -1571,7 +1568,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       letterSpacing: "2px",
                     }}
                   >
-                    Earn Bitcoin
+                    Community is The True King
                   </Typography>
                   <Typography
                     sx={{
@@ -1583,8 +1580,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    Now, it&apos;s time to come up with a great slogan to tie
-                    all the pieces together.
+                    EACH FAN IS A GREEN CANDLE, lighting up our charts and spreading the word about the Golden Cobra phenomenon. Together, we'll reach new heights!
                   </Typography>
                 </Box>
               </Grid>
@@ -1616,7 +1612,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       letterSpacing: "2px",
                     }}
                   >
-                    Security System
+                    Stake. Earn. Claim Rewards.
                   </Typography>
                   <Typography
                     sx={{
@@ -1628,8 +1624,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    Now, it&apos;s time to come up with a great slogan to tie
-                    all the pieces together.
+                    EARN APY DURING PRESALE!
+Do not wait for a second, begin earning APY on $GOCO tokens today by buying the presale. 
+Click here to learn more!  (link to staking on whitepaper)
                   </Typography>
                 </Box>
               </Grid>
@@ -1712,7 +1709,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               letterSpacing: { xs: "1px", sm: "3px" },
             }}
           >
-            THERE ONLINE TRADING.
+            Golden Cobra community!
           </Typography>
           <Box
             sx={{
@@ -1733,7 +1730,10 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 display: { xs: "inline-flex", sm: "block" },
               }}
             >
-              Cryptocurrency
+              
+Unlock a treasure chest of 
+
+
             </Typography>
             <Typography
               sx={{
@@ -1745,7 +1745,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 ml: { xs: "10px", sm: "0px" },
               }}
             >
-              For People.
+              Rewards.
             </Typography>
           </Box>
           <Typography
@@ -1758,8 +1758,6 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               textAlign: "justify",
             }}
           >
-            There are a lot of online forex trading accounts and people who are
-            encouraging as according to them it has a lot of benefits
           </Typography>
           <Typography
             sx={{
@@ -1771,7 +1769,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               mt: "5px",
             }}
           >
-            In the near feature.
+            Whether you're purchasing, referring friends, or engaging with our ecosystem, we offer real rewards like purchase and referral bonuses, token rewards, exclusive NFT tickets, Play-to-Earn features, staking multiplier tickets, and raffle tickets. Worth hundreds of thousands of dollars, these rewards are available in instant, hourly, daily, weekly, and monthly periods, ensuring that the GOCO token and the "Golden Cobra" snake game reach our community of millions in no time. Join us now and reap the benefits of being part of the Golden Cobra family!
           </Typography>
         </Box>
       </Box>
@@ -1962,7 +1960,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 letterSpacing: { xs: "1px", sm: "3px" },
               }}
             >
-              THERE ONLINE TRADING.
+              Lotsss Lotssss Lots of rewards by Purchasing
             </Typography>
 
             <Box
@@ -1982,7 +1980,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   fontWeight: "600",
                 }}
               >
-                Stay
+                Buying
               </Typography>
               <Typography
                 sx={{
@@ -1993,7 +1991,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   ml: "10px",
                 }}
               >
-                Cool
+                Made 
               </Typography>
               <Typography
                 sx={{
@@ -2004,7 +2002,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   ml: "10px",
                 }}
               >
-                With
+                
               </Typography>
               <Typography
                 sx={{
@@ -2016,7 +2014,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   ml: { xs: "10px", sm: "0px" },
                 }}
               >
-                Crypto.
+                Easy.
               </Typography>
             </Box>
             <Typography
@@ -2028,10 +2026,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 width: { xs: "80%", sm: "400px" },
               }}
             >
-              There are a lot of online forex trading accounts and people who
-              are encouraging as according to them it has a lot of benefits In
-              the near future. Bitcoin happens to be an outstanding
-              cryptographic achievement.
+              Buying GOCO is as easy as slithering down a sunbeam. We have clear, concise instructions for even the most crypto-phobic among us.Buying GOCO is as easy as slithering down a sunbeam. We have clear, concise instructions for even the most crypto-phobic among us.
             </Typography>
             <Typography
               sx={{
@@ -2042,7 +2037,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 mt: "5px",
               }}
             >
-              The proper incentives and balance.
+              How to buy? (Link)
             </Typography>
           </Box>
           <Box
@@ -2261,7 +2256,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 display: "inline-flex",
               }}
             >
-              Join Our
+              Join   
             </Typography>
             <Typography
               sx={{
@@ -2275,7 +2270,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 ml: { xs: "10px", sm: "0px", md: "10px" },
               }}
             >
-              Cryptocurrency
+              Golden Cobra
             </Typography>
             <Typography
               sx={{
@@ -2285,7 +2280,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 mt: { xs: "10px", md: "-20px" },
               }}
             >
-              To Make.
+              Community
             </Typography>
           </Box>
 
@@ -2299,10 +2294,31 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               textAlign: "center",
             }}
           >
-            There are a lot of online forex trading accounts and people who are
-            encouraging as according to them it has a lot of benefits In the
-            near future.
-          </Typography>
+            Join us, and let's make GOCO the most loved, most popular, and most traded meme token of all time! 
+            </Typography>
+            <Typography
+                sx={{
+                  color: "rgb(130,130,129)",
+                  fontSize: { xs: "11px", sm: "13px" },
+                  letterSpacing: { xs: "1px", sm: "3px" },
+                  mt: "10px",
+                  textAlign: "center",
+                }}
+              >
+                 Get ready to embrace the meme revolution with GOCO - Because life's too short for boring investments. Let's have fun and earn big with GOCO!
+                 </Typography>
+            <Typography
+                sx={{
+                  color: "rgb(130,130,129)",
+                  fontSize: { xs: "11px", sm: "13px" },
+                  letterSpacing: { xs: "1px", sm: "3px" },
+                  mt: "10px",
+                  textAlign: "center",
+                }}
+              >
+                 This is just the beginning! Stay tuned for updates, contests, and more hilariously awesome content.
+            </Typography>
+          
         </Box>
       </Reveal>
 
