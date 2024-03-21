@@ -14,6 +14,7 @@ import sendedTokenModel, {
 } from '@/server/models/sendedTokenModel';
 import transferModel, { TransferDocument } from '@/server/models/transferModel';
 import TokenService from '@/server/services/TokenService';
+import userModel, { UserDocument } from '@/server/models/userModel';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -64,31 +65,40 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         description: 'Stake Reward',
       })) as SendedTokenDocument;
 
-      let smartContract;
+      // let smartContract;
 
-      if (stakingInvestment.currentNetwork === 'bsc') {
-        smartContract = await process.env.NEXT_PUBLIC_OUR_BSC_CONTRACT;
-      } else {
-        smartContract = await process.env.NEXT_PUBLIC_OUR_ETH_CONTRACT;
-      }
-      const wallet =
-        process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS_FOR_OUR_SMART_CONTRACT;
+      // if (stakingInvestment.currentNetwork === 'bsc') {
+      //   smartContract = await process.env.NEXT_PUBLIC_OUR_BSC_CONTRACT;
+      // } else {
+      //   smartContract = await process.env.NEXT_PUBLIC_OUR_ETH_CONTRACT;
+      // }
+      // const wallet =
+      //   process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS_FOR_OUR_SMART_CONTRACT;
 
-      const privateKey =
-        process.env
-          .NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS_PRIVATE_KEY_FOR_OUR_SMART_CONTRACT;
+      // const privateKey =
+      //   process.env
+      //     .NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS_PRIVATE_KEY_FOR_OUR_SMART_CONTRACT;
 
-      const tokenService = new TokenService(
-        stakingInvestment.currentNetwork,
-        smartContract,
-        privateKey,
-        wallet
-      );
+      // const tokenService = new TokenService(
+      //   stakingInvestment.currentNetwork,
+      //   smartContract,
+      //   privateKey,
+      //   wallet
+      // );
 
-      const hash = await tokenService.transferForClaim(
-        transfer.userWallet,
-        Number(sendedToken.total_token_amount)
-      );
+      // const hash = await tokenService.transferForClaim(
+      //   transfer.userWallet,
+      //   Number(sendedToken.total_token_amount)
+      // );
+
+      const user: UserDocument = (await userModel.findOne({
+        userWallet: transfer.userWallet,
+      })) as UserDocument;
+
+      user.balance += Number(sendedToken.total_token_amount);
+      user.awardedBalance += Number(sendedToken.total_token_amount);
+
+      await user.save();
 
       stakingInvestment.is_unstaked = true;
       stakingInvestment.is_active = false;
@@ -98,7 +108,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       await sendedTokenModel.findByIdAndUpdate(sendedToken._id, {
         is_sended: 'sended',
-        payment_transaction_hash: hash,
+        // payment_transaction_hash: hash,
+        payment_transaction_hash: '0x',
       });
 
       return res.status(200).json({

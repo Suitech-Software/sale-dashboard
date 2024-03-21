@@ -50,7 +50,7 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
       }
     )
       .then((res) => res.json())
-      .then((data:any) => {
+      .then((data: any) => {
         setCurrentBalance(data.balance);
         const stake_reward_percentage = stage.reward_percentage;
         const stake_duration = stage.duration;
