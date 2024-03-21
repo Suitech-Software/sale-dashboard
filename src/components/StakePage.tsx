@@ -61,10 +61,10 @@ const StakePage: React.FC<Props> = ({}: Props) => {
           zIndex: "10",
           minHeight: "100vh",
           height: "auto",
-          backgroundImage: "url(/6.png)",
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
+          // backgroundImage: "url(/6.png)",
+          // backgroundSize: "contain",
+          // backgroundRepeat: "no-repeat",
+          // backgroundPosition: "center",
         }}
       >
         {stake ? (
