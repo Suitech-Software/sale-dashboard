@@ -29,7 +29,7 @@ export const detectMetamask = async (
       );
     }
   } else {
-    toast.info("You have to install Metamask");
+    // toast.info("You have to install Metamask");
   }
 };
 

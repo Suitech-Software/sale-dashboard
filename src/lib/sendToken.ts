@@ -16,10 +16,10 @@ export const sendToken = async (
   walletProvider: any
 ) => {
   try {
-    if (get(window, 'ethereum')) {
+    if (get(window, 'ethereum') || walletProvider) {
       if (address) {
         const wallet = process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS;
-
+      
         const ethersProvider = new BrowserProvider(walletProvider);
         const signer = await ethersProvider.getSigner();
 
@@ -217,6 +217,8 @@ export const sendToken = async (
       )
     ) {
       toast.error('There is a problem about contract ABIs');
+    } else if (error.message.includes('User rejected the transaction')) {
+      toast.info('You rejected it');
     } else {
       toast.error(error.message);
     }
