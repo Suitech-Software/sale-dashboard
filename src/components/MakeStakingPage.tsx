@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { findBalanceByAddress } from '@/lib/findBalanceByAddress';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { UserReturnType } from '@/types/User';
 
 interface Props {
   stage: StakingStageReturnType;
@@ -20,6 +22,7 @@ interface Props {
 const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
   const [currentBalance, setCurrentBalance] = useState(0);
   const [earned_award, setEarned_award] = useState(0);
+  const [user, setUser] = useState<UserReturnType | null>(null);
 
   const generalValues: GeneralValueType = useSelector(
     (state: RootState) => state.general.value
@@ -28,18 +31,51 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    findBalanceByAddress(
-      generalValues.currentNetwork,
-      generalValues.walletAddress
-    ).then((balance) => {
-      setCurrentBalance(balance);
-      const stake_reward_percentage = stage.reward_percentage;
-      const stake_duration = stage.duration;
-      const _earned_award =
-        (Number(balance) * stake_duration * stake_reward_percentage) / 100;
-      setEarned_award(_earned_award);
-    });
+    // findBalanceByAddress(
+    //   generalValues.currentNetwork,
+    //   generalValues.walletAddress
+    // ).then((balance) => {
+    //   setCurrentBalance(balance);
+    //   const stake_reward_percentage = stage.reward_percentage;
+    //   const stake_duration = stage.duration;
+    //   const _earned_award =
+    //     (Number(balance) * stake_duration * stake_reward_percentage) / 100;
+    //   setEarned_award(_earned_award);
+    // });
+
+    fetch(
+      `/api/transfer/getAmountOfReceiveByAddress?userWallet=${generalValues.walletAddress}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data: any) => {
+        setCurrentBalance(data.balance);
+        const stake_reward_percentage = stage.reward_percentage;
+        const stake_duration = stage.duration;
+        const _earned_award =
+          (Number(data.balance) * stake_duration * stake_reward_percentage) /
+          100;
+        setEarned_award(_earned_award);
+      });
   }, [currentBalance, earned_award]);
+
+  useEffect(() => {
+    fetch(`/api/user/getUser?userWallet=${generalValues.walletAddress}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data: any) => {
+        setUser(data.user);
+      });
+  }, []);
 
   const saveStake = async () => {
     const stakingData = {
@@ -73,7 +109,7 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
     <Box
       sx={{
         width: '100%',
-        backgroundColor: '#fff',
+        // backgroundColor: '#151C2E',
         mt: '30px',
         boxShadow:
           '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
@@ -82,388 +118,471 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
       }}
     >
       <Grid container spacing={6}>
-        <Grid item xs={12} lg={5}>
-          <Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: {
-                  xs: 'column',
-                  sm: 'row',
-                },
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <BadgeIcon
-                  sx={{
-                    fill: '#666',
-                    mr: '10px',
-                    width: '22px',
-                    height: '22px',
-                  }}
-                />
-                <Typography
-                  sx={{
-                    color: '#333',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    textAlign: 'center',
-                    mr: '10px',
-                  }}
-                >
-                  Stage Name:
-                </Typography>
-              </Box>
+        <Grid item xs={12} lg={6}>
+          <Box
+            sx={{
+              backgroundColor: '#151C2E',
+              border: '1px solid #23293B',
+              borderRadius: '20px',
+              padding: '30px',
+            }}
+          >
+            <Box>
               <Typography
                 sx={{
-                  color: '#666',
-                  fontWeight: '500',
-                  fontSize: '14px',
-                  textAlign: 'center',
+                  color: '#f3f3f3',
+                  fontWeight: '600',
+                  fontSize: { xs: '16px', md: '20px' },
+                  ml: '5px',
+                  mb: '10px',
                 }}
               >
-                {stage.name}
+                Stake Amount
               </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                mt: '20px',
-                flexDirection: {
-                  xs: 'column',
-                  sm: 'row',
-                },
-              }}
-            >
+
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                }}
-              >
-                <LockIcon
-                  sx={{
-                    fill: '#666',
-                    mr: '10px',
-                    width: '22px',
-                    height: '22px',
-                  }}
-                />
-                <Typography
-                  sx={{
-                    color: '#333',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    textAlign: 'center',
-                    mr: '10px',
-                  }}
-                >
-                  Stage Locking Period:
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  color: '#666',
-                  fontWeight: '500',
-                  fontSize: '14px',
-                  textAlign: 'center',
-                }}
-              >
-                {stage.duration} {stage.locking_period_type}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                mt: '20px',
-                flexDirection: {
-                  xs: 'column',
-                  sm: 'row',
-                },
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <EmojiEventsIcon
-                  sx={{
-                    fill: '#666',
-                    mr: '10px',
-                    width: '22px',
-                    height: '22px',
-                  }}
-                />
-                <Typography
-                  sx={{
-                    color: '#333',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    textAlign: 'center',
-                    mr: '10px',
-                  }}
-                >
-                  Token Reward(%):
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  color: '#666',
-                  fontWeight: '500',
-                  fontSize: '14px',
-                  textAlign: 'center',
-                }}
-              >
-                {stage.reward_percentage}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                mt: '20px',
-                flexDirection: {
-                  xs: 'column',
-                  sm: 'row',
-                },
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <NineKPlusIcon
-                  sx={{
-                    fill: '#666',
-                    mr: '10px',
-                    width: '22px',
-                    height: '22px',
-                  }}
-                />
-                <Typography
-                  sx={{
-                    color: '#333',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    textAlign: 'center',
-                    mr: '10px',
-                  }}
-                >
-                  Used Supply:
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  color: '#666',
-                  fontWeight: '500',
-                  fontSize: '14px',
-                  textAlign: 'center',
-                }}
-              >
-                {stage.used_round_supply}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                mt: '20px',
-                flexDirection: {
-                  xs: 'column',
-                  sm: 'row',
-                },
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                  border: '1px solid #23293B',
+                  borderRadius: '20px',
+                  padding: '20px',
                 }}
               >
                 <WalletIcon
                   sx={{
-                    fill: '#666',
+                    display: { xs: 'none', sm: 'inline-block' },
+                    fill: '#f9f9f9',
                     mr: '10px',
                     width: '22px',
                     height: '22px',
                   }}
                 />
-                <Typography
-                  sx={{
-                    color: '#333',
-                    fontWeight: '600',
-                    fontSize: '16px',
-                    textAlign: 'center',
-                    mr: '10px',
-                  }}
-                >
-                  Your available GOCO Token:
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  color: '#666',
-                  fontWeight: '500',
-                  fontSize: '14px',
-                  textAlign: 'center',
-                }}
-              >
-                {currentBalance}
-              </Typography>
-            </Box>
-          </Box>
-        </Grid>
-        <Grid item xs={12} lg={7}>
-          {currentBalance >= stage.min_stake_amount ? (
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-                height: '100%',
-              }}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: { xs: 'flex-start', md: 'center' },
-                  flexDirection: { xs: 'column', md: 'row' },
-                  justifyContent: 'space-between',
-                  width: '100%',
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: '#333',
-                    fontWeight: '600',
-                    fontSize: '15px',
-                    textAlign: 'center',
-                  }}
-                >
-                  GOCO Token*
-                </Typography>
                 <Box
                   component="input"
                   value={currentBalance}
                   disabled
                   type="number"
                   sx={{
-                    mt: { xs: '10px', md: '0px' },
-                    width: { xs: '100%', md: '80%' },
+                    width: { xs: '70%' },
                     height: '47px',
-                    border: '#8F8F8F solid 0.2px',
-                    bgcolor: '#F8F9F8',
-                    borderRadius: '10px',
-                    color: '#666666',
-                    px: '13px',
+                    // border: '#8F8F8F solid 0.2px',
+                    // bgcolor: '#F8F9F8',
+                    // borderRadius: '10px',
+                    color: '#f3f3f3',
+                    border: 'none',
+                    borderRadius: '20px',
+                    backgroundColor: '#151C2E',
+                    fontSize: '17px',
                     boxShadow: '0px 3px 20px 0px #0000001A',
                     '&:focus': {
                       outline: 'none',
                     },
                   }}
                 />
+                <Box>
+                  <Image
+                    src="/main.png"
+                    alt="BNB Logo"
+                    width={25}
+                    height={25}
+                    style={{
+                      objectFit: 'contain',
+                    }}
+                  />
+                </Box>
               </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: { xs: 'flex-start', md: 'center' },
-                  flexDirection: { xs: 'column', md: 'row' },
-                  justifyContent: 'space-between',
-                  mt: '30px',
-                  width: '100%',
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: '#333',
-                    fontWeight: '600',
-                    fontSize: '15px',
-                    textAlign: 'center',
-                  }}
-                >
-                  GOCO Token Earned
-                </Typography>
-                <Box
-                  component="input"
-                  disabled
-                  type="number"
-                  value={Number(currentBalance) + Number(earned_award)}
-                  sx={{
-                    mt: { xs: '10px', md: '0px' },
-                    width: { xs: '100%', md: '70%' },
-                    height: '47px',
-                    border: '#8F8F8F solid 0.2px',
-                    bgcolor: '#F8F9F8',
-                    borderRadius: '10px',
-                    color: '#666666',
-                    px: '13px',
-                    boxShadow: '0px 3px 20px 0px #0000001A',
-                    '&:focus': {
-                      outline: 'none',
-                    },
-                  }}
-                />
-              </Box>
-
-              <Button
-                sx={{
-                  width: { xs: '100%', md: '150px' },
-                  padding: '10px',
-                  borderRadius: '20px',
-                  mt: '50px',
-                  alignSelf: 'flex-end',
-                }}
-                variant="contained"
-                onClick={saveStake}
-              >
-                <Typography
-                  sx={{
-                    color: '#fff',
-                    fontWeight: '600',
-                    fontSize: '14px',
-                    textAlign: 'center',
-                  }}
-                >
-                  Save
-                </Typography>
-              </Button>
             </Box>
-          ) : (
+
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-                height: '100%',
+                mt: '20px',
               }}
             >
               <Typography
                 sx={{
-                  color: '#777',
-                  fontSize: '18px',
+                  color: '#f3f3f3',
                   fontWeight: '600',
+                  fontSize: { xs: '16px', md: '20px' },
+                  ml: '5px',
+                  mb: '10px',
                 }}
               >
-                Insufficient Token Balance
+                Award
               </Typography>
+
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                  border: '1px solid #23293B',
+                  borderRadius: '20px',
+                  padding: '20px',
+                }}
+              >
+                <EmojiEventsIcon
+                  sx={{
+                    display: { xs: 'none', sm: 'inline-block' },
+                    fill: '#f9f9f9',
+                    mr: '10px',
+                    width: '22px',
+                    height: '22px',
+                  }}
+                />
+                <Box
+                  component="input"
+                  value={Number(earned_award)}
+                  disabled
+                  type="number"
+                  sx={{
+                    width: { xs: '70%' },
+                    height: '47px',
+                    color: '#f3f3f3',
+                    border: 'none',
+                    borderRadius: '20px',
+                    backgroundColor: '#151C2E',
+                    fontSize: '17px',
+                    boxShadow: '0px 3px 20px 0px #0000001A',
+                    '&:focus': {
+                      outline: 'none',
+                    },
+                  }}
+                />
+                <Box>
+                  <Image
+                    src="/main.png"
+                    alt="BNB Logo"
+                    width={25}
+                    height={25}
+                    style={{
+                      objectFit: 'contain',
+                    }}
+                  />
+                </Box>
+              </Box>
             </Box>
-          )}
+            <Button
+              sx={{
+                width: { xs: '100%' },
+                padding: '10px',
+                borderRadius: '15px',
+                mt: '50px',
+                alignSelf: 'flex-end',
+              }}
+              variant="contained"
+              onClick={saveStake}
+            >
+              <Typography
+                sx={{
+                  color: '#fff',
+                  fontWeight: '600',
+                  fontSize: { xs: '12px', md: '14px' },
+                  textAlign: 'center',
+                }}
+              >
+                Save
+              </Typography>
+            </Button>
+          </Box>
+        </Grid>
+        <Grid item xs={12} lg={6}>
+          <Box>
+            <Box
+              sx={{
+                backgroundColor: '#151C2E',
+                border: '1px solid #23293B',
+                borderRadius: '20px',
+                padding: '30px',
+                mb: '20px',
+              }}
+            >
+              <Box>
+                <Typography
+                  sx={{
+                    color: '#f3f3f3',
+                    fontWeight: '600',
+                    fontSize: { xs: '14px', md: '16px' },
+                  }}
+                >
+                  Your Balance
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    // justifyContent: 'center',
+                    mt: '10px',
+                  }}
+                >
+                  <Box>
+                    <Image
+                      src="/main.png"
+                      alt="BNB Logo"
+                      width={20}
+                      height={20}
+                      style={{
+                        objectFit: 'contain',
+                      }}
+                    />
+                  </Box>
+                  <Typography
+                    sx={{
+                      color: '#888',
+                      fontSize: { xs: '12px', md: '14px' },
+                      ml: '5px',
+                      mt: '-5px',
+                    }}
+                  >
+                    {user?.balance}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box sx={{ mt: '15px' }}>
+                <Typography
+                  sx={{
+                    color: '#f3f3f3',
+                    fontWeight: '600',
+                    fontSize: { xs: '14px', md: '16px' },
+                  }}
+                >
+                  Your Total Awards
+                </Typography>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    // justifyContent: 'center',
+                    mt: '10px',
+                  }}
+                >
+                  <Box>
+                    <Image
+                      src="/main.png"
+                      alt="BNB Logo"
+                      width={20}
+                      height={20}
+                      style={{
+                        objectFit: 'contain',
+                      }}
+                    />
+                  </Box>
+                  <Typography
+                    sx={{
+                      color: '#888',
+                      fontSize: { xs: '12px', md: '14px' },
+                      ml: '5px',
+                      mt: '-5px',
+                    }}
+                  >
+                    {user?.awardedBalance}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                backgroundColor: '#151C2E',
+                border: '1px solid #23293B',
+                borderRadius: '20px',
+                padding: '30px',
+              }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: {
+                    xs: 'column',
+                    sm: 'row',
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <BadgeIcon
+                    sx={{
+                      fill: '#f9f9f9',
+                      mr: '10px',
+                      width: '22px',
+                      height: '22px',
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      color: '#f3f3f3',
+                      fontWeight: '600',
+                      fontSize: { xs: '14px', md: '16px' },
+                      textAlign: 'center',
+                      mr: '10px',
+                    }}
+                  >
+                    Stage Name:
+                  </Typography>
+                </Box>
+                <Typography
+                  sx={{
+                    color: '#f9f9f9',
+                    fontWeight: '500',
+                    fontSize: { xs: '12px', md: '14px' },
+                    textAlign: 'center',
+                  }}
+                >
+                  {stage.name}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  mt: '20px',
+                  flexDirection: {
+                    xs: 'column',
+                    sm: 'row',
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <LockIcon
+                    sx={{
+                      fill: '#f9f9f9',
+                      mr: '10px',
+                      width: '22px',
+                      height: '22px',
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      color: '#f3f3f3',
+                      fontWeight: '600',
+                      fontSize: { xs: '14px', md: '16px' },
+                      textAlign: 'center',
+                      mr: '10px',
+                    }}
+                  >
+                    Stage Locking Period:
+                  </Typography>
+                </Box>
+                <Typography
+                  sx={{
+                    color: '#f9f9f9',
+                    fontWeight: '500',
+                    fontSize: { xs: '12px', md: '14px' },
+                    textAlign: 'center',
+                  }}
+                >
+                  {stage.duration} {stage.locking_period_type}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  mt: '20px',
+                  flexDirection: {
+                    xs: 'column',
+                    sm: 'row',
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <EmojiEventsIcon
+                    sx={{
+                      fill: '#f9f9f9',
+                      mr: '10px',
+                      width: '22px',
+                      height: '22px',
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      color: '#f3f3f3',
+                      fontWeight: '600',
+                      fontSize: { xs: '14px', md: '16px' },
+                      textAlign: 'center',
+                      mr: '10px',
+                    }}
+                  >
+                    Token Reward(%):
+                  </Typography>
+                </Box>
+                <Typography
+                  sx={{
+                    color: '#f9f9f9',
+                    fontWeight: '500',
+                    fontSize: { xs: '12px', md: '14px' },
+                    textAlign: 'center',
+                  }}
+                >
+                  {stage.reward_percentage}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  mt: '20px',
+                  flexDirection: {
+                    xs: 'column',
+                    sm: 'row',
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <NineKPlusIcon
+                    sx={{
+                      fill: '#f9f9f9',
+                      mr: '10px',
+                      width: '22px',
+                      height: '22px',
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      color: '#f3f3f3',
+                      fontWeight: '600',
+                      fontSize: { xs: '14px', md: '16px' },
+                      textAlign: 'center',
+                      mr: '10px',
+                    }}
+                  >
+                    Used Supply:
+                  </Typography>
+                </Box>
+                <Typography
+                  sx={{
+                    color: '#f9f9f9',
+                    fontWeight: '500',
+                    fontSize: { xs: '12px', md: '14px' },
+                    textAlign: 'center',
+                  }}
+                >
+                  {stage.used_round_supply}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
         </Grid>
       </Grid>
     </Box>
