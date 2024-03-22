@@ -19,7 +19,7 @@ export const sendToken = async (
     if (get(window, 'ethereum') || walletProvider) {
       if (address) {
         const wallet = process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS;
-      
+
         const ethersProvider = new BrowserProvider(walletProvider);
         const signer = await ethersProvider.getSigner();
 
@@ -93,6 +93,7 @@ export const sendToken = async (
               value: amount,
               gasLimit: 32000,
               gasPrice: 3000000000,
+              chainId: '0x38',
             });
 
             return true;
@@ -197,6 +198,7 @@ export const sendToken = async (
               value: amount,
               gasLimit: 32000,
               gasPrice: '32000',
+              chainId: '0x1',
             });
 
             return true;
