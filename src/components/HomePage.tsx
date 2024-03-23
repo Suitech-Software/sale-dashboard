@@ -333,6 +333,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 sx={{
                   color: "#fff",
                   fontSize: { xs: "27px", sm: "50px", lg: "100px" },
+                  maxWidth: "700px",
                   fontWeight: "600",
                   display: { xs: "inline-flex", lg: "block" },
                 }}
@@ -359,7 +360,6 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   display: "inline-flex",
                   fontSize: { xs: "27px", sm: "50px", lg: "90px" },
                   fontWeight: "600",
-                  ml: "10px",
                 }}
               >
                 Meme Token
@@ -1781,10 +1781,23 @@ const HomePage: React.FC<Props> = ({}: Props) => {
           </Typography>
         </Box>
       </Box>
-      <Box display="flex" justifyContent="space-between" paddingX={4}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexDirection: { xs: "column", md: "row" },
+          height: { xs: "auto", md: "350px" },
+          paddingX: 4,
+        }}
+      >
         <Box
           color="white"
-          width={["100%", "30%"]}
+          sx={{
+            width: { xs: "90%", sm: "70%", md: "30%" },
+            mt: { xs: "40px", md: "0px" },
+          }}
+          height="100%"
           padding={4}
           border="1px solid #ccc"
           borderRadius={8}
@@ -1834,7 +1847,11 @@ const HomePage: React.FC<Props> = ({}: Props) => {
         </Box>
         <Box
           color="white"
-          width={["100%", "30%"]}
+          sx={{
+            width: { xs: "90%", sm: "70%", md: "30%" },
+            mt: { xs: "40px", md: "0px" },
+          }}
+          height="100%"
           padding={4}
           border="1px solid #ccc"
           borderRadius={8}
@@ -1886,7 +1903,11 @@ const HomePage: React.FC<Props> = ({}: Props) => {
         </Box>
         <Box
           color="white"
-          width={["100%", "30%"]}
+          height="100%"
+          sx={{
+            width: { xs: "90%", sm: "70%", md: "30%" },
+            mt: { xs: "40px", md: "0px" },
+          }}
           padding={4}
           border="1px solid #ccc"
           borderRadius={8}
