@@ -448,7 +448,7 @@ const StakePage: React.FC<Props> = ({}: Props) => {
                                   fontSize: '11px',
                                 }}
                               >
-                                Not active
+                                Active
                               </Typography>
                             </Box>
                           </Box>
