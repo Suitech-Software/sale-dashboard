@@ -14,6 +14,7 @@ import { findBalanceByAddress } from '@/lib/findBalanceByAddress';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { UserReturnType } from '@/types/User';
+import { StakingInvestmentReturnType } from '@/types/StakingInvestment';
 
 interface Props {
   stage: StakingStageReturnType;
@@ -23,6 +24,8 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
   const [currentBalance, setCurrentBalance] = useState(0);
   const [earned_award, setEarned_award] = useState(0);
   const [user, setUser] = useState<UserReturnType | null>(null);
+  const [stakingInvestment, setStakingInvestment] =
+    useState<StakingInvestmentReturnType | null>(null);
 
   const generalValues: GeneralValueType = useSelector(
     (state: RootState) => state.general.value
@@ -77,6 +80,22 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
       });
   }, []);
 
+  useEffect(() => {
+    fetch(
+      `/api/stakingInvestment/getStakingInvestmentByUserWallet?userWallet=${generalValues.walletAddress}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data: any) => {
+        setStakingInvestment(data.stakingInvestment);
+      });
+  }, []);
+
   const saveStake = async () => {
     const stakingData = {
       userWallet: generalValues.walletAddress,
@@ -105,11 +124,66 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
     }
   };
 
+  function calculateRemainingTime() {
+    const now = new Date();
+    const end = new Date(new Date(stakingInvestment?.unstaking_at as Date));
+
+    end.setHours(23);
+    end.setMinutes(59);
+    end.setSeconds(59);
+
+    // @ts-ignore
+    const timeDifference = end - now;
+    const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor(
+      (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+    );
+    const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+    const formattedDays = days > 0 ? `${days} DAY${days > 1 ? 'S' : ''}` : '';
+    const formattedHours =
+      hours > 0 ? `${hours} HOUR${hours > 1 ? 'S' : ''}` : '';
+    const formattedMinutes =
+      minutes > 0 ? `${minutes} MINUTE${minutes > 1 ? 'S' : ''}` : '';
+    const formattedSeconds =
+      seconds > 0 ? `${seconds} SECOND${seconds > 1 ? 'S' : ''}` : '';
+
+    const formattedTime = [
+      formattedDays,
+      formattedHours,
+      formattedMinutes,
+      formattedSeconds,
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    return formattedTime || '';
+  }
+
+  function calculateTotalTimeInSeconds() {
+    const start = new Date(stakingInvestment?.staking_at as Date);
+
+    const now = new Date();
+    const end = new Date(stakingInvestment?.unstaking_at as Date);
+
+    //@ts-ignore
+    const totalTimeInSeconds = end - now;
+    //@ts-ignore
+    const resBetweenDate = end - start;
+
+    const res = resBetweenDate - totalTimeInSeconds;
+    var rate = (res / resBetweenDate) * 100;
+
+    return rate;
+  }
+
   return (
     <Box
       sx={{
         width: '100%',
-        // backgroundColor: '#151C2E',
         mt: '30px',
         boxShadow:
           '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
@@ -298,6 +372,61 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                 mb: '20px',
               }}
             >
+              <Box
+                sx={{
+                  mb: '10px',
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: '#f3f3f3',
+                    fontWeight: '500',
+                    fontSize: { xs: '12px', md: '14px' },
+                    ml: '5px',
+                    mb: '10px',
+                  }}
+                >
+                  Your current stake will expire after{' '}
+                </Typography>
+                <Box
+                  sx={{
+                    mt: '10px',
+                    height: '30px',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    borderRadius: '20px',
+                    background: '#e4e4e7',
+                    py: '20px',
+                    position: 'relative',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      height: '30px',
+                      width: `${calculateTotalTimeInSeconds()}%`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '20px',
+                      background: '#0ea5e9',
+                      p: '20px',
+                    }}
+                  ></Box>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: '9px', sm: '14px' },
+                      fontWeight: '600',
+                      color: '#333',
+                      position: 'absolute',
+                      left: '20%',
+                    }}
+                  >
+                    <strong>{calculateRemainingTime()}</strong>
+                  </Typography>
+                </Box>
+              </Box>
               <Box>
                 <Typography
                   sx={{
