@@ -1,5 +1,18 @@
 import React, { useEffect, useRef } from "react";
-import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import Image from "next/image";
 import { sendToken } from "@/lib/sendToken";
@@ -31,10 +44,45 @@ import Reveal from "./Reveal";
 import Tokenomics from "./Tokenomics";
 import styles1 from "./MyComponent.module.css";
 import Footer from "./Footer";
+import WaterDropIon from "@mui/icons-material/WaterDrop";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
+import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
 
 interface Props {}
 
 const HomePage: React.FC<Props> = ({}: Props) => {
+  const tableData: any = [
+    {
+      first: "coindox",
+      second: "close",
+      third: "tick",
+      fourth: "close",
+      fifth: "close",
+    },
+    {
+      first: "Civic",
+      second: "tick",
+      third: "close",
+      fourth: "close",
+      fifth: "tick",
+    },
+    {
+      first: "Vilid.global",
+      second: "tick",
+      third: "close",
+      fourth: "tick",
+      fifth: "tick",
+    },
+    {
+      first: "Hypr",
+      second: "tick",
+      third: "tick",
+      fourth: "close",
+      fifth: "tick",
+    },
+  ];
+
   const [isLoading, setIsLoading] = useState(false);
   const [nextStage, setNextStage] = useState<any>({});
 
@@ -1686,6 +1734,535 @@ const HomePage: React.FC<Props> = ({}: Props) => {
           </>
         </Reveal>
       </Box>
+      <Reveal>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            mt: "70px",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              px: "30px",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "rgb(221,221,223)",
+                fontSize: "26px",
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Proactive Market Maker
+            </Typography>
+            <Typography
+              sx={{
+                mt: "10px",
+                color: "rgb(80,80,100)",
+                fontSize: "12px",
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
+            </Typography>
+            <Typography
+              sx={{
+                mt: "10px",
+                color: "rgb(80,80,100)",
+                fontSize: "12px",
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Lorem Ipsum is simply dummy text of the printing
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexDirection: { xs: "column", md: "row" },
+              mt: { xs: "30px", sm: "50px" },
+              width: "100%",
+              height: { xs: "auto", md: "600px" },
+              backgroundImage: { xs: "", md: "url(/goco-curtain.png)" },
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              paddingX: { xs: "30px", lg: "100px" },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                flexDirection: "column",
+                background: "rgb(2,0,19)",
+                height: "100%",
+                boxShadow:
+                  "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                width: { xs: "300px", sm: "70%", md: "300px" },
+              }}
+            >
+              <Box
+                sx={{
+                  boxShadow:
+                    "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                  padding: "30px",
+                }}
+              >
+                <Box
+                  sx={{
+                    background: "rgb(13,10,28)",
+                    border: "1px solid rgb(23, 19, 44)",
+                    borderRadius: "10px",
+                    boxShadow:
+                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <WaterDropIon
+                    sx={{
+                      width: "18px",
+                      height: "18px",
+                      color: "#fff",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    letterSpacing: "2px",
+                    color: "rgb(224,224,226)",
+                    mt: "10px",
+                  }}
+                >
+                  Liquidity Providers 50%
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    letterSpacing: "1px",
+                    color: "rgb(63,63,82)",
+                    mt: "10px",
+                  }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer.
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  boxShadow:
+                    "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                  padding: "30px",
+                  mt: { xs: "20px", md: "0px" },
+                }}
+              >
+                <Box
+                  sx={{
+                    background: "rgb(13,10,28)",
+                    border: "1px solid rgb(23, 19, 44)",
+                    borderRadius: "10px",
+                    boxShadow:
+                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <LightbulbIcon
+                    sx={{
+                      width: "18px",
+                      height: "18px",
+                      color: "#fff",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    letterSpacing: "2px",
+                    color: "rgb(224,224,226)",
+                    mt: "10px",
+                  }}
+                >
+                  Liquidity Providers 50%
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    letterSpacing: "1px",
+                    color: "rgb(63,63,82)",
+                    mt: "10px",
+                  }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer.
+                </Typography>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                flexDirection: "column",
+                background: "rgb(2,0,19)",
+                height: "100%",
+                boxShadow:
+                  "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                width: { xs: "300px", sm: "70%", md: "300px" },
+              }}
+            >
+              <Box
+                sx={{
+                  boxShadow:
+                    "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                  padding: "30px",
+                  mt: { xs: "20px", md: "0px" },
+                }}
+              >
+                <Box
+                  sx={{
+                    background: "rgb(13,10,28)",
+                    border: "1px solid rgb(23, 19, 44)",
+                    borderRadius: "10px",
+                    boxShadow:
+                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <LocalMallRoundedIcon
+                    sx={{
+                      width: "18px",
+                      height: "18px",
+                      color: "#fff",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    letterSpacing: "2px",
+                    color: "rgb(224,224,226)",
+                    mt: "10px",
+                  }}
+                >
+                  Liquidity Providers 50%
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    letterSpacing: "1px",
+                    color: "rgb(63,63,82)",
+                    mt: "10px",
+                  }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer.
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  boxShadow:
+                    "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                  padding: "30px",
+                  mt: { xs: "20px", md: "0px" },
+                }}
+              >
+                <Box
+                  sx={{
+                    background: "rgb(13,10,28)",
+                    border: "1px solid rgb(23, 19, 44)",
+                    borderRadius: "10px",
+                    boxShadow:
+                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <StarRoundedIcon
+                    sx={{
+                      width: "18px",
+                      height: "18px",
+                      color: "#fff",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    letterSpacing: "2px",
+                    color: "rgb(224,224,226)",
+                    mt: "10px",
+                  }}
+                >
+                  Liquidity Providers 50%
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    letterSpacing: "1px",
+                    color: "rgb(63,63,82)",
+                    mt: "10px",
+                  }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer.
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Reveal>
+      <Reveal>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            my: "40px",
+            mx: { xs: "30px", md: "100px" },
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              px: "30px",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "rgb(254,254,254)",
+                fontSize: { xs: "16px", sm: "27px", md: "36px" },
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Comparison With Competitors and
+            </Typography>
+            <Typography
+              sx={{
+                color: "rgb(254,254,254)",
+                fontSize: { xs: "16px", sm: "27px", md: "36px" },
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Our Advantages
+            </Typography>
+            <Typography
+              sx={{
+                mt: "10px",
+                color: "rgb(176,176,188)",
+                fontSize: "12px",
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
+            </Typography>
+          </Box>
+          <TableContainer component={Paper} sx={{ mt: "50px" }}>
+            <Table sx={{ minWidth: 650 }} aria-label="My Stake">
+              <TableHead
+                sx={{
+                  background: "rgb(3,5,13)",
+                  "*": {
+                    border: "none",
+                    color: "#fff",
+                  },
+                }}
+              >
+                <TableRow>
+                  <TableCell>Futures</TableCell>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                    align="center"
+                  >
+                    IDV System
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                    align="center"
+                  >
+                    Creating Apps
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                    align="center"
+                  >
+                    Confidentiality
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                    align="center"
+                  >
+                    Without Gadget
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody
+                sx={{
+                  background: "rgb(3,5,13)",
+                  "*": {
+                    border: "none",
+                    color: "#fff",
+                  },
+                }}
+              >
+                {tableData.map((tableD: any, i: number) => (
+                  <TableRow
+                    key={i}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+
+                      "&:nth-of-type(odd)": {
+                        backgroundColor: "rgb(12,14,19)",
+                      },
+                    }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {tableD.first}
+                    </TableCell>
+                    <TableCell
+                      scope="row"
+                      component="th"
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      align="center"
+                    >
+                      <Image
+                        src={`/${tableD.second}.png`}
+                        alt="Tick"
+                        width={20}
+                        height={20}
+                        priority={true}
+                        style={{
+                          objectFit: "contain",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                    >
+                      <Image
+                        src={`/${tableD.third}.png`}
+                        alt="Tick"
+                        width={20}
+                        height={20}
+                        priority={true}
+                        style={{
+                          objectFit: "contain",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                    >
+                      <Image
+                        src={`/${tableD.fourth}.png`}
+                        alt="Tick"
+                        width={20}
+                        height={20}
+                        priority={true}
+                        style={{
+                          objectFit: "contain",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                    >
+                      <Image
+                        src={`/${tableD.fifth}.png`}
+                        alt="Tick"
+                        width={20}
+                        height={20}
+                        priority={true}
+                        style={{
+                          objectFit: "contain",
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </Reveal>
       <Reveal>
         <>
           <Box
