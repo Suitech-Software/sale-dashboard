@@ -2108,13 +2108,20 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 sx={{
                   background: "rgb(3,5,13)",
                   "*": {
-                    border: "none",
                     color: "#fff",
+                    border: "none",
                   },
                 }}
               >
                 <TableRow>
-                  <TableCell>Futures</TableCell>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                  >
+                    Futures
+                  </TableCell>
                   <TableCell
                     sx={{
                       border: "none",
@@ -2173,7 +2180,14 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       },
                     }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                    >
                       {tableD.first}
                     </TableCell>
                     <TableCell
