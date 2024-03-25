@@ -16,7 +16,7 @@ export const sendToken = async (
   walletProvider: any
 ) => {
   try {
-    if (get(window, 'ethereum')) {
+    if (get(window, 'ethereum') || walletProvider) {
       if (address) {
         const wallet = process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS;
 
@@ -93,6 +93,7 @@ export const sendToken = async (
               value: amount,
               gasLimit: 32000,
               gasPrice: 3000000000,
+              chainId: '0x38',
             });
 
             return true;
@@ -197,6 +198,7 @@ export const sendToken = async (
               value: amount,
               gasLimit: 32000,
               gasPrice: '32000',
+              chainId: '0x1',
             });
 
             return true;
@@ -217,6 +219,8 @@ export const sendToken = async (
       )
     ) {
       toast.error('There is a problem about contract ABIs');
+    } else if (error.message.includes('User rejected the transaction')) {
+      toast.info('You rejected it');
     } else {
       toast.error(error.message);
     }

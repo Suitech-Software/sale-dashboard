@@ -1,5 +1,18 @@
 import React, { useEffect, useRef } from "react";
-import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import Image from "next/image";
 import { sendToken } from "@/lib/sendToken";
@@ -31,10 +44,45 @@ import Reveal from "./Reveal";
 import Tokenomics from "./Tokenomics";
 import styles1 from "./MyComponent.module.css";
 import Footer from "./Footer";
+import WaterDropIon from "@mui/icons-material/WaterDrop";
+import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
+import LocalMallRoundedIcon from "@mui/icons-material/LocalMallRounded";
 
 interface Props {}
 
 const HomePage: React.FC<Props> = ({}: Props) => {
+  const tableData: any = [
+    {
+      first: "coindox",
+      second: "close",
+      third: "tick",
+      fourth: "close",
+      fifth: "close",
+    },
+    {
+      first: "Civic",
+      second: "tick",
+      third: "close",
+      fourth: "close",
+      fifth: "tick",
+    },
+    {
+      first: "Vilid.global",
+      second: "tick",
+      third: "close",
+      fourth: "tick",
+      fifth: "tick",
+    },
+    {
+      first: "Hypr",
+      second: "tick",
+      third: "tick",
+      fourth: "close",
+      fifth: "tick",
+    },
+  ];
+
   const [isLoading, setIsLoading] = useState(false);
   const [nextStage, setNextStage] = useState<any>({});
 
@@ -227,24 +275,31 @@ const HomePage: React.FC<Props> = ({}: Props) => {
     );
     const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-    const formattedDays = days > 0 ? `${days} DAY${days > 1 ? "S" : ""}` : "";
-    const formattedHours =
-      hours > 0 ? `${hours} HOUR${hours > 1 ? "S" : ""}` : "";
-    const formattedMinutes =
-      minutes > 0 ? `${minutes} MINUTE${minutes > 1 ? "S" : ""}` : "";
-    const formattedSeconds =
-      seconds > 0 ? `${seconds} SECOND${seconds > 1 ? "S" : ""}` : "";
+    const formattedDays = {
+      child: `${days < 10 ? "0" : ""}${days}`,
+      text: days > 0 ? `DAY` : "",
+    };
+    const formattedHours = {
+      child: `${hours < 10 ? "0" : ""}${hours}`,
+      text: hours > 0 ? `HR${hours > 1 ? "S" : ""}` : "",
+    };
+    const formattedMinutes = {
+      child: `${minutes < 10 ? "0" : ""}${minutes}`,
+      text: minutes > 0 ? `MIN${minutes > 1 ? "S" : ""}` : "",
+    };
+    const formattedSeconds = {
+      child: `${seconds < 10 ? "0" : ""}${seconds}`,
+      text: seconds > 0 ? `SEC` : "",
+    };
 
     const formattedTime = [
       formattedDays,
       formattedHours,
       formattedMinutes,
       formattedSeconds,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    ];
 
-    return formattedTime || "EXPIRED";
+    return formattedTime || [{ child: "EXPIRED", text: "" }];
   }
 
   function calculateTotalTimeInSeconds() {
@@ -333,6 +388,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 sx={{
                   color: "#fff",
                   fontSize: { xs: "27px", sm: "50px", lg: "100px" },
+                  maxWidth: "700px",
                   fontWeight: "600",
                   display: { xs: "inline-flex", lg: "block" },
                 }}
@@ -348,9 +404,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   display: "inline-flex",
                   ml: { xs: "10px", lg: "0px" },
                 }}
-              >
-                
-              </Typography>
+              ></Typography>
               <Typography
                 sx={{
                   textTransform: "uppercase",
@@ -361,7 +415,6 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   display: "inline-flex",
                   fontSize: { xs: "27px", sm: "50px", lg: "90px" },
                   fontWeight: "600",
-                  ml: "10px",
                 }}
               >
                 Meme Token
@@ -385,11 +438,10 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   letterSpacing: "1px",
                 }}
               >
-                Where art, fun, and fame collide to create the ultimate meme crypto experience!
-                
-                👑🐍 Forget dogs and frogs - the era of the Royal Snake has arrived! Golden Cobra is here to take over and redefine the meme coin game! $GOCO 
-                
-
+                Where art, fun, and fame collide to create the ultimate meme
+                crypto experience! 👑🐍 Forget dogs and frogs - the era of the
+                Royal Snake has arrived! Golden Cobra is here to take over and
+                redefine the meme coin game! $GOCO
               </Typography>
             </Reveal>
           </Box>
@@ -429,16 +481,58 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 >
                   $GOCO Pre-Sale
                 </Typography>
-                <Typography
+                <Box
                   sx={{
                     mt: "10px",
-                    fontSize: { xs: "10px", sm: "14px" },
-                    fontWeight: "600",
-                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+
+                    "& div": {
+                      marginLeft: "10px",
+                    },
+
+                    "&:first-of-type": {
+                      marginLeft: "0px",
+                    },
                   }}
                 >
-                  {calculateRemainingTime()}
-                </Typography>
+                  {calculateRemainingTime()?.map((time: any) => (
+                    <Box
+                      key={time.id}
+                      sx={{
+                        background: "rgb(248, 214, 72)",
+                        borderRadius: "5px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        padding: "5px",
+                        paddingX: "15px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: { xs: "10px", sm: "15px" },
+                          fontWeight: "700",
+                          color: "rgb(21,27,27)",
+                        }}
+                      >
+                        {time.child}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: { xs: "10px", sm: "11px" },
+                          fontWeight: "500",
+                          color: "rgb(21,27,27)",
+                        }}
+                      >
+                        {time.text}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+
                 <Box
                   sx={{
                     mt: "10px",
@@ -1245,9 +1339,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 mt: "10px",
                 textAlign: "center",
               }}
-            >
-              
-            </Typography>
+            ></Typography>
           </>
         </Reveal>
         <Reveal>
@@ -1430,7 +1522,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                Our goal is to reach 12,756 fans to make the GOLDEN COBRA hug the world and turn every piece of sand on the beaches to gold.
+                Our goal is to reach 12,756 fans to make the GOLDEN COBRA hug
+                the world and turn every piece of sand on the beaches to gold.
               </Typography>
               <Typography
                 sx={{
@@ -1441,7 +1534,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                 (Each fan is an additional 1 meter to the GOCO'ssssss tailssss).
+                (Each fan is an additional 1 meter to the GOCO&apos;ssssss
+                tailssss).
               </Typography>
             </Box>
             <Grid
@@ -1492,7 +1586,10 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    SUSTAINABILITY GUARANTEED: $GOCO isn't just about memes; it's about huge utility. The Golden Cobra Snake, our next-level Play to Earn Game. It's not just a token; it's a journey!
+                    SUSTAINABILITY GUARANTEED: $GOCO isn&apos;t just about
+                    memes; it&apos;s about huge utility. The Golden Cobra Snake,
+                    our next-level Play to Earn Game. It&apos;s not just a
+                    token; it&apos;s a journey!
                   </Typography>
                 </Box>
               </Grid>
@@ -1536,7 +1633,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    SMART INVESTMENT: Why settle for boring investments when you can have fun AND earn more with GOCO? It's the best of both worlds!
+                    SMART INVESTMENT: Why settle for boring investments when you
+                    can have fun AND earn more with GOCO? It&apos;s the best of
+                    both worlds!
                   </Typography>
                 </Box>
               </Grid>
@@ -1580,7 +1679,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    EACH FAN IS A GREEN CANDLE, lighting up our charts and spreading the word about the Golden Cobra phenomenon. Together, we'll reach new heights!
+                    EACH FAN IS A GREEN CANDLE, lighting up our charts and
+                    spreading the word about the Golden Cobra phenomenon.
+                    Together, we&apos;ll reach new heights!
                   </Typography>
                 </Box>
               </Grid>
@@ -1624,9 +1725,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    EARN APY DURING PRESALE!
-Do not wait for a second, begin earning APY on $GOCO tokens today by buying the presale. 
-Click here to learn more!  (link to staking on whitepaper)
+                    EARN APY DURING PRESALE! Do not wait for a second, begin
+                    earning APY on $GOCO tokens today by buying the presale.
+                    Click here to learn more! (link to staking on whitepaper)
                   </Typography>
                 </Box>
               </Grid>
@@ -1634,6 +1735,549 @@ Click here to learn more!  (link to staking on whitepaper)
           </>
         </Reveal>
       </Box>
+      <Reveal>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            mt: "70px",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              px: "30px",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "rgb(221,221,223)",
+                fontSize: "26px",
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Proactive Market Maker
+            </Typography>
+            <Typography
+              sx={{
+                mt: "10px",
+                color: "rgb(80,80,100)",
+                fontSize: "12px",
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
+            </Typography>
+            <Typography
+              sx={{
+                mt: "10px",
+                color: "rgb(80,80,100)",
+                fontSize: "12px",
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Lorem Ipsum is simply dummy text of the printing
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexDirection: { xs: "column", md: "row" },
+              mt: { xs: "30px", sm: "50px" },
+              width: "100%",
+              height: { xs: "auto", md: "600px" },
+              backgroundImage: { xs: "", md: "url(/goco-curtain.png)" },
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              paddingX: { xs: "30px", lg: "100px" },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                flexDirection: "column",
+                background: "rgb(2,0,19)",
+                height: "100%",
+                boxShadow:
+                  "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                width: { xs: "300px", sm: "70%", md: "300px" },
+              }}
+            >
+              <Box
+                sx={{
+                  boxShadow:
+                    "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                  padding: "30px",
+                }}
+              >
+                <Box
+                  sx={{
+                    background: "rgb(13,10,28)",
+                    border: "1px solid rgb(23, 19, 44)",
+                    borderRadius: "10px",
+                    boxShadow:
+                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <WaterDropIon
+                    sx={{
+                      width: "18px",
+                      height: "18px",
+                      color: "#fff",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    letterSpacing: "2px",
+                    color: "rgb(224,224,226)",
+                    mt: "10px",
+                  }}
+                >
+                  Liquidity Providers 50%
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    letterSpacing: "1px",
+                    color: "rgb(63,63,82)",
+                    mt: "10px",
+                  }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry&apos;s
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer.
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  boxShadow:
+                    "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                  padding: "30px",
+                  mt: { xs: "20px", md: "0px" },
+                }}
+              >
+                <Box
+                  sx={{
+                    background: "rgb(13,10,28)",
+                    border: "1px solid rgb(23, 19, 44)",
+                    borderRadius: "10px",
+                    boxShadow:
+                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <LightbulbIcon
+                    sx={{
+                      width: "18px",
+                      height: "18px",
+                      color: "#fff",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    letterSpacing: "2px",
+                    color: "rgb(224,224,226)",
+                    mt: "10px",
+                  }}
+                >
+                  Liquidity Providers 50%
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    letterSpacing: "1px",
+                    color: "rgb(63,63,82)",
+                    mt: "10px",
+                  }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry&apos;s
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer.
+                </Typography>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                flexDirection: "column",
+                background: "rgb(2,0,19)",
+                height: "100%",
+                boxShadow:
+                  "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                width: { xs: "300px", sm: "70%", md: "300px" },
+              }}
+            >
+              <Box
+                sx={{
+                  boxShadow:
+                    "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                  padding: "30px",
+                  mt: { xs: "20px", md: "0px" },
+                }}
+              >
+                <Box
+                  sx={{
+                    background: "rgb(13,10,28)",
+                    border: "1px solid rgb(23, 19, 44)",
+                    borderRadius: "10px",
+                    boxShadow:
+                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <LocalMallRoundedIcon
+                    sx={{
+                      width: "18px",
+                      height: "18px",
+                      color: "#fff",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    letterSpacing: "2px",
+                    color: "rgb(224,224,226)",
+                    mt: "10px",
+                  }}
+                >
+                  Liquidity Providers 50%
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    letterSpacing: "1px",
+                    color: "rgb(63,63,82)",
+                    mt: "10px",
+                  }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry&apos;s
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer.
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  boxShadow:
+                    "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                  padding: "30px",
+                  mt: { xs: "20px", md: "0px" },
+                }}
+              >
+                <Box
+                  sx={{
+                    background: "rgb(13,10,28)",
+                    border: "1px solid rgb(23, 19, 44)",
+                    borderRadius: "10px",
+                    boxShadow:
+                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
+                >
+                  <StarRoundedIcon
+                    sx={{
+                      width: "18px",
+                      height: "18px",
+                      color: "#fff",
+                    }}
+                  />
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    letterSpacing: "2px",
+                    color: "rgb(224,224,226)",
+                    mt: "10px",
+                  }}
+                >
+                  Liquidity Providers 50%
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "12px",
+                    letterSpacing: "1px",
+                    color: "rgb(63,63,82)",
+                    mt: "10px",
+                  }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry&apos;s
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer.
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Reveal>
+      <Reveal>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            my: "40px",
+            mx: { xs: "30px", md: "100px" },
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              px: "30px",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "rgb(254,254,254)",
+                fontSize: { xs: "16px", sm: "27px", md: "36px" },
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Comparison With Competitors and
+            </Typography>
+            <Typography
+              sx={{
+                color: "rgb(254,254,254)",
+                fontSize: { xs: "16px", sm: "27px", md: "36px" },
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Our Advantages
+            </Typography>
+            <Typography
+              sx={{
+                mt: "10px",
+                color: "rgb(176,176,188)",
+                fontSize: "12px",
+                letterSpacing: "2px",
+                textAlign: "center",
+              }}
+            >
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry.
+            </Typography>
+          </Box>
+          <TableContainer component={Paper} sx={{ mt: "50px" }}>
+            <Table sx={{ minWidth: 650 }} aria-label="My Stake">
+              <TableHead
+                sx={{
+                  background: "rgb(3,5,13)",
+                  "*": {
+                    color: "#fff",
+                    border: "none",
+                  },
+                }}
+              >
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                  >
+                    Futures
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                    align="center"
+                  >
+                    IDV System
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                    align="center"
+                  >
+                    Creating Apps
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                    align="center"
+                  >
+                    Confidentiality
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      border: "none",
+                      color: "#fff",
+                    }}
+                    align="center"
+                  >
+                    Without Gadget
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody
+                sx={{
+                  background: "rgb(3,5,13)",
+                  "*": {
+                    border: "none",
+                    color: "#fff",
+                  },
+                }}
+              >
+                {tableData.map((tableD: any, i: number) => (
+                  <TableRow
+                    key={i}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+
+                      "&:nth-of-type(odd)": {
+                        backgroundColor: "rgb(12,14,19)",
+                      },
+                    }}
+                  >
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                    >
+                      {tableD.first}
+                    </TableCell>
+                    <TableCell
+                      scope="row"
+                      component="th"
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      align="center"
+                    >
+                      <Image
+                        src={`/${tableD.second}.png`}
+                        alt="Tick"
+                        width={20}
+                        height={20}
+                        priority={true}
+                        style={{
+                          objectFit: "contain",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                    >
+                      <Image
+                        src={`/${tableD.third}.png`}
+                        alt="Tick"
+                        width={20}
+                        height={20}
+                        priority={true}
+                        style={{
+                          objectFit: "contain",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                    >
+                      <Image
+                        src={`/${tableD.fourth}.png`}
+                        alt="Tick"
+                        width={20}
+                        height={20}
+                        priority={true}
+                        style={{
+                          objectFit: "contain",
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        border: "none",
+                        color: "#fff",
+                      }}
+                      align="center"
+                      component="th"
+                      scope="row"
+                    >
+                      <Image
+                        src={`/${tableD.fifth}.png`}
+                        alt="Tick"
+                        width={20}
+                        height={20}
+                        priority={true}
+                        style={{
+                          objectFit: "contain",
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </Reveal>
       <Reveal>
         <>
           <Box
@@ -1730,10 +2374,7 @@ Click here to learn more!  (link to staking on whitepaper)
                 display: { xs: "inline-flex", sm: "block" },
               }}
             >
-              
-Unlock a treasure chest of 
-
-
+              Unlock a treasure chest of
             </Typography>
             <Typography
               sx={{
@@ -1757,8 +2398,7 @@ Unlock a treasure chest of
               width: { xs: "80%", sm: "400px" },
               textAlign: "justify",
             }}
-          >
-          </Typography>
+          ></Typography>
           <Typography
             sx={{
               color: "rgb(130,130,129)",
@@ -1769,14 +2409,35 @@ Unlock a treasure chest of
               mt: "5px",
             }}
           >
-            Whether you're purchasing, referring friends, or engaging with our ecosystem, we offer real rewards like purchase and referral bonuses, token rewards, exclusive NFT tickets, Play-to-Earn features, staking multiplier tickets, and raffle tickets. Worth hundreds of thousands of dollars, these rewards are available in instant, hourly, daily, weekly, and monthly periods, ensuring that the GOCO token and the "Golden Cobra" snake game reach our community of millions in no time. Join us now and reap the benefits of being part of the Golden Cobra family!
+            Whether you&apos;re purchasing, referring friends, or engaging with
+            our ecosystem, we offer real rewards like purchase and referral
+            bonuses, token rewards, exclusive NFT tickets, Play-to-Earn
+            features, staking multiplier tickets, and raffle tickets. Worth
+            hundreds of thousands of dollars, these rewards are available in
+            instant, hourly, daily, weekly, and monthly periods, ensuring that
+            the GOCO token and the &apos;Golden Cobra&apos; snake game reach our
+            community of millions in no time. Join us now and reap the benefits
+            of being part of the Golden Cobra family!
           </Typography>
         </Box>
       </Box>
-      <Box display="flex" justifyContent="space-between" paddingX={4}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexDirection: { xs: "column", md: "row" },
+          height: { xs: "auto", md: "350px" },
+          paddingX: 4,
+        }}
+      >
         <Box
           color="white"
-          width={["100%", "30%"]}
+          sx={{
+            width: { xs: "90%", sm: "70%", md: "30%" },
+            mt: { xs: "40px", md: "0px" },
+          }}
+          height="100%"
           padding={4}
           border="1px solid #ccc"
           borderRadius={8}
@@ -1826,7 +2487,11 @@ Unlock a treasure chest of
         </Box>
         <Box
           color="white"
-          width={["100%", "30%"]}
+          sx={{
+            width: { xs: "90%", sm: "70%", md: "30%" },
+            mt: { xs: "40px", md: "0px" },
+          }}
+          height="100%"
           padding={4}
           border="1px solid #ccc"
           borderRadius={8}
@@ -1878,7 +2543,11 @@ Unlock a treasure chest of
         </Box>
         <Box
           color="white"
-          width={["100%", "30%"]}
+          height="100%"
+          sx={{
+            width: { xs: "90%", sm: "70%", md: "30%" },
+            mt: { xs: "40px", md: "0px" },
+          }}
           padding={4}
           border="1px solid #ccc"
           borderRadius={8}
@@ -1991,7 +2660,7 @@ Unlock a treasure chest of
                   ml: "10px",
                 }}
               >
-                Made 
+                Made
               </Typography>
               <Typography
                 sx={{
@@ -2001,9 +2670,7 @@ Unlock a treasure chest of
                   display: "inline-flex",
                   ml: "10px",
                 }}
-              >
-                
-              </Typography>
+              ></Typography>
               <Typography
                 sx={{
                   color: "#fff",
@@ -2026,7 +2693,11 @@ Unlock a treasure chest of
                 width: { xs: "80%", sm: "400px" },
               }}
             >
-              Buying GOCO is as easy as slithering down a sunbeam. We have clear, concise instructions for even the most crypto-phobic among us.Buying GOCO is as easy as slithering down a sunbeam. We have clear, concise instructions for even the most crypto-phobic among us.
+              Buying GOCO is as easy as slithering down a sunbeam. We have
+              clear, concise instructions for even the most crypto-phobic among
+              us.Buying GOCO is as easy as slithering down a sunbeam. We have
+              clear, concise instructions for even the most crypto-phobic among
+              us.
             </Typography>
             <Typography
               sx={{
@@ -2241,9 +2912,9 @@ Unlock a treasure chest of
         >
           <Box
             sx={{
-              // display: 'flex',
-              // alignItems: 'center',
-              // justifyContent: 'center',
+              // display: &apos;flex&apos;,
+              // alignItems: &apos;center&apos;,
+              // justifyContent: &apos;center&apos;,
               width: "100%",
               textAlign: "center",
             }}
@@ -2256,7 +2927,7 @@ Unlock a treasure chest of
                 display: "inline-flex",
               }}
             >
-              Join   
+              Join
             </Typography>
             <Typography
               sx={{
@@ -2294,31 +2965,34 @@ Unlock a treasure chest of
               textAlign: "center",
             }}
           >
-            Join us, and let's make GOCO the most loved, most popular, and most traded meme token of all time! 
-            </Typography>
-            <Typography
-                sx={{
-                  color: "rgb(130,130,129)",
-                  fontSize: { xs: "11px", sm: "13px" },
-                  letterSpacing: { xs: "1px", sm: "3px" },
-                  mt: "10px",
-                  textAlign: "center",
-                }}
-              >
-                 Get ready to embrace the meme revolution with GOCO - Because life's too short for boring investments. Let's have fun and earn big with GOCO!
-                 </Typography>
-            <Typography
-                sx={{
-                  color: "rgb(130,130,129)",
-                  fontSize: { xs: "11px", sm: "13px" },
-                  letterSpacing: { xs: "1px", sm: "3px" },
-                  mt: "10px",
-                  textAlign: "center",
-                }}
-              >
-                 This is just the beginning! Stay tuned for updates, contests, and more hilariously awesome content.
-            </Typography>
-          
+            Join us, and let&apos;s make GOCO the most loved, most popular, and
+            most traded meme token of all time!
+          </Typography>
+          <Typography
+            sx={{
+              color: "rgb(130,130,129)",
+              fontSize: { xs: "11px", sm: "13px" },
+              letterSpacing: { xs: "1px", sm: "3px" },
+              mt: "10px",
+              textAlign: "center",
+            }}
+          >
+            Get ready to embrace the meme revolution with GOCO - Because
+            life&apos;s too short for boring investments. Let&apos;s have fun
+            and earn big with GOCO!
+          </Typography>
+          <Typography
+            sx={{
+              color: "rgb(130,130,129)",
+              fontSize: { xs: "11px", sm: "13px" },
+              letterSpacing: { xs: "1px", sm: "3px" },
+              mt: "10px",
+              textAlign: "center",
+            }}
+          >
+            This is just the beginning! Stay tuned for updates, contests, and
+            more hilariously awesome content.
+          </Typography>
         </Box>
       </Reveal>
 
