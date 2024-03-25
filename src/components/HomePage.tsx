@@ -499,6 +499,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 >
                   {calculateRemainingTime()?.map((time: any) => (
                     <Box
+                      key={time.id}
                       sx={{
                         background: "rgb(248, 214, 72)",
                         borderRadius: "5px",
