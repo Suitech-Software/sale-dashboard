@@ -227,24 +227,31 @@ const HomePage: React.FC<Props> = ({}: Props) => {
     );
     const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-    const formattedDays = days > 0 ? `${days} DAY${days > 1 ? "S" : ""}` : "";
-    const formattedHours =
-      hours > 0 ? `${hours} HOUR${hours > 1 ? "S" : ""}` : "";
-    const formattedMinutes =
-      minutes > 0 ? `${minutes} MINUTE${minutes > 1 ? "S" : ""}` : "";
-    const formattedSeconds =
-      seconds > 0 ? `${seconds} SECOND${seconds > 1 ? "S" : ""}` : "";
+    const formattedDays = {
+      child: `${days < 10 ? "0" : ""}${days}`,
+      text: days > 0 ? `DAY` : "",
+    };
+    const formattedHours = {
+      child: `${hours < 10 ? "0" : ""}${hours}`,
+      text: hours > 0 ? `HR${hours > 1 ? "S" : ""}` : "",
+    };
+    const formattedMinutes = {
+      child: `${minutes < 10 ? "0" : ""}${minutes}`,
+      text: minutes > 0 ? `MIN${minutes > 1 ? "S" : ""}` : "",
+    };
+    const formattedSeconds = {
+      child: `${seconds < 10 ? "0" : ""}${seconds}`,
+      text: seconds > 0 ? `SEC` : "",
+    };
 
     const formattedTime = [
       formattedDays,
       formattedHours,
       formattedMinutes,
       formattedSeconds,
-    ]
-      .filter(Boolean)
-      .join(" ");
+    ];
 
-    return formattedTime || "EXPIRED";
+    return formattedTime || [{ child: "EXPIRED", text: "" }];
   }
 
   function calculateTotalTimeInSeconds() {
@@ -426,16 +433,57 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 >
                   $GOCO Pre-Sale
                 </Typography>
-                <Typography
+                <Box
                   sx={{
                     mt: "10px",
-                    fontSize: { xs: "10px", sm: "14px" },
-                    fontWeight: "600",
-                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+
+                    "& div": {
+                      marginLeft: "10px",
+                    },
+
+                    "&:first-of-type": {
+                      marginLeft: "0px",
+                    },
                   }}
                 >
-                  {calculateRemainingTime()}
-                </Typography>
+                  {calculateRemainingTime()?.map((time: any) => (
+                    <Box
+                      sx={{
+                        background: "rgb(248, 214, 72)",
+                        borderRadius: "5px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        padding: "5px",
+                        paddingX: "15px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: { xs: "10px", sm: "15px" },
+                          fontWeight: "700",
+                          color: "rgb(21,27,27)",
+                        }}
+                      >
+                        {time.child}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: { xs: "10px", sm: "11px" },
+                          fontWeight: "500",
+                          color: "rgb(21,27,27)",
+                        }}
+                      >
+                        {time.text}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+
                 <Box
                   sx={{
                     mt: "10px",
