@@ -19,6 +19,8 @@ import { sendToken } from "@/lib/sendToken";
 import { toast } from "react-toastify";
 import { CreateType } from "@/types/Transfer";
 import defaultStages from "@/lib/defaultStages.json";
+import Link from "next/link";
+
 import {
   TransferTokenType,
   TransferTokenWithReferralType,
@@ -54,29 +56,29 @@ interface Props {}
 const HomePage: React.FC<Props> = ({}: Props) => {
   const tableData: any = [
     {
-      first: "coindox",
+      first: "GOCO",
+      second: "tick",
+      third: "tick",
+      fourth: "tick",
+      fifth: "tick",
+    },
+    {
+      first: "SHIBA",
       second: "close",
       third: "tick",
       fourth: "close",
       fifth: "close",
     },
     {
-      first: "Civic",
-      second: "tick",
-      third: "close",
+      first: "PEPE",
+      second: "close",
+      third: "tick",
       fourth: "close",
-      fifth: "tick",
+      fifth: "close",
     },
     {
-      first: "Vilid.global",
-      second: "tick",
-      third: "close",
-      fourth: "tick",
-      fifth: "tick",
-    },
-    {
-      first: "Hypr",
-      second: "tick",
+      first: "FLOKI",
+      second: "close",
       third: "tick",
       fourth: "close",
       fifth: "tick",
@@ -385,7 +387,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   width: "fit-content",
                 }}
               >
-                Introducing GOCO
+                Introducing GOCO:
               </Typography>
             </Box>
           </Reveal>
@@ -394,7 +396,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               <Typography
                 sx={{
                   color: "#fff",
-                  fontSize: { xs: "27px", sm: "50px", lg: "100px" },
+                  fontSize: { xs: "27px", sm: "50px", lg: "75px" },
                   maxWidth: "700px",
                   fontWeight: "600",
                   display: { xs: "inline-flex", lg: "block" },
@@ -406,12 +408,14 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               <Typography
                 sx={{
                   color: "#fff",
-                  fontSize: { xs: "27px", sm: "50px", lg: "90px" },
+                  fontSize: { xs: "27px", sm: "50px", lg: "75px" },
                   fontWeight: "600",
                   display: "inline-flex",
                   ml: { xs: "10px", lg: "0px" },
                 }}
-              ></Typography>
+              >
+                Meme
+              </Typography>
               <Typography
                 sx={{
                   textTransform: "uppercase",
@@ -420,11 +424,12 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   color: "transparent",
                   WebkitBackgroundClip: "text",
                   display: "inline-flex",
-                  fontSize: { xs: "27px", sm: "50px", lg: "90px" },
+                  fontSize: { xs: "27px", sm: "50px", lg: "70px" },
                   fontWeight: "600",
+                  marginLeft: "10px",
                 }}
               >
-                Meme Token
+                Token
               </Typography>
             </Box>
           </Reveal>
@@ -1621,7 +1626,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                Our goal is to reach 12,756 fans to make the GOLDEN COBRA hug
+                Our goal is to reach 12,756* fans to make the GOLDEN COBRA hug
                 the world and turn every piece of sand on the beaches to gold.
               </Typography>
               <Typography
@@ -1633,8 +1638,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                (Each fan is an additional 1 meter to the GOCO&apos;ssssss
-                tailssss).
+                (*Diameter of the Earth. Each fan adds an additional 1 meter to
+                the GOCO&apos;ssssss tailssss).
               </Typography>
             </Box>
             <Grid
@@ -1733,8 +1738,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     }}
                   >
                     SMART INVESTMENT: Why settle for boring investments when you
-                    can have fun AND earn more with GOCO? It&apos;s the best of
-                    both worlds!
+                    can have fun AND earn more with GOCO? MEME, P2E, Lucky
+                    Wheel, Raffles, and tons of rewards – all here.
                   </Typography>
                 </Box>
               </Grid>
@@ -1826,7 +1831,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   >
                     EARN APY DURING PRESALE! Do not wait for a second, begin
                     earning APY on $GOCO tokens today by buying the presale.
-                    Click here to learn more! (link to staking on whitepaper)
+                    Click here to learn more!
+                    https://docs.goldencobra.io/staking
                   </Typography>
                 </Box>
               </Grid>
@@ -1861,31 +1867,29 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 textAlign: "center",
               }}
             >
-              Proactive Market Maker
+              Pre-sale Staking Advantage: Stake. Earn. Grow.
             </Typography>
             <Typography
               sx={{
                 mt: "10px",
-                color: "rgb(80,80,100)",
-                fontSize: "12px",
+                color: "rgb(184 184 184)",
+                fontSize: "14px",
                 letterSpacing: "2px",
                 textAlign: "center",
               }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+              Supercharge your $GOCO holdings by staking during our Pre-sale!
+              Stake your tokens for a set time and enjoy impressive returns.
             </Typography>
             <Typography
               sx={{
                 mt: "10px",
-                color: "rgb(80,80,100)",
+                color: "rgb(184 184 184)",
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textAlign: "center",
               }}
-            >
-              Lorem Ipsum is simply dummy text of the printing
-            </Typography>
+            ></Typography>
           </Box>
           <Box
             sx={{
@@ -1900,7 +1904,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               backgroundSize: "contain",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
-              paddingX: { xs: "30px", lg: "100px" },
+              paddingX: { xs: "30px", lg: "50px" },
             }}
           >
             <Box
@@ -1913,7 +1917,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 height: "100%",
                 boxShadow:
                   "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
-                width: { xs: "300px", sm: "70%", md: "300px" },
+                width: { xs: "400px", sm: "70%", md: "400px" },
               }}
             >
               <Box
@@ -1947,26 +1951,24 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: "14px",
+                    fontSize: "18px",
                     letterSpacing: "2px",
                     color: "rgb(224,224,226)",
                     mt: "10px",
                   }}
                 >
-                  Liquidity Providers 50%
+                  Massive Staking Pool
                 </Typography>
                 <Typography
                   sx={{
                     fontSize: "12px",
                     letterSpacing: "1px",
-                    color: "rgb(63,63,82)",
+                    color: "rgb(185 185 188)",
                     mt: "10px",
                   }}
                 >
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer.
+                  We&apos;ve dedicated a significant portion (8%, totaling 80
+                  billion tokens) to staking rewards.
                 </Typography>
               </Box>
               <Box
@@ -2001,26 +2003,24 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: "14px",
+                    fontSize: "18px",
                     letterSpacing: "2px",
                     color: "rgb(224,224,226)",
                     mt: "10px",
                   }}
                 >
-                  Liquidity Providers 50%
+                  Limited Spots Available!
                 </Typography>
                 <Typography
                   sx={{
                     fontSize: "12px",
                     letterSpacing: "1px",
-                    color: "rgb(63,63,82)",
+                    color: "rgb(185 185 188)",
                     mt: "10px",
                   }}
                 >
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer.
+                  Don&apos;t miss out on this exclusive opportunity to maximize
+                  your $GOCO gains.
                 </Typography>
               </Box>
             </Box>
@@ -2069,26 +2069,24 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: "14px",
+                    fontSize: "18px",
                     letterSpacing: "2px",
                     color: "rgb(224,224,226)",
                     mt: "10px",
                   }}
                 >
-                  Liquidity Providers 50%
+                  High APY Tiers
                 </Typography>
                 <Typography
                   sx={{
                     fontSize: "12px",
                     letterSpacing: "1px",
-                    color: "rgb(63,63,82)",
+                    color: "rgb(185 185 188)",
                     mt: "10px",
                   }}
                 >
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer.
+                  GOCO Staking APY Tiers: 2 months: 36% APY / 6 months: 45% APY
+                  / 12 months: 54% APY.
                 </Typography>
               </Box>
               <Box
@@ -2123,26 +2121,25 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: "14px",
+                    fontSize: "18px",
                     letterSpacing: "2px",
                     color: "rgb(224,224,226)",
                     mt: "10px",
                   }}
                 >
-                  Liquidity Providers 50%
+                  Stake Now & Earn More
                 </Typography>
                 <Typography
                   sx={{
                     fontSize: "12px",
                     letterSpacing: "1px",
-                    color: "rgb(63,63,82)",
+                    color: "rgb(185 185 188)",
                     mt: "10px",
                   }}
                 >
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer.
+                  Don&apos;t miss out! Start earning APY on your $GOCO tokens
+                  today by participating in our presale. Click here to learn
+                  more about staking! https://docs.goldencobra.io/staking
                 </Typography>
               </Box>
             </Box>
@@ -2198,8 +2195,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 textAlign: "center",
               }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+              Golden Cobra isn&apos;t just another meme project; it&apos;s a
+              game-changer. To truly understand how it stands out, let&apos;s
+              compare it with the usual players in the game.
             </Typography>
           </Box>
           <TableContainer component={Paper} sx={{ mt: "50px" }}>
@@ -2220,7 +2218,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       color: "#fff",
                     }}
                   >
-                    Futures
+                    Feature
                   </TableCell>
                   <TableCell
                     sx={{
@@ -2229,7 +2227,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     }}
                     align="center"
                   >
-                    IDV System
+                    Comprehensive Rewards
                   </TableCell>
                   <TableCell
                     sx={{
@@ -2238,7 +2236,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     }}
                     align="center"
                   >
-                    Creating Apps
+                    Community Focus
                   </TableCell>
                   <TableCell
                     sx={{
@@ -2247,7 +2245,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     }}
                     align="center"
                   >
-                    Confidentiality
+                    Utility (Play-to-Earn)
                   </TableCell>
                   <TableCell
                     sx={{
@@ -2256,7 +2254,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     }}
                     align="center"
                   >
-                    Without Gadget
+                    Long-Term Focus
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -2468,7 +2466,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
                 color: "transparent",
                 WebkitBackgroundClip: "text",
-                fontSize: { xs: "16px", sm: "60px" },
+                fontSize: { xs: "16px", sm: "40px" },
                 fontWeight: "600",
                 display: { xs: "inline-flex", sm: "block" },
               }}
@@ -2478,7 +2476,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             <Typography
               sx={{
                 color: "#fff",
-                fontSize: { xs: "16px", sm: "60px" },
+                fontSize: { xs: "16px", sm: "40px" },
                 fontWeight: "600",
                 mt: { xs: "0px", sm: "-20px" },
                 display: { xs: "inline-flex", sm: "block" },
@@ -2503,7 +2501,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               color: "rgb(130,130,129)",
               fontSize: "13px",
               letterSpacing: { xs: "1px", md: "2px" },
-              width: { xs: "80%", sm: "400px" },
+              width: { xs: "80%", sm: "600px" },
               textAlign: { xs: "center", sm: "left" },
               mt: "5px",
             }}
@@ -2553,7 +2551,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             className={styles1["background-image"]}
           />
           <img
-            src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+            src="/main.png"
             alt="Goco Token"
             style={{
               width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
@@ -2606,7 +2604,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             className={styles1["background-image"]}
           />
           <img
-            src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+            src="/main.png"
             alt="Goco Token"
             style={{
               width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
@@ -2663,7 +2661,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             className={styles1["background-image"]}
           />
           <img
-            src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+            src="/main.png"
             alt="Goco Token"
             style={{
               width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
@@ -2807,7 +2805,26 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 mt: "5px",
               }}
             >
-              How to buy? (Link)
+              <button
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+                  color: "#000000",
+                  border: "none",
+                  marginTop: "10px",
+                  padding: "15px 20px",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              >
+                <Link
+                  href="https://docs.goldencobra.io/how-to-buy-goco-token"
+                  target="_blank"
+                >
+                  How to buy?
+                </Link>
+              </button>
             </Typography>
           </Box>
           <Box
