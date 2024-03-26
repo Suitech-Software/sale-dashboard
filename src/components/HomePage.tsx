@@ -1770,8 +1770,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             <Typography
               sx={{
                 mt: "10px",
-                color: "rgb(80,80,100)",
-                fontSize: "12px",
+                color: "rgb(184 184 184)",
+                fontSize: "14px",
                 letterSpacing: "2px",
                 textAlign: "center",
               }}
@@ -1782,7 +1782,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             <Typography
               sx={{
                 mt: "10px",
-                color: "rgb(80,80,100)",
+                color: "rgb(184 184 184)",
                 fontSize: "12px",
                 letterSpacing: "2px",
                 textAlign: "center",
@@ -1802,7 +1802,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               backgroundSize: "contain",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
-              paddingX: { xs: "30px", lg: "100px" },
+              paddingX: { xs: "30px", lg: "50px" },
             }}
           >
             <Box
@@ -1815,7 +1815,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 height: "100%",
                 boxShadow:
                   "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
-                width: { xs: "300px", sm: "70%", md: "300px" },
+                width: { xs: "400px", sm: "70%", md: "400px" },
               }}
             >
               <Box
@@ -1849,7 +1849,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: "14px",
+                    fontSize: "18px",
                     letterSpacing: "2px",
                     color: "rgb(224,224,226)",
                     mt: "10px",
@@ -1861,7 +1861,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   sx={{
                     fontSize: "12px",
                     letterSpacing: "1px",
-                    color: "rgb(63,63,82)",
+                    color: "rgb(185 185 188)",
                     mt: "10px",
                   }}
                 >
@@ -1901,7 +1901,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: "14px",
+                    fontSize: "18px",
                     letterSpacing: "2px",
                     color: "rgb(224,224,226)",
                     mt: "10px",
@@ -1913,7 +1913,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   sx={{
                     fontSize: "12px",
                     letterSpacing: "1px",
-                    color: "rgb(63,63,82)",
+                    color: "rgb(185 185 188)",
                     mt: "10px",
                   }}
                 >
@@ -1967,7 +1967,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: "14px",
+                    fontSize: "18px",
                     letterSpacing: "2px",
                     color: "rgb(224,224,226)",
                     mt: "10px",
@@ -1979,7 +1979,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   sx={{
                     fontSize: "12px",
                     letterSpacing: "1px",
-                    color: "rgb(63,63,82)",
+                    color: "rgb(185 185 188)",
                     mt: "10px",
                   }}
                 >
@@ -2019,7 +2019,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: "14px",
+                    fontSize: "18px",
                     letterSpacing: "2px",
                     color: "rgb(224,224,226)",
                     mt: "10px",
@@ -2031,7 +2031,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   sx={{
                     fontSize: "12px",
                     letterSpacing: "1px",
-                    color: "rgb(63,63,82)",
+                    color: "rgb(185 185 188)",
                     mt: "10px",
                   }}
                 >
@@ -2364,7 +2364,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
                 color: "transparent",
                 WebkitBackgroundClip: "text",
-                fontSize: { xs: "16px", sm: "60px" },
+                fontSize: { xs: "16px", sm: "40px" },
                 fontWeight: "600",
                 display: { xs: "inline-flex", sm: "block" },
               }}
@@ -2374,7 +2374,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             <Typography
               sx={{
                 color: "#fff",
-                fontSize: { xs: "16px", sm: "60px" },
+                fontSize: { xs: "16px", sm: "40px" },
                 fontWeight: "600",
                 mt: { xs: "0px", sm: "-20px" },
                 display: { xs: "inline-flex", sm: "block" },
@@ -2399,7 +2399,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               color: "rgb(130,130,129)",
               fontSize: "13px",
               letterSpacing: { xs: "1px", md: "2px" },
-              width: { xs: "80%", sm: "400px" },
+              width: { xs: "80%", sm: "600px" },
               textAlign: { xs: "center", sm: "left" },
               mt: "5px",
             }}
