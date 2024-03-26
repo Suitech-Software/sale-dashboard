@@ -54,29 +54,29 @@ interface Props {}
 const HomePage: React.FC<Props> = ({}: Props) => {
   const tableData: any = [
     {
-      first: "coindox",
+      first: "GOCO",
+      second: "tick",
+      third: "tick",
+      fourth: "tick",
+      fifth: "tick",
+    },
+    {
+      first: "SHIBA",
       second: "close",
       third: "tick",
       fourth: "close",
       fifth: "close",
     },
     {
-      first: "Civic",
-      second: "tick",
-      third: "close",
+      first: "PEPE",
+      second: "close",
+      third: "tick",
       fourth: "close",
-      fifth: "tick",
+      fifth: "close",
     },
     {
-      first: "Vilid.global",
-      second: "tick",
-      third: "close",
-      fourth: "tick",
-      fifth: "tick",
-    },
-    {
-      first: "Hypr",
-      second: "tick",
+      first: "FLOKI",
+      second: "close",
       third: "tick",
       fourth: "close",
       fifth: "tick",
@@ -378,7 +378,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   width: "fit-content",
                 }}
               >
-                Introducing GOCO
+                Introducing GOCO:
               </Typography>
             </Box>
           </Reveal>
@@ -417,7 +417,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   fontWeight: "600",
                 }}
               >
-                Meme Token
+                Meme + Ecosystem Token
               </Typography>
             </Box>
           </Reveal>
@@ -1522,7 +1522,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                Our goal is to reach 12,756 fans to make the GOLDEN COBRA hug
+                Our goal is to reach 12,756* fans to make the GOLDEN COBRA hug
                 the world and turn every piece of sand on the beaches to gold.
               </Typography>
               <Typography
@@ -1534,7 +1534,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   textAlign: "center",
                 }}
               >
-                (Each fan is an additional 1 meter to the GOCO&apos;ssssss
+                (*Diameter of the Earth. Each fan adds an additional 1 meter to the GOCO&apos;ssssss
                 tailssss).
               </Typography>
             </Box>
@@ -1633,9 +1633,11 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       width: { xs: "60%", sm: "80%", md: "100%" },
                     }}
                   >
-                    SMART INVESTMENT: Why settle for boring investments when you
-                    can have fun AND earn more with GOCO? It&apos;s the best of
-                    both worlds!
+                    SMART INVESTMENT: Why settle for boring investments when 
+                    you can have fun AND earn more with GOCO? MEME, P2E, 
+                    Lucky Wheel, Raffles, and tons of rewards – all here. 
+                    
+
                   </Typography>
                 </Box>
               </Grid>
@@ -1727,7 +1729,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   >
                     EARN APY DURING PRESALE! Do not wait for a second, begin
                     earning APY on $GOCO tokens today by buying the presale.
-                    Click here to learn more! (link to staking on whitepaper)
+                    Click here to learn more! https://docs.goldencobra.io/staking
                   </Typography>
                 </Box>
               </Grid>
@@ -1762,7 +1764,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 textAlign: "center",
               }}
             >
-              Proactive Market Maker
+              Pre-sale Staking Advantage: Stake. Earn. Grow.
             </Typography>
             <Typography
               sx={{
@@ -1773,8 +1775,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 textAlign: "center",
               }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+              Supercharge your $GOCO holdings by staking during our Pre-sale! Stake your tokens for a set time and 
+              enjoy impressive returns.
             </Typography>
             <Typography
               sx={{
@@ -1785,7 +1787,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 textAlign: "center",
               }}
             >
-              Lorem Ipsum is simply dummy text of the printing
+          
             </Typography>
           </Box>
           <Box
@@ -1854,7 +1856,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     mt: "10px",
                   }}
                 >
-                  Liquidity Providers 50%
+                  Massive Staking Pool 
                 </Typography>
                 <Typography
                   sx={{
@@ -1864,10 +1866,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     mt: "10px",
                   }}
                 >
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer.
+                  We've dedicated a significant portion (8%, totaling 80 billion tokens) to staking rewards. 
                 </Typography>
               </Box>
               <Box
@@ -1908,7 +1907,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     mt: "10px",
                   }}
                 >
-                  Liquidity Providers 50%
+                  Limited Spots Available!
                 </Typography>
                 <Typography
                   sx={{
@@ -1918,10 +1917,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     mt: "10px",
                   }}
                 >
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer.
+                  Don't miss out on this exclusive opportunity to maximize your $GOCO gains.
                 </Typography>
               </Box>
             </Box>
@@ -1976,7 +1972,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     mt: "10px",
                   }}
                 >
-                  Liquidity Providers 50%
+                  High APY Tiers
                 </Typography>
                 <Typography
                   sx={{
@@ -1986,10 +1982,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     mt: "10px",
                   }}
                 >
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer.
+                  GOCO Staking APY Tiers: 2 months: 36% APY /
+                  6 months: 45% APY / 
+                  12 months: 54% APY.
                 </Typography>
               </Box>
               <Box
@@ -2030,7 +2025,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     mt: "10px",
                   }}
                 >
-                  Liquidity Providers 50%
+                  Stake Now & Earn More
                 </Typography>
                 <Typography
                   sx={{
@@ -2040,10 +2035,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     mt: "10px",
                   }}
                 >
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry&apos;s
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer.
+                  Don't miss out! Start earning APY on your $GOCO tokens 
+                  today by participating in our presale. Click here to learn 
+                  more about staking! https://docs.goldencobra.io/staking
                 </Typography>
               </Box>
             </Box>
@@ -2099,8 +2093,8 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 textAlign: "center",
               }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+              Golden Cobra isn't just another meme project; it's a game-changer. To truly understand how it stands out, 
+              let's compare it with the usual players in the game.
             </Typography>
           </Box>
           <TableContainer component={Paper} sx={{ mt: "50px" }}>
@@ -2121,7 +2115,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       color: "#fff",
                     }}
                   >
-                    Futures
+                    Feature
                   </TableCell>
                   <TableCell
                     sx={{
@@ -2130,7 +2124,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     }}
                     align="center"
                   >
-                    IDV System
+                    Comprehensive Rewards
                   </TableCell>
                   <TableCell
                     sx={{
@@ -2139,7 +2133,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     }}
                     align="center"
                   >
-                    Creating Apps
+                    Community Focus
                   </TableCell>
                   <TableCell
                     sx={{
@@ -2148,7 +2142,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     }}
                     align="center"
                   >
-                    Confidentiality
+                    Utility (Play-to-Earn)
                   </TableCell>
                   <TableCell
                     sx={{
@@ -2157,7 +2151,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     }}
                     align="center"
                   >
-                    Without Gadget
+                    Long-Term Focus
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -2708,7 +2702,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 mt: "5px",
               }}
             >
-              How to buy? (Link)
+              How to buy? https://docs.goldencobra.io/how-to-buy-goco-token
             </Typography>
           </Box>
           <Box
