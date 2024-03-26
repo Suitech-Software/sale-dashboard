@@ -1,20 +1,20 @@
-import { StakingStageReturnType } from '@/types/StakingStage';
-import { Box, Button, Grid, Typography } from '@mui/material';
-import BadgeIcon from '@mui/icons-material/Badge';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import LockIcon from '@mui/icons-material/Lock';
-import React, { useEffect, useState } from 'react';
-import NineKPlusIcon from '@mui/icons-material/NineKPlus';
-import WalletIcon from '@mui/icons-material/Wallet';
-import { GeneralValueType } from '@/store/slices/generalSlice';
-import { RootState } from '@/store';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import { findBalanceByAddress } from '@/lib/findBalanceByAddress';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import { UserReturnType } from '@/types/User';
-import { StakingInvestmentReturnType } from '@/types/StakingInvestment';
+import { StakingStageReturnType } from "@/types/StakingStage";
+import { Box, Button, Grid, Typography } from "@mui/material";
+import BadgeIcon from "@mui/icons-material/Badge";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import LockIcon from "@mui/icons-material/Lock";
+import React, { useEffect, useState } from "react";
+import NineKPlusIcon from "@mui/icons-material/NineKPlus";
+import WalletIcon from "@mui/icons-material/Wallet";
+import { GeneralValueType } from "@/store/slices/generalSlice";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { findBalanceByAddress } from "@/lib/findBalanceByAddress";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { UserReturnType } from "@/types/User";
+import { StakingInvestmentReturnType } from "@/types/StakingInvestment";
 
 interface Props {
   stage: StakingStageReturnType;
@@ -26,6 +26,7 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
   const [user, setUser] = useState<UserReturnType | null>(null);
   const [stakingInvestment, setStakingInvestment] =
     useState<StakingInvestmentReturnType | null>(null);
+  const [remainingTime, setRemainingTime] = useState<any>([]);
 
   const generalValues: GeneralValueType = useSelector(
     (state: RootState) => state.general.value
@@ -49,9 +50,9 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
     fetch(
       `/api/transfer/getAmountOfReceiveByAddress?userWallet=${generalValues.walletAddress}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
@@ -69,9 +70,9 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
 
   useEffect(() => {
     fetch(`/api/user/getUser?userWallet=${generalValues.walletAddress}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
@@ -84,9 +85,9 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
     fetch(
       `/api/stakingInvestment/getStakingInvestmentByUserWallet?userWallet=${generalValues.walletAddress}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }
     )
@@ -96,6 +97,12 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
       });
   }, []);
 
+  useEffect(() => {
+    setInterval(() => {
+      if (stakingInvestment?._id) calculateRemainingTime();
+    }, 1000);
+  }, [calculateRemainingTime]);
+
   const saveStake = async () => {
     const stakingData = {
       userWallet: generalValues.walletAddress,
@@ -104,10 +111,10 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
       currentNetwork: generalValues.currentNetwork,
     };
 
-    const res = await fetch('/api/stakingInvestment/create', {
-      method: 'POST',
+    const res = await fetch("/api/stakingInvestment/create", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(stakingData),
     });
@@ -116,7 +123,7 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
 
     if (res.ok) {
       toast.success(data.message);
-      router.push('/my-stakes');
+      router.push("/my-stakes");
     } else {
       if (data?.message) toast.error(data.message);
       else if (data?.error) toast.error(data.error.message);
@@ -143,72 +150,62 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
     );
     const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-    const formattedDays = days > 0 ? `${days} DAY${days > 1 ? 'S' : ''}` : '';
-    const formattedHours =
-      hours > 0 ? `${hours} HOUR${hours > 1 ? 'S' : ''}` : '';
-    const formattedMinutes =
-      minutes > 0 ? `${minutes} MINUTE${minutes > 1 ? 'S' : ''}` : '';
-    const formattedSeconds =
-      seconds > 0 ? `${seconds} SECOND${seconds > 1 ? 'S' : ''}` : '';
+    const formattedDays = {
+      child: `${days < 10 ? "0" : ""}${days}`,
+      text: `DAY`,
+    };
+    const formattedHours = {
+      child: `${hours < 10 ? "0" : ""}${hours}`,
+      text: `HR${hours > 1 ? "S" : ""}`,
+    };
+    const formattedMinutes = {
+      child: `${minutes < 10 ? "0" : ""}${minutes}`,
+      text: `MIN${minutes > 1 ? "S" : ""}`,
+    };
+    const formattedSeconds = {
+      child: `${seconds < 10 ? "0" : ""}${seconds}`,
+      text: `SEC`,
+    };
 
-    const formattedTime = [
-      formattedDays,
-      formattedHours,
-      formattedMinutes,
-      formattedSeconds,
-    ]
-      .filter(Boolean)
-      .join(' ');
-
-    return formattedTime || '';
-  }
-
-  function calculateTotalTimeInSeconds() {
-    const start = new Date(stakingInvestment?.staking_at as Date);
-
-    const now = new Date();
-    const end = new Date(stakingInvestment?.unstaking_at as Date);
-
-    //@ts-ignore
-    const totalTimeInSeconds = end - now;
-    //@ts-ignore
-    const resBetweenDate = end - start;
-
-    const res = resBetweenDate - totalTimeInSeconds;
-    var rate = (res / resBetweenDate) * 100;
-
-    return rate;
+    if (timeDifference > 0) {
+      setRemainingTime((prev: any) => [
+        formattedDays,
+        formattedHours,
+        formattedMinutes,
+        formattedSeconds,
+      ]);
+    }
   }
 
   return (
     <Box
       sx={{
-        width: '100%',
-        mt: '30px',
+        width: "100%",
+        mt: "30px",
         boxShadow:
-          '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
-        borderRadius: '20px',
-        padding: { xs: '30px', sm: '40px 60px' },
+          "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
+        borderRadius: "20px",
+        padding: { xs: "30px", sm: "40px 60px" },
       }}
     >
       <Grid container spacing={6}>
         <Grid item xs={12} lg={6}>
           <Box
             sx={{
-              backgroundColor: '#151C2E',
-              border: '1px solid #23293B',
-              borderRadius: '20px',
-              padding: '30px',
+              backgroundColor: "#151C2E",
+              border: "1px solid #23293B",
+              borderRadius: "20px",
+              padding: "30px",
             }}
           >
             <Box>
               <Typography
                 sx={{
-                  color: '#f3f3f3',
-                  fontWeight: '600',
-                  fontSize: { xs: '16px', md: '20px' },
-                  ml: '5px',
-                  mb: '10px',
+                  color: "#f3f3f3",
+                  fontWeight: "600",
+                  fontSize: { xs: "16px", md: "20px" },
+                  ml: "5px",
+                  mb: "10px",
                 }}
               >
                 Stake Amount
@@ -216,21 +213,21 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
 
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-evenly',
-                  border: '1px solid #23293B',
-                  borderRadius: '20px',
-                  padding: '20px',
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                  border: "1px solid #23293B",
+                  borderRadius: "20px",
+                  padding: "20px",
                 }}
               >
                 <WalletIcon
                   sx={{
-                    display: { xs: 'none', sm: 'inline-block' },
-                    fill: '#f9f9f9',
-                    mr: '10px',
-                    width: '22px',
-                    height: '22px',
+                    display: { xs: "none", sm: "inline-block" },
+                    fill: "#f9f9f9",
+                    mr: "10px",
+                    width: "22px",
+                    height: "22px",
                   }}
                 />
                 <Box
@@ -239,19 +236,19 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                   disabled
                   type="number"
                   sx={{
-                    width: { xs: '70%' },
-                    height: '47px',
+                    width: { xs: "70%" },
+                    height: "47px",
                     // border: '#8F8F8F solid 0.2px',
                     // bgcolor: '#F8F9F8',
                     // borderRadius: '10px',
-                    color: '#f3f3f3',
-                    border: 'none',
-                    borderRadius: '20px',
-                    backgroundColor: '#151C2E',
-                    fontSize: '17px',
-                    boxShadow: '0px 3px 20px 0px #0000001A',
-                    '&:focus': {
-                      outline: 'none',
+                    color: "#f3f3f3",
+                    border: "none",
+                    borderRadius: "20px",
+                    backgroundColor: "#151C2E",
+                    fontSize: "17px",
+                    boxShadow: "0px 3px 20px 0px #0000001A",
+                    "&:focus": {
+                      outline: "none",
                     },
                   }}
                 />
@@ -262,7 +259,7 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                     width={25}
                     height={25}
                     style={{
-                      objectFit: 'contain',
+                      objectFit: "contain",
                     }}
                   />
                 </Box>
@@ -271,16 +268,16 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
 
             <Box
               sx={{
-                mt: '20px',
+                mt: "20px",
               }}
             >
               <Typography
                 sx={{
-                  color: '#f3f3f3',
-                  fontWeight: '600',
-                  fontSize: { xs: '16px', md: '20px' },
-                  ml: '5px',
-                  mb: '10px',
+                  color: "#f3f3f3",
+                  fontWeight: "600",
+                  fontSize: { xs: "16px", md: "20px" },
+                  ml: "5px",
+                  mb: "10px",
                 }}
               >
                 Award
@@ -288,21 +285,21 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
 
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-evenly',
-                  border: '1px solid #23293B',
-                  borderRadius: '20px',
-                  padding: '20px',
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                  border: "1px solid #23293B",
+                  borderRadius: "20px",
+                  padding: "20px",
                 }}
               >
                 <EmojiEventsIcon
                   sx={{
-                    display: { xs: 'none', sm: 'inline-block' },
-                    fill: '#f9f9f9',
-                    mr: '10px',
-                    width: '22px',
-                    height: '22px',
+                    display: { xs: "none", sm: "inline-block" },
+                    fill: "#f9f9f9",
+                    mr: "10px",
+                    width: "22px",
+                    height: "22px",
                   }}
                 />
                 <Box
@@ -311,16 +308,16 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                   disabled
                   type="number"
                   sx={{
-                    width: { xs: '70%' },
-                    height: '47px',
-                    color: '#f3f3f3',
-                    border: 'none',
-                    borderRadius: '20px',
-                    backgroundColor: '#151C2E',
-                    fontSize: '17px',
-                    boxShadow: '0px 3px 20px 0px #0000001A',
-                    '&:focus': {
-                      outline: 'none',
+                    width: { xs: "70%" },
+                    height: "47px",
+                    color: "#f3f3f3",
+                    border: "none",
+                    borderRadius: "20px",
+                    backgroundColor: "#151C2E",
+                    fontSize: "17px",
+                    boxShadow: "0px 3px 20px 0px #0000001A",
+                    "&:focus": {
+                      outline: "none",
                     },
                   }}
                 />
@@ -331,7 +328,7 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                     width={25}
                     height={25}
                     style={{
-                      objectFit: 'contain',
+                      objectFit: "contain",
                     }}
                   />
                 </Box>
@@ -339,21 +336,21 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
             </Box>
             <Button
               sx={{
-                width: { xs: '100%' },
-                padding: '10px',
-                borderRadius: '15px',
-                mt: '50px',
-                alignSelf: 'flex-end',
+                width: { xs: "100%" },
+                padding: "10px",
+                borderRadius: "15px",
+                mt: "50px",
+                alignSelf: "flex-end",
               }}
               variant="contained"
               onClick={saveStake}
             >
               <Typography
                 sx={{
-                  color: '#fff',
-                  fontWeight: '600',
-                  fontSize: { xs: '12px', md: '14px' },
-                  textAlign: 'center',
+                  color: "#fff",
+                  fontWeight: "600",
+                  fontSize: { xs: "12px", md: "14px" },
+                  textAlign: "center",
                 }}
               >
                 Save
@@ -365,84 +362,106 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
           <Box>
             <Box
               sx={{
-                backgroundColor: '#151C2E',
-                border: '1px solid #23293B',
-                borderRadius: '20px',
-                padding: '30px',
-                mb: '20px',
+                backgroundColor: "#151C2E",
+                border: "1px solid #23293B",
+                borderRadius: "20px",
+                padding: "30px",
+                mb: "20px",
               }}
             >
               <Box
                 sx={{
-                  mb: '10px',
+                  mb: "20px",
                 }}
               >
                 <Typography
                   sx={{
-                    color: '#f3f3f3',
-                    fontWeight: '500',
-                    fontSize: { xs: '12px', md: '14px' },
-                    ml: '5px',
-                    mb: '10px',
+                    color: "#f3f3f3",
+                    fontWeight: "600",
+                    fontSize: { xs: "12px", md: "15px" },
+                    ml: "5px",
+                    mb: "10px",
+                    textAlign: "center",
                   }}
                 >
-                  Your current stake will expire after{' '}
+                  Your current stake will expire after
                 </Typography>
                 <Box
                   sx={{
-                    mt: '10px',
-                    height: '30px',
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    borderRadius: '20px',
-                    background: '#e4e4e7',
-                    py: '20px',
-                    position: 'relative',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
                   <Box
                     sx={{
-                      height: '30px',
-                      width: `${calculateTotalTimeInSeconds()}%`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '20px',
-                      background: '#0ea5e9',
-                      p: '20px',
-                    }}
-                  ></Box>
-                  <Typography
-                    sx={{
-                      fontSize: { xs: '9px', sm: '14px' },
-                      fontWeight: '600',
-                      color: '#333',
-                      position: 'absolute',
-                      left: '20%',
+                      mt: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+
+                      "& div": {
+                        marginLeft: "10px",
+                      },
+
+                      "&:first-of-type": {
+                        marginLeft: "0px",
+                      },
                     }}
                   >
-                    <strong>{calculateRemainingTime()}</strong>
-                  </Typography>
+                    {remainingTime?.map((time: any, i: number) => (
+                      <Box
+                        key={i}
+                        sx={{
+                          background: "rgb(248, 214, 72)",
+                          borderRadius: "5px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                          padding: "5px",
+                          paddingX: "15px",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: { xs: "10px", sm: "15px" },
+                            fontWeight: "700",
+                            color: "rgb(21,27,27)",
+                          }}
+                        >
+                          {time.child}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: { xs: "10px", sm: "11px" },
+                            fontWeight: "500",
+                            color: "rgb(21,27,27)",
+                          }}
+                        >
+                          {time.text}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
                 </Box>
               </Box>
               <Box>
                 <Typography
                   sx={{
-                    color: '#f3f3f3',
-                    fontWeight: '600',
-                    fontSize: { xs: '14px', md: '16px' },
+                    color: "#f3f3f3",
+                    fontWeight: "600",
+                    fontSize: { xs: "14px", md: "16px" },
                   }}
                 >
                   Your Balance
                 </Typography>
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                     // justifyContent: 'center',
-                    mt: '10px',
+                    mt: "10px",
                   }}
                 >
                   <Box>
@@ -452,38 +471,38 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                       width={20}
                       height={20}
                       style={{
-                        objectFit: 'contain',
+                        objectFit: "contain",
                       }}
                     />
                   </Box>
                   <Typography
                     sx={{
-                      color: '#888',
-                      fontSize: { xs: '12px', md: '14px' },
-                      ml: '5px',
-                      mt: '-5px',
+                      color: "#888",
+                      fontSize: { xs: "12px", md: "14px" },
+                      ml: "5px",
+                      mt: "-5px",
                     }}
                   >
                     {user?.balance}
                   </Typography>
                 </Box>
               </Box>
-              <Box sx={{ mt: '15px' }}>
+              <Box sx={{ mt: "15px" }}>
                 <Typography
                   sx={{
-                    color: '#f3f3f3',
-                    fontWeight: '600',
-                    fontSize: { xs: '14px', md: '16px' },
+                    color: "#f3f3f3",
+                    fontWeight: "600",
+                    fontSize: { xs: "14px", md: "16px" },
                   }}
                 >
                   Your Total Awards
                 </Typography>
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                     // justifyContent: 'center',
-                    mt: '10px',
+                    mt: "10px",
                   }}
                 >
                   <Box>
@@ -493,16 +512,16 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                       width={20}
                       height={20}
                       style={{
-                        objectFit: 'contain',
+                        objectFit: "contain",
                       }}
                     />
                   </Box>
                   <Typography
                     sx={{
-                      color: '#888',
-                      fontSize: { xs: '12px', md: '14px' },
-                      ml: '5px',
-                      mt: '-5px',
+                      color: "#888",
+                      fontSize: { xs: "12px", md: "14px" },
+                      ml: "5px",
+                      mt: "-5px",
                     }}
                   >
                     {user?.awardedBalance}
@@ -513,43 +532,43 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
 
             <Box
               sx={{
-                backgroundColor: '#151C2E',
-                border: '1px solid #23293B',
-                borderRadius: '20px',
-                padding: '30px',
+                backgroundColor: "#151C2E",
+                border: "1px solid #23293B",
+                borderRadius: "20px",
+                padding: "30px",
               }}
             >
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
+                  display: "flex",
+                  alignItems: "center",
                   flexDirection: {
-                    xs: 'column',
-                    sm: 'row',
+                    xs: "column",
+                    sm: "row",
                   },
                 }}
               >
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
                   <BadgeIcon
                     sx={{
-                      fill: '#f9f9f9',
-                      mr: '10px',
-                      width: '22px',
-                      height: '22px',
+                      fill: "#f9f9f9",
+                      mr: "10px",
+                      width: "22px",
+                      height: "22px",
                     }}
                   />
                   <Typography
                     sx={{
-                      color: '#f3f3f3',
-                      fontWeight: '600',
-                      fontSize: { xs: '14px', md: '16px' },
-                      textAlign: 'center',
-                      mr: '10px',
+                      color: "#f3f3f3",
+                      fontWeight: "600",
+                      fontSize: { xs: "14px", md: "16px" },
+                      textAlign: "center",
+                      mr: "10px",
                     }}
                   >
                     Stage Name:
@@ -557,10 +576,10 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    color: '#f9f9f9',
-                    fontWeight: '500',
-                    fontSize: { xs: '12px', md: '14px' },
-                    textAlign: 'center',
+                    color: "#f9f9f9",
+                    fontWeight: "500",
+                    fontSize: { xs: "12px", md: "14px" },
+                    textAlign: "center",
                   }}
                 >
                   {stage.name}
@@ -568,36 +587,36 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
               </Box>
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  mt: '20px',
+                  display: "flex",
+                  alignItems: "center",
+                  mt: "20px",
                   flexDirection: {
-                    xs: 'column',
-                    sm: 'row',
+                    xs: "column",
+                    sm: "row",
                   },
                 }}
               >
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
                   <LockIcon
                     sx={{
-                      fill: '#f9f9f9',
-                      mr: '10px',
-                      width: '22px',
-                      height: '22px',
+                      fill: "#f9f9f9",
+                      mr: "10px",
+                      width: "22px",
+                      height: "22px",
                     }}
                   />
                   <Typography
                     sx={{
-                      color: '#f3f3f3',
-                      fontWeight: '600',
-                      fontSize: { xs: '14px', md: '16px' },
-                      textAlign: 'center',
-                      mr: '10px',
+                      color: "#f3f3f3",
+                      fontWeight: "600",
+                      fontSize: { xs: "14px", md: "16px" },
+                      textAlign: "center",
+                      mr: "10px",
                     }}
                   >
                     Stage Locking Period:
@@ -605,10 +624,10 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    color: '#f9f9f9',
-                    fontWeight: '500',
-                    fontSize: { xs: '12px', md: '14px' },
-                    textAlign: 'center',
+                    color: "#f9f9f9",
+                    fontWeight: "500",
+                    fontSize: { xs: "12px", md: "14px" },
+                    textAlign: "center",
                   }}
                 >
                   {stage.duration} {stage.locking_period_type}
@@ -616,36 +635,36 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
               </Box>
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  mt: '20px',
+                  display: "flex",
+                  alignItems: "center",
+                  mt: "20px",
                   flexDirection: {
-                    xs: 'column',
-                    sm: 'row',
+                    xs: "column",
+                    sm: "row",
                   },
                 }}
               >
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
                   <EmojiEventsIcon
                     sx={{
-                      fill: '#f9f9f9',
-                      mr: '10px',
-                      width: '22px',
-                      height: '22px',
+                      fill: "#f9f9f9",
+                      mr: "10px",
+                      width: "22px",
+                      height: "22px",
                     }}
                   />
                   <Typography
                     sx={{
-                      color: '#f3f3f3',
-                      fontWeight: '600',
-                      fontSize: { xs: '14px', md: '16px' },
-                      textAlign: 'center',
-                      mr: '10px',
+                      color: "#f3f3f3",
+                      fontWeight: "600",
+                      fontSize: { xs: "14px", md: "16px" },
+                      textAlign: "center",
+                      mr: "10px",
                     }}
                   >
                     Token Reward(%):
@@ -653,10 +672,10 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    color: '#f9f9f9',
-                    fontWeight: '500',
-                    fontSize: { xs: '12px', md: '14px' },
-                    textAlign: 'center',
+                    color: "#f9f9f9",
+                    fontWeight: "500",
+                    fontSize: { xs: "12px", md: "14px" },
+                    textAlign: "center",
                   }}
                 >
                   {stage.reward_percentage}
@@ -664,36 +683,36 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
               </Box>
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  mt: '20px',
+                  display: "flex",
+                  alignItems: "center",
+                  mt: "20px",
                   flexDirection: {
-                    xs: 'column',
-                    sm: 'row',
+                    xs: "column",
+                    sm: "row",
                   },
                 }}
               >
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
                   <NineKPlusIcon
                     sx={{
-                      fill: '#f9f9f9',
-                      mr: '10px',
-                      width: '22px',
-                      height: '22px',
+                      fill: "#f9f9f9",
+                      mr: "10px",
+                      width: "22px",
+                      height: "22px",
                     }}
                   />
                   <Typography
                     sx={{
-                      color: '#f3f3f3',
-                      fontWeight: '600',
-                      fontSize: { xs: '14px', md: '16px' },
-                      textAlign: 'center',
-                      mr: '10px',
+                      color: "#f3f3f3",
+                      fontWeight: "600",
+                      fontSize: { xs: "14px", md: "16px" },
+                      textAlign: "center",
+                      mr: "10px",
                     }}
                   >
                     Used Supply:
@@ -701,10 +720,10 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                 </Box>
                 <Typography
                   sx={{
-                    color: '#f9f9f9',
-                    fontWeight: '500',
-                    fontSize: { xs: '12px', md: '14px' },
-                    textAlign: 'center',
+                    color: "#f9f9f9",
+                    fontWeight: "500",
+                    fontSize: { xs: "12px", md: "14px" },
+                    textAlign: "center",
                   }}
                 >
                   {stage.used_round_supply}
