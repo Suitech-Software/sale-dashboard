@@ -1,59 +1,59 @@
-import { Box, Button, Drawer, Menu, MenuItem, Typography } from '@mui/material';
-import Image from 'next/image';
-import React, { useEffect } from 'react';
-import Link from 'next/link';
+import { Box, Button, Drawer, Menu, MenuItem, Typography } from "@mui/material";
+import Image from "next/image";
+import React, { useEffect } from "react";
+import Link from "next/link";
 import {
   GeneralValueType,
   setCurrentNetwork,
   setOpenModal2,
   setWalletAddress,
-} from '@/store/slices/generalSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '@/store';
-import { detectMetamask } from '@/lib/general';
-import { useWeb3Modal } from '@web3modal/ethers/react';
-import { useWeb3ModalAccount } from '@web3modal/ethers/react';
-import { useRouter } from 'next/router';
-import WalletIcon from '@mui/icons-material/Wallet';
-import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
-import StarIcon from '@mui/icons-material/Star';
-import InfoIcon from '@mui/icons-material/Info';
-import ForumIcon from '@mui/icons-material/Forum';
-import AddIcon from '@mui/icons-material/Add';
-import ChecklistIcon from '@mui/icons-material/Checklist';
-import HistoryIcon from '@mui/icons-material/History';
+} from "@/store/slices/generalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { detectMetamask } from "@/lib/general";
+import { useWeb3Modal } from "@web3modal/ethers/react";
+import { useWeb3ModalAccount } from "@web3modal/ethers/react";
+import { useRouter } from "next/router";
+import WalletIcon from "@mui/icons-material/Wallet";
+import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
+import StarIcon from "@mui/icons-material/Star";
+import InfoIcon from "@mui/icons-material/Info";
+import ForumIcon from "@mui/icons-material/Forum";
+import AddIcon from "@mui/icons-material/Add";
+import ChecklistIcon from "@mui/icons-material/Checklist";
+import HistoryIcon from "@mui/icons-material/History";
 interface Props {}
 
 const Header: React.FC<Props> = () => {
   const headList = [
     {
-      name: 'Home',
-      link: '/',
+      name: "Home",
+      link: "/",
     },
     {
-      name: 'Features',
-      link: '/features',
+      name: "Staking",
+      link: "/features",
     },
     {
-      name: 'About Us',
-      link: '/about-us',
+      name: "About Us",
+      link: "/about-us",
     },
     {
-      name: 'Connect Us',
-      link: '/connect-us',
+      name: "Connect Us",
+      link: "/connect-us",
     },
   ];
 
   const featureList = [
-    { name: 'Stake', link: '/stake' },
+    { name: "Stake", link: "/stake" },
     {
-      name: 'My Stakes',
-      link: '/my-stakes',
+      name: "My Stakes",
+      link: "/my-stakes",
     },
     {
-      name: 'Stake History',
-      link: '/stake-history',
+      name: "Stake History",
+      link: "/stake-history",
     },
   ];
   const { open } = useWeb3Modal();
@@ -68,7 +68,7 @@ const Header: React.FC<Props> = () => {
   const router = useRouter();
 
   useEffect(() => {
-    dispatch(setWalletAddress(address ?? ''));
+    dispatch(setWalletAddress(address ?? ""));
     detectMetamask(
       address?.toString() ?? generalValues.walletAddress,
       dispatch
@@ -77,9 +77,9 @@ const Header: React.FC<Props> = () => {
 
   useEffect(() => {
     if (chainId === 1 || chainId === 11155111 || chainId === 5) {
-      dispatch(setCurrentNetwork('eth'));
+      dispatch(setCurrentNetwork("eth"));
     } else if (chainId === 56 || chainId === 97) {
-      dispatch(setCurrentNetwork('bsc'));
+      dispatch(setCurrentNetwork("bsc"));
     }
   }, [chainId]);
 
@@ -99,21 +99,21 @@ const Header: React.FC<Props> = () => {
     <Box
       component="header"
       sx={{
-        width: '100%',
-        height: '70px',
-        backgroundColor: '#000',
-        backdropFilter: 'blur(32px)',
-        border: 'none',
-        position: 'fixed',
-        top: '0px',
-        left: '0px',
-        right: '0px',
-        boxShadow: 'none',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        zIndex: '100',
-        px: { xs: '10px', md: '20px', lg: '40px' },
+        width: "100%",
+        height: "70px",
+        backgroundColor: "#000",
+        backdropFilter: "blur(32px)",
+        border: "none",
+        position: "fixed",
+        top: "0px",
+        left: "0px",
+        right: "0px",
+        boxShadow: "none",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        zIndex: "100",
+        px: { xs: "10px", md: "20px", lg: "40px" },
       }}
     >
       <Drawer
@@ -123,22 +123,22 @@ const Header: React.FC<Props> = () => {
       >
         <Box
           sx={{
-            width: '250px',
-            background: '#333',
-            height: '100%',
-            p: '20px',
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            flexDirection: 'column',
+            width: "250px",
+            background: "#333",
+            height: "100%",
+            p: "20px",
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            flexDirection: "column",
           }}
         >
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              mb: '30px',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              mb: "30px",
             }}
           >
             <Image
@@ -148,13 +148,13 @@ const Header: React.FC<Props> = () => {
               height={40}
               priority={true}
               style={{
-                objectFit: 'contain',
+                objectFit: "contain",
               }}
             />
             <Typography
               sx={{
-                ml: '10px',
-                color: '#D59F4E',
+                ml: "10px",
+                color: "#D59F4E",
               }}
             >
               Golden Cobra
@@ -164,41 +164,41 @@ const Header: React.FC<Props> = () => {
           {headList.map((hl, i) => (
             <Box
               sx={{
-                ml: '20px',
-                '*': {
-                  textDecoration: 'none',
+                ml: "20px",
+                "*": {
+                  textDecoration: "none",
                 },
               }}
               key={i}
             >
-              {hl.name === 'Features' ? (
+              {hl.name === "Staking" ? (
                 <>
                   <Box
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      mt: '10px',
+                      display: "flex",
+                      alignItems: "center",
+                      mt: "10px",
                     }}
                   >
                     <StarIcon
                       sx={{
-                        fill: 'white',
-                        mr: '10px',
-                        width: '20px',
-                        height: '20px',
+                        fill: "white",
+                        mr: "10px",
+                        width: "20px",
+                        height: "20px",
                       }}
                     />
                     <Typography
                       sx={{
                         background:
                           router.asPath === hl.link
-                            ? 'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)'
-                            : 'rgb(130,130,129)',
-                        color: '#f3f3f3',
-                        display: 'inline-flex',
-                        WebkitBackgroundClip: 'text',
-                        fontSize: '15px',
-                        cursor: 'pointer',
+                            ? "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)"
+                            : "rgb(130,130,129)",
+                        color: "#f3f3f3",
+                        display: "inline-flex",
+                        WebkitBackgroundClip: "text",
+                        fontSize: "15px",
+                        cursor: "pointer",
                       }}
                     >
                       {hl.name}
@@ -208,53 +208,53 @@ const Header: React.FC<Props> = () => {
                     <Box
                       key={i}
                       sx={{
-                        ml: '25px',
-                        mt: '10px',
+                        ml: "25px",
+                        mt: "10px",
                       }}
                     >
                       <Link href={feature.link} passHref>
                         <Box
                           sx={{
-                            display: 'flex',
-                            alignItems: 'center',
+                            display: "flex",
+                            alignItems: "center",
                           }}
                         >
-                          {feature.name === 'Stake' ? (
+                          {feature.name === "Stake" ? (
                             <AddIcon
                               sx={{
-                                fill: 'white',
-                                mr: '10px',
-                                width: '20px',
-                                height: '20px',
+                                fill: "white",
+                                mr: "10px",
+                                width: "20px",
+                                height: "20px",
                               }}
                             />
                           ) : null}
-                          {feature.name === 'My Stakes' ? (
+                          {feature.name === "My Stakes" ? (
                             <ChecklistIcon
                               sx={{
-                                fill: 'white',
-                                mr: '10px',
-                                width: '20px',
-                                height: '20px',
+                                fill: "white",
+                                mr: "10px",
+                                width: "20px",
+                                height: "20px",
                               }}
                             />
                           ) : null}
-                          {feature.name === 'Stake History' ? (
+                          {feature.name === "Stake History" ? (
                             <HistoryIcon
                               sx={{
-                                fill: 'white',
-                                mr: '10px',
-                                width: '20px',
-                                height: '20px',
+                                fill: "white",
+                                mr: "10px",
+                                width: "20px",
+                                height: "20px",
                               }}
                             />
                           ) : null}
                           <Typography
                             sx={{
-                              background: 'rgb(130,130,129)',
-                              color: '#f3f3f3',
-                              WebkitBackgroundClip: 'text',
-                              fontSize: '15px',
+                              background: "rgb(130,130,129)",
+                              color: "#f3f3f3",
+                              WebkitBackgroundClip: "text",
+                              fontSize: "15px",
                             }}
                           >
                             {feature.name}
@@ -262,45 +262,45 @@ const Header: React.FC<Props> = () => {
                         </Box>
                       </Link>
                     </Box>
-                  ))}{' '}
+                  ))}{" "}
                 </>
               ) : (
                 <Link href={hl.link} passHref>
                   <Box
                     sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      mt: '10px',
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      mt: "10px",
                     }}
                   >
-                    {hl.name === 'Home' ? (
+                    {hl.name === "Home" ? (
                       <HomeIcon
                         sx={{
-                          fill: 'white',
-                          mr: '10px',
-                          width: '20px',
-                          height: '20px',
+                          fill: "white",
+                          mr: "10px",
+                          width: "20px",
+                          height: "20px",
                         }}
                       />
                     ) : null}
-                    {hl.name === 'About Us' ? (
+                    {hl.name === "About Us" ? (
                       <InfoIcon
                         sx={{
-                          fill: 'white',
-                          mr: '10px',
-                          width: '20px',
-                          height: '20px',
+                          fill: "white",
+                          mr: "10px",
+                          width: "20px",
+                          height: "20px",
                         }}
                       />
                     ) : null}
-                    {hl.name === 'Connect Us' ? (
+                    {hl.name === "Connect Us" ? (
                       <ForumIcon
                         sx={{
-                          fill: 'white',
-                          mr: '10px',
-                          width: '20px',
-                          height: '20px',
+                          fill: "white",
+                          mr: "10px",
+                          width: "20px",
+                          height: "20px",
                         }}
                       />
                     ) : null}
@@ -309,12 +309,12 @@ const Header: React.FC<Props> = () => {
                       sx={{
                         background:
                           router.asPath === hl.link
-                            ? 'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)'
-                            : 'rgb(130,130,129)',
-                        color: '#f3f3f3',
+                            ? "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)"
+                            : "rgb(130,130,129)",
+                        color: "#f3f3f3",
 
-                        WebkitBackgroundClip: 'text',
-                        fontSize: '15px',
+                        WebkitBackgroundClip: "text",
+                        fontSize: "15px",
                       }}
                     >
                       {hl.name}
@@ -329,40 +329,40 @@ const Header: React.FC<Props> = () => {
       <Button
         variant="text"
         sx={{
-          ml: { xs: '0px', md: '20px' },
-          display: { xs: 'flex', md: 'none' },
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '40px',
-          px: '30px',
-          borderRadius: '5px',
-          background: 'black',
-          color: 'black',
+          ml: { xs: "0px", md: "20px" },
+          display: { xs: "flex", md: "none" },
+          justifyContent: "center",
+          alignItems: "center",
+          height: "40px",
+          px: "30px",
+          borderRadius: "5px",
+          background: "black",
+          color: "black",
         }}
         onClick={() => {
           setIsDrawerOpen(true);
         }}
       >
-        <MenuIcon sx={{ fill: '#fff' }} />
+        <MenuIcon sx={{ fill: "#fff" }} />
       </Button>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
         }}
       >
         <Link
           href="/"
           style={{
-            textDecoration: 'none',
+            textDecoration: "none",
           }}
         >
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <Image
@@ -372,14 +372,14 @@ const Header: React.FC<Props> = () => {
               height={40}
               priority={true}
               style={{
-                objectFit: 'contain',
+                objectFit: "contain",
               }}
             />
             <Typography
               sx={{
-                ml: '10px',
-                color: '#D59F4E',
-                display: { xs: 'none', sm: 'block' },
+                ml: "10px",
+                color: "#D59F4E",
+                display: { xs: "none", sm: "block" },
               }}
             >
               Golden Cobra
@@ -389,34 +389,34 @@ const Header: React.FC<Props> = () => {
       </Box>
       <Box
         sx={{
-          ml: '10px',
-          display: { xs: 'none', md: 'flex' },
-          justifyContent: 'flex-start',
-          alignItems: 'center',
+          ml: "10px",
+          display: { xs: "none", md: "flex" },
+          justifyContent: "flex-start",
+          alignItems: "center",
         }}
       >
         {headList.map((hl, i) => (
           <Box
             sx={{
-              ml: '20px',
-              '*': {
-                textDecoration: 'none',
+              ml: "20px",
+              "*": {
+                textDecoration: "none",
               },
             }}
             key={i}
           >
-            {hl.name === 'Features' ? (
+            {hl.name === "Staking" ? (
               <>
                 <Typography
                   sx={{
                     background:
                       router.asPath === hl.link
-                        ? 'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)'
-                        : 'rgb(130,130,129)',
-                    color: 'transparent',
-                    WebkitBackgroundClip: 'text',
-                    fontSize: '15px',
-                    cursor: 'pointer',
+                        ? "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)"
+                        : "rgb(130,130,129)",
+                    color: "transparent",
+                    WebkitBackgroundClip: "text",
+                    fontSize: "15px",
+                    cursor: "pointer",
                   }}
                   onClick={handleClick}
                 >
@@ -428,27 +428,27 @@ const Header: React.FC<Props> = () => {
                   open={openFeaturePopup}
                   onClose={handleClose}
                   MenuListProps={{
-                    'aria-labelledby': 'basic-button',
+                    "aria-labelledby": "basic-button",
                   }}
                   sx={{
-                    '& .MuiPaper-root': {
-                      borderRadius: '10px',
-                      mt: '5px',
-                      ml: '-25px',
+                    "& .MuiPaper-root": {
+                      borderRadius: "10px",
+                      mt: "5px",
+                      ml: "-25px",
                     },
-                    '& ul': {
-                      backgroundColor: '#030712',
-                      border: '#666 1px solid',
-                      borderRadius: '10px',
+                    "& ul": {
+                      backgroundColor: "#030712",
+                      border: "#666 1px solid",
+                      borderRadius: "10px",
                     },
-                    '& li:hover': {
-                      backgroundColor: '#111827',
-                      transitionProperty: 'all',
-                      transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
-                      transitionDuration: '150ms',
+                    "& li:hover": {
+                      backgroundColor: "#111827",
+                      transitionProperty: "all",
+                      transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+                      transitionDuration: "150ms",
                     },
-                    '& a': {
-                      textDecoration: 'none !important',
+                    "& a": {
+                      textDecoration: "none !important",
                     },
                   }}
                 >
@@ -457,17 +457,17 @@ const Header: React.FC<Props> = () => {
                       <MenuItem onClick={handleClose}>
                         <Box
                           sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
                         >
                           <Typography
                             sx={{
-                              background: 'rgb(130,130,129)',
-                              color: 'transparent',
-                              WebkitBackgroundClip: 'text',
-                              fontSize: '15px',
+                              background: "rgb(130,130,129)",
+                              color: "transparent",
+                              WebkitBackgroundClip: "text",
+                              fontSize: "15px",
                             }}
                           >
                             {feature.name}
@@ -482,20 +482,20 @@ const Header: React.FC<Props> = () => {
               <Link href={hl.link} passHref>
                 <Box
                   sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
                   {router.asPath === hl.link ? (
                     <Box
                       sx={{
-                        width: '5px',
-                        height: '5px',
+                        width: "5px",
+                        height: "5px",
                         background:
-                          'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)',
-                        borderRadius: '100%',
-                        mr: '5px',
+                          "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+                        borderRadius: "100%",
+                        mr: "5px",
                       }}
                     ></Box>
                   ) : null}
@@ -503,11 +503,11 @@ const Header: React.FC<Props> = () => {
                     sx={{
                       background:
                         router.asPath === hl.link
-                          ? 'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)'
-                          : 'rgb(130,130,129)',
-                      color: 'transparent',
-                      WebkitBackgroundClip: 'text',
-                      fontSize: '15px',
+                          ? "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)"
+                          : "rgb(130,130,129)",
+                      color: "transparent",
+                      WebkitBackgroundClip: "text",
+                      fontSize: "15px",
                     }}
                   >
                     {hl.name}
@@ -520,42 +520,42 @@ const Header: React.FC<Props> = () => {
       </Box>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         {generalValues?.walletAddress ? (
           <Box
             sx={{
-              display: { xs: 'none', md: 'flex' },
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              display: { xs: "none", md: "flex" },
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             <Button
               variant="outlined"
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '40px',
-                borderRadius: '10px',
-                border: 'none !important',
-                '&:hover': {
-                  border: 'none',
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "40px",
+                borderRadius: "10px",
+                border: "none !important",
+                "&:hover": {
+                  border: "none",
                 },
-                '& svg': {
-                  fill: 'white',
+                "& svg": {
+                  fill: "white",
                 },
               }}
               disabled
             >
-              {generalValues.currentNetwork === 'bsc' ? (
+              {generalValues.currentNetwork === "bsc" ? (
                 <Image
                   style={{
-                    marginLeft: '10px',
-                    objectFit: 'contain',
+                    marginLeft: "10px",
+                    objectFit: "contain",
                   }}
                   src="/bnb-logo.png"
                   alt="BNB Logo"
@@ -565,8 +565,8 @@ const Header: React.FC<Props> = () => {
               ) : (
                 <Image
                   style={{
-                    marginLeft: '10px',
-                    objectFit: 'contain',
+                    marginLeft: "10px",
+                    objectFit: "contain",
                   }}
                   src="/ethereum.png"
                   alt="ETH Logo"
@@ -578,24 +578,24 @@ const Header: React.FC<Props> = () => {
             <Button
               variant="contained"
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100',
-                height: '40px',
-                borderRadius: '10px',
-                boxShadow: 'none',
-                background: 'rgb(65,65,65)',
-                px: '20px',
-                '&:hover': {
-                  background: '#000',
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100",
+                height: "40px",
+                borderRadius: "10px",
+                boxShadow: "none",
+                background: "rgb(65,65,65)",
+                px: "20px",
+                "&:hover": {
+                  background: "#000",
                 },
               }}
               onClick={() => dispatch(setOpenModal2(true))}
             >
               <Typography
                 sx={{
-                  fontSize: '14px',
+                  fontSize: "14px",
                 }}
               >
                 {generalValues.walletAddress.slice(0, 5)}
@@ -611,16 +611,16 @@ const Header: React.FC<Props> = () => {
         <Button
           variant="contained"
           sx={{
-            ml: { xs: '0px', md: '20px' },
-            display: { xs: 'none', md: 'flex' },
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '40px',
-            px: '30px',
-            borderRadius: '5px',
+            ml: { xs: "0px", md: "20px" },
+            display: { xs: "none", md: "flex" },
+            justifyContent: "center",
+            alignItems: "center",
+            height: "40px",
+            px: "30px",
+            borderRadius: "5px",
             background:
-              'linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)',
-            color: 'black',
+              "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+            color: "black",
           }}
           onClick={() => {
             open();
@@ -628,24 +628,24 @@ const Header: React.FC<Props> = () => {
         >
           <Typography
             sx={{
-              textTransform: 'capitalize',
+              textTransform: "capitalize",
             }}
           >
-            {generalValues.walletAddress ? ' Your Wallet' : 'Connect Wallet'}
+            {generalValues.walletAddress ? " Your Wallet" : "Connect Wallet"}
           </Typography>
         </Button>
         <Button
           variant="text"
           sx={{
-            ml: { xs: '0px', md: '20px' },
-            display: { xs: 'flex', md: 'none' },
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '40px',
-            px: '30px',
-            borderRadius: '5px',
-            background: 'black',
-            color: 'black',
+            ml: { xs: "0px", md: "20px" },
+            display: { xs: "flex", md: "none" },
+            justifyContent: "center",
+            alignItems: "center",
+            height: "40px",
+            px: "30px",
+            borderRadius: "5px",
+            background: "black",
+            color: "black",
           }}
           onClick={() => {
             open();
@@ -653,7 +653,7 @@ const Header: React.FC<Props> = () => {
         >
           <WalletIcon
             sx={{
-              fill: '#fff',
+              fill: "#fff",
             }}
           />
         </Button>
