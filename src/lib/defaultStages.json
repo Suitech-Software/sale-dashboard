@@ -2,43 +2,55 @@
   {
     "Stage": "Stage 0",
     "Date": "January 1 - January 31",
+    "Duration Max": "45",
     "Token Amount": "100,000CAP (Limited to 100,000 Tokens)",
-    "Token Price": "0.01$"
+    "Token Price": "0.0000050$",
+    "Return": "130,00%",
+    "Next Phase Price": "0.0000065"
   },
   {
     "Stage": "Stage 1",
     "Date": "February 1 - February 28",
+    "Duration Max": "20",
     "Token Amount": "100,000CAP (Limited to 100,000 Tokens)",
-    "Token Price": "0.01$"
+    "Token Price": "0.0000065$",
+    "Return": "124,79%",
+    "Next Phase Price": "0.0000081"
   },
   {
     "Stage": "Stage 2",
     "Date": "March 1 - March 30",
+    "Duration Max": "25",
     "Token Amount": "90,000CAP (Limited to 90,000 Tokens)",
-    "Token Price": "0.03$"
+    "Token Price": "0.0000081$",
+    "Return": "119,93%",
+    "Next Phase Price": "0.0000097"
   },
   {
     "Stage": "Stage 3",
     "Date": "April 1 - April 30",
+    "Duration Max": "30",
     "Token Amount": "80,000CAP (Limited to 80,000 Tokens)",
-    "Token Price": "0.10$"
+    "Token Price": "0.0000097$",
+    "Return": "117,51%",
+    "Next Phase Price": "0.0000114"
   },
   {
     "Stage": "Stage 4",
     "Date": "May 1 - May 30",
+    "Duration Max": "30",
     "Token Amount": "70,000CAP (Limited to 70,000 Tokens)",
-    "Token Price": "0.13$"
+    "Token Price": "0.0000114$",
+    "Return": "115,24%",
+    "Next Phase Price": "0.0000132"
   },
   {
-    "Stage": "Stage 5",
+    "Stage": "Final ",
     "Date": "June 1 - June 30",
+    "Duration Max": "30",
     "Token Amount": "60,000CAP (Limited to 60,000 Tokens)",
-    "Token Price": "0.15$"
-  },
-  {
-    "Stage": "Stage 6",
-    "Date": "July 1 - July 30",
-    "Token Amount": "50,000CAP (Limited to 50,000 Tokens)",
-    "Token Price": "0.18$"
+    "Token Price": "0.0000132$",
+    "Return": "151,82%",
+    "Listing Price": "0.000020"
   }
 ]

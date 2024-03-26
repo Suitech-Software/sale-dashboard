@@ -671,7 +671,99 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   />
                 )}
               </Button>
-
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexDirection: { xs: "column", sm: "row" },
+                  alignItems: "center",
+                  mt: "25px",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "rgb(244,208,70)",
+                    }}
+                  >
+                    Current Price:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "white",
+                      ml: "5px",
+                    }}
+                  >
+                    {generalValues.currentStage["Token Price"]}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    ml: { xs: "0px", sm: "10px" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "rgb(244,208,70)",
+                    }}
+                  >
+                    Next Price:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "white",
+                      ml: "5px",
+                    }}
+                  >
+                    {nextStage["Token Price"]}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    ml: { xs: "0px", sm: "10px" },
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      color: "rgb(244,208,70)",
+                    }}
+                  >
+                    Return:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "white",
+                      ml: "5px",
+                    }}
+                  >
+                    {nextStage["Return"]}
+                  </Typography>
+                </Box>
+              </Box>
               <Grid
                 container
                 spacing={2}
