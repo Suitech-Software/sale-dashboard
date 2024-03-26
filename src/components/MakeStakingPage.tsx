@@ -135,10 +135,6 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
     const now = new Date();
     const end = new Date(new Date(stakingInvestment?.unstaking_at as Date));
 
-    end.setHours(23);
-    end.setMinutes(59);
-    end.setSeconds(59);
-
     // @ts-ignore
     const timeDifference = end - now;
     const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
@@ -409,40 +405,65 @@ const MakeStakingPage: React.FC<Props> = ({ stage }: Props) => {
                       },
                     }}
                   >
-                    {remainingTime?.map((time: any, i: number) => (
+                    {remainingTime.length > 0 ? (
+                      <>
+                        {remainingTime?.map((time: any, i: number) => (
+                          <Box
+                            key={i}
+                            sx={{
+                              background: "rgb(248, 214, 72)",
+                              borderRadius: "5px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              flexDirection: "column",
+                              padding: "5px",
+                              paddingX: "15px",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: { xs: "10px", sm: "15px" },
+                                fontWeight: "700",
+                                color: "rgb(21,27,27)",
+                              }}
+                            >
+                              {time.child}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: { xs: "10px", sm: "11px" },
+                                fontWeight: "500",
+                                color: "rgb(21,27,27)",
+                              }}
+                            >
+                              {time.text}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </>
+                    ) : (
                       <Box
-                        key={i}
                         sx={{
-                          background: "rgb(248, 214, 72)",
-                          borderRadius: "5px",
                           display: "flex",
-                          alignItems: "center",
                           justifyContent: "center",
-                          flexDirection: "column",
-                          padding: "5px",
-                          paddingX: "15px",
+                          alignItems: "center",
                         }}
                       >
                         <Typography
                           sx={{
-                            fontSize: { xs: "10px", sm: "15px" },
-                            fontWeight: "700",
-                            color: "rgb(21,27,27)",
+                            color: "#f3f3f3",
+                            fontWeight: "600",
+                            fontSize: { xs: "12px", md: "15px" },
+                            ml: "5px",
+                            mb: "10px",
+                            textAlign: "center",
                           }}
                         >
-                          {time.child}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: { xs: "10px", sm: "11px" },
-                            fontWeight: "500",
-                            color: "rgb(21,27,27)",
-                          }}
-                        >
-                          {time.text}
+                          Your do not have any stake
                         </Typography>
                       </Box>
-                    ))}
+                    )}
                   </Box>
                 </Box>
               </Box>
