@@ -1,54 +1,54 @@
 [
   {
-    "Stage": "Stage 0",
-    "Date": "January 1 - January 31",
+    "Stage": "Phase 0",
+    "Date": "March 26 - May 10",
     "Duration Max": "45",
-    "Token Amount": "100,000CAP (Limited to 100,000 Tokens)",
+    "Token Amount": "100,000CAP (Supply $GOCO 20,000,000,000)",
     "Token Price": "0.0000050$",
     "Return": "130,00%",
     "Next Phase Price": "0.0000065"
   },
   {
-    "Stage": "Stage 1",
-    "Date": "February 1 - February 28",
+    "Stage": "Phase 1",
+    "Date": "May 11 - May 31",
     "Duration Max": "20",
-    "Token Amount": "100,000CAP (Limited to 100,000 Tokens)",
+    "Token Amount": "260,000CAP (Supply $GOCO 40,000,000,000)",
     "Token Price": "0.0000065$",
     "Return": "124,79%",
     "Next Phase Price": "0.0000081"
   },
   {
-    "Stage": "Stage 2",
-    "Date": "March 1 - March 30",
+    "Stage": "Phase 2",
+    "Date": "June 1 - June 26",
     "Duration Max": "25",
-    "Token Amount": "90,000CAP (Limited to 90,000 Tokens)",
+    "Token Amount": "365,000CAP (Supply $GOCO 45,000,000,000)",
     "Token Price": "0.0000081$",
     "Return": "119,93%",
     "Next Phase Price": "0.0000097"
   },
   {
-    "Stage": "Stage 3",
-    "Date": "April 1 - April 30",
+    "Stage": "Phase 3",
+    "Date": "June 27 - July 27",
     "Duration Max": "30",
-    "Token Amount": "80,000CAP (Limited to 80,000 Tokens)",
+    "Token Amount": "535,000CAP (Supply $GOCO 55,000,000,000)",
     "Token Price": "0.0000097$",
     "Return": "117,51%",
     "Next Phase Price": "0.0000114"
   },
   {
-    "Stage": "Stage 4",
-    "Date": "May 1 - May 30",
+    "Stage": "Phase 4",
+    "Date": "July 28 - August 27",
     "Duration Max": "30",
-    "Token Amount": "70,000CAP (Limited to 70,000 Tokens)",
+    "Token Amount": "743,000CAP (Supply $GOCO 65,000,000,000)",
     "Token Price": "0.0000114$",
     "Return": "115,24%",
     "Next Phase Price": "0.0000132"
   },
   {
-    "Stage": "Final ",
-    "Date": "June 1 - June 30",
+    "Stage": "Final",
+    "Date": "August 28 - September 27",
     "Duration Max": "30",
-    "Token Amount": "60,000CAP (Limited to 60,000 Tokens)",
+    "Token Amount": "988,000CAP (Supply $GOCO 75,000,000,000)",
     "Token Price": "0.0000132$",
     "Return": "151,82%",
     "Listing Price": "0.000020"
