@@ -19,6 +19,8 @@ import { sendToken } from "@/lib/sendToken";
 import { toast } from "react-toastify";
 import { CreateType } from "@/types/Transfer";
 import defaultStages from "@/lib/defaultStages.json";
+import Link from "next/link";
+
 import {
   TransferTokenType,
   TransferTokenWithReferralType,
@@ -2449,7 +2451,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             className={styles1["background-image"]}
           />
           <img
-            src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+            src="/main.png"
             alt="Goco Token"
             style={{
               width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
@@ -2502,7 +2504,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             className={styles1["background-image"]}
           />
           <img
-            src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+            src="/main.png"
             alt="Goco Token"
             style={{
               width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
@@ -2559,7 +2561,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             className={styles1["background-image"]}
           />
           <img
-            src="http://localhost:3000/_next/image?url=%2Fmain.png&w=96&q=75"
+            src="/main.png"
             alt="Goco Token"
             style={{
               width: "30%", // Görselin genişliğini kartın genişliğine uyumlu hale getirir
@@ -2703,7 +2705,26 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 mt: "5px",
               }}
             >
-              How to buy? https://docs.goldencobra.io/how-to-buy-goco-token
+              <button
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)",
+                  color: "#000000",
+                  border: "none",
+                  marginTop: "10px",
+                  padding: "15px 20px",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                }}
+              >
+                <Link
+                  href="https://docs.goldencobra.io/how-to-buy-goco-token"
+                  target="_blank"
+                >
+                  How to buy?
+                </Link>
+              </button>
             </Typography>
           </Box>
           <Box
