@@ -85,6 +85,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [nextStage, setNextStage] = useState<any>({});
+  const [remainingTime, setRemainingTime] = useState<any>([]);
 
   const generalValues: GeneralValueType = useSelector(
     (state: RootState) => state.general.value
@@ -254,6 +255,12 @@ const HomePage: React.FC<Props> = ({}: Props) => {
     setNextStage(ns[0]);
   };
 
+  useEffect(() => {
+    setInterval(() => {
+      calculateRemainingTime();
+    }, 1000);
+  }, [calculateRemainingTime]);
+
   function calculateRemainingTime() {
     const now = new Date();
     const end = new Date(
@@ -277,29 +284,29 @@ const HomePage: React.FC<Props> = ({}: Props) => {
 
     const formattedDays = {
       child: `${days < 10 ? "0" : ""}${days}`,
-      text: days > 0 ? `DAY` : "",
+      text: `DAY`,
     };
     const formattedHours = {
       child: `${hours < 10 ? "0" : ""}${hours}`,
-      text: hours > 0 ? `HR${hours > 1 ? "S" : ""}` : "",
+      text: `HR${hours > 1 ? "S" : ""}`,
     };
     const formattedMinutes = {
       child: `${minutes < 10 ? "0" : ""}${minutes}`,
-      text: minutes > 0 ? `MIN${minutes > 1 ? "S" : ""}` : "",
+      text: `MIN${minutes > 1 ? "S" : ""}`,
     };
     const formattedSeconds = {
       child: `${seconds < 10 ? "0" : ""}${seconds}`,
-      text: seconds > 0 ? `SEC` : "",
+      text: `SEC`,
     };
 
-    const formattedTime = [
-      formattedDays,
-      formattedHours,
-      formattedMinutes,
-      formattedSeconds,
-    ];
-
-    return formattedTime || [{ child: "EXPIRED", text: "" }];
+    if (timeDifference > 0) {
+      setRemainingTime((prev: any) => [
+        formattedDays,
+        formattedHours,
+        formattedMinutes,
+        formattedSeconds,
+      ]);
+    }
   }
 
   function calculateTotalTimeInSeconds() {
@@ -497,8 +504,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                     },
                   }}
                 >
-                  {calculateRemainingTime()?.map((time: any) => (
+                  {remainingTime?.map((time: any, i: number) => (
                     <Box
+                      key={i}
                       sx={{
                         background: "rgb(248, 214, 72)",
                         borderRadius: "5px",
@@ -1864,7 +1872,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   }}
                 >
                   Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
+                  typesetting industry. Lorem Ipsum has been the industry&apos;s
                   standard dummy text ever since the 1500s, when an unknown
                   printer.
                 </Typography>
@@ -1918,7 +1926,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   }}
                 >
                   Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
+                  typesetting industry. Lorem Ipsum has been the industry&apos;s
                   standard dummy text ever since the 1500s, when an unknown
                   printer.
                 </Typography>
@@ -1986,7 +1994,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   }}
                 >
                   Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
+                  typesetting industry. Lorem Ipsum has been the industry&apos;s
                   standard dummy text ever since the 1500s, when an unknown
                   printer.
                 </Typography>
@@ -2040,7 +2048,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   }}
                 >
                   Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
+                  typesetting industry. Lorem Ipsum has been the industry&apos;s
                   standard dummy text ever since the 1500s, when an unknown
                   printer.
                 </Typography>
