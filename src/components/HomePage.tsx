@@ -407,7 +407,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   ml: { xs: "10px", lg: "0px" },
                 }}
               >
-                Meme Token
+                Meme
               </Typography>
               <Typography
                 sx={{
@@ -417,8 +417,9 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   color: "transparent",
                   WebkitBackgroundClip: "text",
                   display: "inline-flex",
-                  fontSize: { xs: "27px", sm: "50px", lg: "90px" },
+                  fontSize: { xs: "27px", sm: "50px", lg: "70px" },
                   fontWeight: "600",
+                  marginLeft: "10px",
                 }}
               >
                 Token

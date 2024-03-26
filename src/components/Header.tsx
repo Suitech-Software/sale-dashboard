@@ -43,6 +43,11 @@ const Header: React.FC<Props> = () => {
       name: "Connect Us",
       link: "/connect-us",
     },
+    {
+      name: "Whitepaper",
+      link: "https://docs.goldencobra.io/",
+      external: true,
+    },
   ];
 
   const featureList = [
@@ -304,13 +309,22 @@ const Header: React.FC<Props> = () => {
                         }}
                       />
                     ) : null}
-
+                    {hl.name === "Whitepaper" ? (
+                      <ForumIcon
+                        sx={{
+                          fill: "white",
+                          mr: "40px",
+                          width: "50px",
+                          height: "50px",
+                        }}
+                      />
+                    ) : null}
                     <Typography
                       sx={{
                         background:
                           router.asPath === hl.link
                             ? "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)"
-                            : "rgb(130,130,129)",
+                            : "rgb(255,255,255)",
                         color: "#f3f3f3",
 
                         WebkitBackgroundClip: "text",
@@ -412,7 +426,7 @@ const Header: React.FC<Props> = () => {
                     background:
                       router.asPath === hl.link
                         ? "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)"
-                        : "rgb(130,130,129)",
+                        : "rgb(255,255,255)",
                     color: "transparent",
                     WebkitBackgroundClip: "text",
                     fontSize: "15px",
@@ -464,7 +478,7 @@ const Header: React.FC<Props> = () => {
                         >
                           <Typography
                             sx={{
-                              background: "rgb(130,130,129)",
+                              background: "rgb(255,255,255)",
                               color: "transparent",
                               WebkitBackgroundClip: "text",
                               fontSize: "15px",
@@ -504,7 +518,7 @@ const Header: React.FC<Props> = () => {
                       background:
                         router.asPath === hl.link
                           ? "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)"
-                          : "rgb(130,130,129)",
+                          : "rgb(255,255,255)",
                       color: "transparent",
                       WebkitBackgroundClip: "text",
                       fontSize: "15px",
