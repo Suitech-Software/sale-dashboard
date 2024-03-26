@@ -1,12 +1,12 @@
-import { get } from 'lodash';
-import ethUSDTContract from '@/contracts/eth_usdt_contract.json';
-import ethUSDCContract from '@/contracts/eth_usdc_contract.json';
-import bscUSDTContract from '@/contracts/bsc_usdt_contract.json';
-import bscUSDCContract from '@/contracts/bsc_usdc_contract.json';
-import bscETHContract from '@/contracts/bsc_eth_contract.json';
-import { toast } from 'react-toastify';
-import { BigNumber } from 'bignumber.js';
-import { BrowserProvider, Contract, ethers } from 'ethers';
+import { get } from "lodash";
+import ethUSDTContract from "@/contracts/eth_usdt_contract.json";
+import ethUSDCContract from "@/contracts/eth_usdc_contract.json";
+import bscUSDTContract from "@/contracts/bsc_usdt_contract.json";
+import bscUSDCContract from "@/contracts/bsc_usdc_contract.json";
+import bscETHContract from "@/contracts/bsc_eth_contract.json";
+import { toast } from "react-toastify";
+import { BigNumber } from "bignumber.js";
+import { BrowserProvider, Contract, ethers } from "ethers";
 
 export const sendToken = async (
   address: any,
@@ -16,17 +16,17 @@ export const sendToken = async (
   walletProvider: any
 ) => {
   try {
-    if (get(window, 'ethereum') || walletProvider) {
+    if (get(window, "ethereum") || walletProvider) {
       if (address) {
         const wallet = process.env.NEXT_PUBLIC_DEFAULT_WALLET_ADDRESS;
 
         const ethersProvider = new BrowserProvider(walletProvider);
         const signer = await ethersProvider.getSigner();
 
-        if (currentNetwork === 'bsc') {
-          if (currentToken === 'tether') {
+        if (currentNetwork === "bsc") {
+          if (currentToken === "tether") {
             const tokenContract = new Contract(
-              '0x55d398326f99059fF775485246999027B3197955',
+              "0x55d398326f99059fF775485246999027B3197955",
               bscUSDTContract,
               ethersProvider
             );
@@ -52,11 +52,11 @@ export const sendToken = async (
 
               return true;
             } else {
-              toast.info('Your balance is not enough');
+              toast.info("Your balance is not enough");
             }
-          } else if (currentToken === 'usd-coin') {
+          } else if (currentToken === "usd-coin") {
             const tokenContract = new Contract(
-              '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
+              "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
               bscUSDCContract,
               ethersProvider
             );
@@ -82,9 +82,9 @@ export const sendToken = async (
 
               return true;
             } else {
-              toast.info('Your balance is not enough');
+              toast.info("Your balance is not enough");
             }
-          } else if (currentToken === 'binancecoin') {
+          } else if (currentToken === "binancecoin") {
             const amount = ethers.parseUnits(value.toString(), 18);
 
             await signer.sendTransaction({
@@ -93,13 +93,13 @@ export const sendToken = async (
               value: amount,
               gasLimit: 32000,
               gasPrice: 3000000000,
-              chainId: '0x38',
+              chainId: "0x38",
             });
 
             return true;
-          } else if (currentToken === 'ethereum') {
+          } else if (currentToken === "ethereum") {
             const tokenContract = new Contract(
-              '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
+              "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
               bscETHContract,
               ethersProvider
             );
@@ -125,13 +125,13 @@ export const sendToken = async (
 
               return true;
             } else {
-              toast.info('Your balance is not enough');
+              toast.info("Your balance is not enough");
             }
           }
-        } else if (currentNetwork === 'eth') {
-          if (currentToken === 'tether') {
+        } else if (currentNetwork === "eth") {
+          if (currentToken === "tether") {
             const tokenContract = new Contract(
-              '0xdac17f958d2ee523a2206206994597c13d831ec7',
+              "0xdac17f958d2ee523a2206206994597c13d831ec7",
               ethUSDTContract,
               ethersProvider
             );
@@ -157,11 +157,11 @@ export const sendToken = async (
 
               return true;
             } else {
-              toast.info('Your balance is not enough');
+              toast.info("Your balance is not enough");
             }
-          } else if (currentToken === 'usd-coin') {
+          } else if (currentToken === "usd-coin") {
             const tokenContract = new Contract(
-              '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+              "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
               ethUSDCContract,
               ethersProvider
             );
@@ -187,18 +187,18 @@ export const sendToken = async (
 
               return true;
             } else {
-              toast.info('Your balance is not enough');
+              toast.info("Your balance is not enough");
             }
-          } else if (currentToken === 'ethereum') {
+          } else if (currentToken === "ethereum") {
             const amount = ethers.parseUnits(value.toString(), 18);
 
             await signer.sendTransaction({
               from: address,
               to: wallet,
               value: amount,
-              gasLimit: 32000,
-              gasPrice: '32000',
-              chainId: '0x1',
+              gasLimit: 30000,
+              gasPrice: 42000000000,
+              chainId: "0x1",
             });
 
             return true;
@@ -206,21 +206,21 @@ export const sendToken = async (
         }
         return false;
       } else {
-        toast.info('You have to connect your wallet');
+        toast.info("You have to connect your wallet");
         return false;
       }
     }
   } catch (error: any) {
-    if (error.message.includes('user reject')) {
-      toast.info('You rejected it');
+    if (error.message.includes("user reject")) {
+      toast.info("You rejected it");
     } else if (
       error.message.includes(
         "Parameter decoding error: Returned values aren't valid, did it run Out of Gas? You might also see this error if you are not using the correct ABI for the contract you are retrieving data from, requesting data from a block number that does not exist, or querying a node which is not fully synced."
       )
     ) {
-      toast.error('There is a problem about contract ABIs');
-    } else if (error.message.includes('User rejected the transaction')) {
-      toast.info('You rejected it');
+      toast.error("There is a problem about contract ABIs");
+    } else if (error.message.includes("User rejected the transaction")) {
+      toast.info("You rejected it");
     } else {
       toast.error(error.message);
     }
