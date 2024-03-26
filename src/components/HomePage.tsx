@@ -387,7 +387,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               <Typography
                 sx={{
                   color: "#fff",
-                  fontSize: { xs: "27px", sm: "50px", lg: "100px" },
+                  fontSize: { xs: "27px", sm: "50px", lg: "75px" },
                   maxWidth: "700px",
                   fontWeight: "600",
                   display: { xs: "inline-flex", lg: "block" },
@@ -399,12 +399,14 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               <Typography
                 sx={{
                   color: "#fff",
-                  fontSize: { xs: "27px", sm: "50px", lg: "90px" },
+                  fontSize: { xs: "27px", sm: "50px", lg: "75px" },
                   fontWeight: "600",
                   display: "inline-flex",
                   ml: { xs: "10px", lg: "0px" },
                 }}
-              ></Typography>
+              >
+                Meme Token
+              </Typography>
               <Typography
                 sx={{
                   textTransform: "uppercase",
@@ -417,7 +419,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   fontWeight: "600",
                 }}
               >
-                Meme + Ecosystem Token
+                Token
               </Typography>
             </Box>
           </Reveal>

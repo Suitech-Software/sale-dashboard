@@ -97,11 +97,16 @@ export const getAmountOfReceiveToken = async (
 ) => {
   if (payRef.current && currentToken) {
     if (payRef.current.value !== "" && payRef.current.value !== "0") {
+      const options = {
+        method: "GET",
+        headers: { "x-cg-pro-api-key": "CG-au4ZdszbvHEwfdc8e4vSdWzZ" },
+      };
       const res = await fetch(
-        "https://api.coingecko.com/api/v3/simple/price?ids=".concat(
+        "https://pro-api.coingecko.com/api/v3/simple/price?ids=".concat(
           currentToken,
           "&vs_currencies=usd"
-        )
+        ),
+        options
       );
       const data = await res.json();
       // let a = '';
