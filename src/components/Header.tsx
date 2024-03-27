@@ -1,6 +1,6 @@
 import { Box, Button, Drawer, Menu, MenuItem, Typography } from "@mui/material";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   GeneralValueType,
@@ -23,30 +23,36 @@ import ForumIcon from "@mui/icons-material/Forum";
 import AddIcon from "@mui/icons-material/Add";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 import HistoryIcon from "@mui/icons-material/History";
+import ArticleIcon from "@mui/icons-material/Article";
+
 interface Props {}
 
 const Header: React.FC<Props> = () => {
   const headList = [
     {
       name: "Home",
-      link: "/",
+      link: "/#Home",
+      target: "",
     },
     {
       name: "Staking",
       link: "/features",
+      target: "",
     },
     {
-      name: "About Us",
-      link: "/about-us",
+      name: "Invest Benefits",
+      link: "/#Invest-Benefits",
+      target: "",
     },
     {
-      name: "Connect Us",
-      link: "/connect-us",
+      name: "Tokenomics",
+      link: "/#Tokenomics",
+      target: "",
     },
     {
       name: "Whitepaper",
       link: "https://docs.goldencobra.io/",
-      external: true,
+      target: "_blank",
     },
   ];
 
@@ -61,8 +67,10 @@ const Header: React.FC<Props> = () => {
       link: "/stake-history",
     },
   ];
+
   const { open } = useWeb3Modal();
   const { address, chainId } = useWeb3ModalAccount();
+  const [clickedItem, setClickedItem] = useState("home");
 
   const generalValues: GeneralValueType = useSelector(
     (state: RootState) => state.general.value
@@ -270,7 +278,36 @@ const Header: React.FC<Props> = () => {
                   ))}{" "}
                 </>
               ) : (
-                <Link href={hl.link} passHref>
+                <Box
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                  onClick={(e: any) => {
+                    e.preventDefault();
+                    if (hl.name === "Whitepaper") {
+                      window.open(hl.link, "_blank");
+                    } else if (router.asPath === "/") {
+                      const itemName = hl.name.split(" ").join("-");
+
+                      const item: any = document.getElementById(itemName);
+                      item.scrollIntoView({
+                        behavior: "smooth",
+                      });
+                      setClickedItem(hl.name);
+                    } else {
+                      router.push("/");
+                      setTimeout(() => {
+                        const itemName = hl.name.split(" ").join("-");
+
+                        const item: any = document.getElementById(itemName);
+                        item.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                        setClickedItem(hl.name);
+                      }, 1000);
+                    }
+                  }}
+                >
                   <Box
                     sx={{
                       display: "flex",
@@ -310,12 +347,12 @@ const Header: React.FC<Props> = () => {
                       />
                     ) : null}
                     {hl.name === "Whitepaper" ? (
-                      <ForumIcon
+                      <ArticleIcon
                         sx={{
                           fill: "white",
-                          mr: "40px",
-                          width: "50px",
-                          height: "50px",
+                          mr: "10px",
+                          width: "20px",
+                          height: "20px",
                         }}
                       />
                     ) : null}
@@ -334,7 +371,7 @@ const Header: React.FC<Props> = () => {
                       {hl.name}
                     </Typography>
                   </Box>
-                </Link>
+                </Box>
               )}
             </Box>
           ))}
@@ -493,7 +530,36 @@ const Header: React.FC<Props> = () => {
                 </Menu>
               </>
             ) : (
-              <Link href={hl.link} passHref>
+              <Box
+                sx={{
+                  cursor: "pointer",
+                }}
+                onClick={(e: any) => {
+                  e.preventDefault();
+                  if (hl.name === "Whitepaper") {
+                    window.open(hl.link, "_blank");
+                  } else if (router.asPath === "/") {
+                    const itemName = hl.name.split(" ").join("-");
+
+                    const item: any = document.getElementById(itemName);
+                    item.scrollIntoView({
+                      behavior: "smooth",
+                    });
+                    setClickedItem(hl.name);
+                  } else {
+                    router.push("/");
+                    setTimeout(() => {
+                      const itemName = hl.name.split(" ").join("-");
+
+                      const item: any = document.getElementById(itemName);
+                      item.scrollIntoView({
+                        behavior: "smooth",
+                      });
+                      setClickedItem(hl.name);
+                    }, 1000);
+                  }
+                }}
+              >
                 <Box
                   sx={{
                     display: "flex",
@@ -501,7 +567,7 @@ const Header: React.FC<Props> = () => {
                     alignItems: "center",
                   }}
                 >
-                  {router.asPath === hl.link ? (
+                  {clickedItem === hl.name ? (
                     <Box
                       sx={{
                         width: "5px",
@@ -516,7 +582,7 @@ const Header: React.FC<Props> = () => {
                   <Typography
                     sx={{
                       background:
-                        router.asPath === hl.link
+                        clickedItem === hl.name
                           ? "linear-gradient(90deg, rgb(203,238,85) 0%, rgb(222,228,83) 100%)"
                           : "rgb(255,255,255)",
                       color: "transparent",
@@ -527,7 +593,7 @@ const Header: React.FC<Props> = () => {
                     {hl.name}
                   </Typography>
                 </Box>
-              </Link>
+              </Box>
             )}
           </Box>
         ))}

@@ -85,6 +85,33 @@ const HomePage: React.FC<Props> = ({}: Props) => {
     },
   ];
 
+  const sponsors = [
+    {
+      url: "/slider/1.png",
+    },
+    {
+      url: "/slider/2.png",
+    },
+    {
+      url: "/slider/3.png",
+    },
+    {
+      url: "/slider/4.png",
+    },
+    {
+      url: "/slider/5.png",
+    },
+    {
+      url: "/slider/6.png",
+    },
+    {
+      url: "/slider/7.png",
+    },
+    {
+      url: "/slider/8.png",
+    },
+  ];
+
   const [isLoading, setIsLoading] = useState(false);
   const [nextStage, setNextStage] = useState<any>({});
   const [remainingTime, setRemainingTime] = useState<any>([]);
@@ -374,6 +401,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               sx={{
                 width: "fit-content",
               }}
+              id="Home"
             >
               <Typography
                 sx={{
@@ -392,7 +420,11 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             </Box>
           </Reveal>
           <Reveal>
-            <Box>
+            <Box
+              sx={{
+                textAlign: { xs: "center", md: "left" },
+              }}
+            >
               <Typography
                 sx={{
                   color: "#fff",
@@ -1466,21 +1498,29 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               }}
               className={styles.scroller__inner}
             >
-              {new Array(6).fill(null).map((_, i) => (
+              {sponsors.map((sponsor, i) => (
                 <Box
                   sx={{
                     backgroundColor: "#333",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    py: "20px",
+                    // py: "20px",
                     borderRadius: "20px",
                     width: "200px",
                     color: "#f3f3f3",
                   }}
                   key={i}
                 >
-                  Sponsor
+                  <Image
+                    style={{
+                      objectFit: "contain",
+                    }}
+                    src={sponsor.url}
+                    alt="Sponsor Logo"
+                    width={150}
+                    height={100}
+                  />
                 </Box>
               ))}
             </Box>
@@ -1492,21 +1532,29 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               }}
               className={styles.scroller__inner}
             >
-              {new Array(6).fill(null).map((_, i) => (
+              {sponsors.map((sponsor, i) => (
                 <Box
                   sx={{
                     backgroundColor: "#333",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    py: "20px",
+                    // py: "20px",
                     borderRadius: "20px",
                     width: "200px",
                     color: "#f3f3f3",
                   }}
                   key={i}
                 >
-                  Sponsor
+                  <Image
+                    style={{
+                      objectFit: "contain",
+                    }}
+                    src={sponsor.url}
+                    alt="Sponsor Logo"
+                    width={150}
+                    height={100}
+                  />
                 </Box>
               ))}
             </Box>
@@ -1518,21 +1566,29 @@ const HomePage: React.FC<Props> = ({}: Props) => {
               }}
               className={styles.scroller__inner}
             >
-              {new Array(6).fill(null).map((_, i) => (
+              {sponsors.map((sponsor, i) => (
                 <Box
                   sx={{
                     backgroundColor: "#333",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    py: "20px",
+                    // py: "20px",
                     borderRadius: "20px",
                     width: "200px",
                     color: "#f3f3f3",
                   }}
                   key={i}
                 >
-                  Sponsor
+                  <Image
+                    style={{
+                      objectFit: "contain",
+                    }}
+                    src={sponsor.url}
+                    alt="Sponsor Logo"
+                    width={150}
+                    height={100}
+                  />
                 </Box>
               ))}
             </Box>
@@ -1558,6 +1614,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 justifyContent: "center",
                 alignItems: "center",
                 width: "100%",
+                flexDirection: { xs: "column", md: "row" },
                 display: { xs: "inline-flex", sm: "inline-flex" },
               }}
             >
@@ -1636,6 +1693,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   letterSpacing: { xs: "1px", sm: "3px" },
                   mt: "10px",
                   textAlign: "center",
+                  px: "30px",
                 }}
               >
                 (*Diameter of the Earth. Each fan adds an additional 1 meter to
@@ -1676,6 +1734,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       WebkitBackgroundClip: "text",
                       fontSize: "20px",
                       letterSpacing: "2px",
+                      textAlign: "center",
                     }}
                   >
                     Play to Earn
@@ -1723,6 +1782,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       WebkitBackgroundClip: "text",
                       fontSize: "20px",
                       letterSpacing: "2px",
+                      textAlign: "center",
                     }}
                   >
                     Fun + Growth
@@ -1769,6 +1829,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       WebkitBackgroundClip: "text",
                       fontSize: "20px",
                       letterSpacing: "2px",
+                      textAlign: "center",
                     }}
                   >
                     Community is The True King
@@ -1815,6 +1876,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                       WebkitBackgroundClip: "text",
                       fontSize: "20px",
                       letterSpacing: "2px",
+                      textAlign: "center",
                     }}
                   >
                     Stake. Earn. Claim Rewards.
@@ -1831,8 +1893,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                   >
                     EARN APY DURING PRESALE! Do not wait for a second, begin
                     earning APY on $GOCO tokens today by buying the presale.
-                    Click here to learn more!
-                    https://docs.goldencobra.io/staking
+                    Click here to learn more! docs.goldencobra.io/staking
                   </Typography>
                 </Box>
               </Grid>
@@ -1842,6 +1903,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
       </Box>
       <Reveal>
         <Box
+          id="Invest-Benefits"
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -1917,7 +1979,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
                 height: "100%",
                 boxShadow:
                   "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);",
-                width: { xs: "400px", sm: "70%", md: "400px" },
+                width: { xs: "300px", sm: "70%", md: "300px" },
               }}
             >
               <Box
@@ -2376,7 +2438,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
         </Box>
       </Reveal>
       <Reveal>
-        <>
+        <Box id="Tokenomics">
           <Box
             sx={{
               display: "flex",
@@ -2401,7 +2463,7 @@ const HomePage: React.FC<Props> = ({}: Props) => {
             </Typography>
           </Box>
           <Tokenomics />
-        </>
+        </Box>
       </Reveal>
       <Box
         sx={{
